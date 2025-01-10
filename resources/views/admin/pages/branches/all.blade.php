@@ -4,7 +4,7 @@
 <div class="card-body">
   <div class="row">
     <div class="col-12">
-    <h1 class="text-center">All Admins</h1>
+    <h1 class="text-center">All Branches</h1>
     <x-success></x-success>
     <x-error></x-error>
                 <table class="table table-bordered">
@@ -12,25 +12,27 @@
                     <tr>
                       <th style="width: 10px">id</th>
                       <th class="text-center">Name</th>
-                      <th class="text-center">Email</th>
-                      <th class="text-center">Role</th>
+                      <th class="text-center">Address</th>
+                      <th class="text-center">Phone</th>
+                      <th class="text-center">Manager</th>
                       <th class="text-center">Edit</th>
                       <th class="text-center">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($admins as $admin )
+                    @foreach ($branches as $branch )
                     <tr>
-                      <td>{{$admin->id}}</td>
-                      <td class="text-center">{{$admin->name}}</td>
-                      <td class="text-center">{{$admin->email}}</td>
-                      <td class="text-center">{{$admin->role}}</td>
+                      <td>{{$branch->id}}</td>
+                      <td class="text-center">{{$branch->name}}</td>
+                      <td class="text-center">{{$branch->address}}</td>
+                      <td class="text-center">{{$branch->phone}}</td>
+                      <td class="text-center">{{$branch->admin->name}}</td>
                       <td>
-                          <a href="{{route("admin.edit", $admin)}}" class="btn btn-info">Edit</a>
+                          <a href="{{route("branch.edit", $branch)}}" class="btn btn-info">Edit</a>
                       </td>
 
                      <td>
-                          <form action="{{route('delete.editor', $admin)}}" method="post">
+                          <form action="{{route('delete.branch', $branch)}}" method="post">
                            @csrf
                            @method('DELETE')
                             <button type="submit" class="btn btn-danger" href="">delete</button>
@@ -42,7 +44,7 @@
                   </tbody>
                 </table>
         <div class="text-center p-3">
-            {{$admins->links()}}
+            {{$branches->links()}}
         </div>
               </div>
             @endsection

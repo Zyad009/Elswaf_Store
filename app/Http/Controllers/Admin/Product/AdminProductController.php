@@ -78,6 +78,7 @@ use UploadImage;
      */
     public function edit(Product $product)
     {
+        ;
         $categories = Category::all();
         return view('admin.pages.products.edit', compact('product' , 'categories'));
     }

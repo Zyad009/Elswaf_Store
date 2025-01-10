@@ -55,11 +55,11 @@
                         </td>
 
                         <td>
-                          <a href="{{url("edit-product", $product)}}" class="btn btn-info">Edit</a>
+                          <a href="{{route("edit.product", $product)}}" class="btn btn-info">Edit</a>
                         </td>
 
                         <td>
-                          <form action="{{url('delete-product', $product)}}" method="post">
+                          <form action="{{route('delete.product', $product)}}" method="post">
                            @csrf
                            @method('DELETE')
                             <button type="submit" class="btn btn-danger" href="">delete</button>

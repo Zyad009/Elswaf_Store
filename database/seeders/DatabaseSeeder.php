@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Admin;
+use App\Models\Branch;
 use App\Models\CustomerService;
 use App\Models\Message;
 use App\Models\Product;
@@ -24,8 +25,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory(100)->create();
-        Admin::factory(15)->create();
-        CustomerService::factory(10)->create();
+        Admin::factory(8)->create();
+        CustomerService::factory(6)->create();
         Product::factory(50)->create();
+        Branch::factory(8)->create();
     }
 }

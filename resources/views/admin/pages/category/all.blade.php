@@ -21,7 +21,7 @@
                       <td>{{$category->id}}</td>
                       <td class="text-center">{{$category->name}}</td>
                       <td>
-                          <form class="text-center" action="{{url('delete-category', $category)}}" method="post">
+                          <form class="text-center" action="{{route('delete.category', $category)}}" method="post">
                            @csrf
                            @method('DELETE')
                             <button type="submit" class="btn btn-danger" href="">delete</button>

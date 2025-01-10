@@ -37,7 +37,7 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{url("admin-all-category")}}">
+                      <a href="{{route("all.category")}}">
                         <i class="bi bi-grid"></i>
                       </a>
                     </div>

@@ -16,13 +16,13 @@ class AdminFactory extends Factory
      */
     public function definition(): array
     {
-        $rolies=["editor_admin", "super_admin"];
-        $role = $rolies[rand(0,1)];
+        // $rolies=["editor_admin", "super_admin"];
+        // $role = $rolies[rand(0,1)];
         $password="admin123";
         return [
             "name" => fake()->name(),
             "email" => fake()->email(),
-            "role"=> $role ,
+            // "role"=> $role ,
             "password" => bcrypt($password),
         ];
     }

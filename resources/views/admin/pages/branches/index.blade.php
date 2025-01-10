@@ -11,14 +11,14 @@
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
                 <div class="card-body">
-                  <h5 class="card-title">New Product</h5>
+                  <h5 class="card-title">New Branch</h5>
                     <div class="inner">
-                        <h4>To Add Product</h4>
+                        <h4>To Add Branch</h4>
                         <p>|</p>
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("new.product")}}">
+                      <a href="{{route("admin.create.branches")}}">
                         <i class="bi bi-plus"></i>
                       </a>
                     </div>
@@ -30,14 +30,14 @@
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
                 <div class="card-body">
-                  <h5 class="card-title">All Products</h5>
+                  <h5 class="card-title">All Branches</h5>
                     <div class="inner">
-                        <h4>Show All Products</h4>
+                        <h4>Show All branches</h4>
                             <p>all & delete & edit</p>
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("all.product")}}">
+                      <a href="{{route("admin.all.branches")}}">
                         <i class="bi bi-text-left"></i>
                       </a>
                     </div>
