@@ -25,7 +25,6 @@ class CreateBranchRequest extends FormRequest
             "name" => "required|string|min:3|max:50",
             "phone" => "required|string|min:10|max:50",
             "address" => "required|string|min:10|max:255",
-            "admin_id" => "required|exists:admins,id",
         ];
     }
 }

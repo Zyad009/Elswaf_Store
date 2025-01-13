@@ -10,21 +10,22 @@
                 <table class="table table-bordered">
                   <thead>                  
                     <tr >
-                      <th style="width: 10px">id</th>
-                      <th>Name</th>
-                      <th>Category</th>
-                      <th>Size</th>
-                      <th>Colour</th>
-                      <th>QTY</th>
-                      <th>Description</th>
-                      <th>Price</th>
-                      <th>Image</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
+                      <th style="width: 10px">ID</th>
+                      <th class="text-center">Name</th>
+                      <th class="text-center">Category</th>
+                      <th class="text-center">Size</th>
+                      <th class="text-center">Colour</th>
+                      <th class="text-center">QTY</th>
+                      <th class="text-center">Description</th>
+                      <th class="text-center">Price</th>
+                      <th class="text-center">Image</th>
+                      <th class="text-center">Edit</th>
+                      <th class="text-center">Delete</th>
+                      <th class="text-center">Count</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($products as $product )
+                    @forelse ($products as $product )
                     <tr>
                       <td>{{$product->id}}</td>
                       <td>{{$product->name}}</td>
@@ -64,10 +65,19 @@
                            @method('DELETE')
                             <button type="submit" class="btn btn-danger" href="">delete</button>
                            </form>
-                     </td>
+                        </td>
+                        <td class="text-center">{{ $products->firstItem() + $loop->iteration - 1 }}</td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                      <td colspan="12" class="text-center">No products found</td>
+                    </tr>
+                    @endforelse
                   </tbody>
+                    <h5 class="text-center">Total: {{ $products->total() }}</h5>
                 </table>
+        <div class="text-center p-3">
+            {{$products->links()}}
+        </div>
               </div>
             @endsection

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\Branch\AdminBranchController;
 use App\Http\Controllers\Admin\Category\AdminCategoryController;
+use App\Http\Controllers\Admin\CustomerService\AdminCustomerServiceController;
 use App\Http\Controllers\Admin\EditorAdmin\AdminEditorController;
 use App\Http\Controllers\Admin\Message\AdminMessageController;
 use App\Http\Controllers\Admin\Product\AdminProductController;
@@ -44,6 +45,7 @@ Route::prefix("message")->group(function(){
 Route::prefix("user")->group(function(){
   Route::controller(AdminUserController::class)->group(function(){
     Route::get("/" , "index")->name("admin.users");
+    Route::get("/search","search")->name("admin.users.search"); 
   });
 });
 
@@ -68,5 +70,17 @@ Route::prefix("branches")->group(function(){
     Route::get("/{branch}/edit" , "edit")->name("branch.edit");
     Route::put("/{branch}" , "update")->name("update.branch");
     Route::delete("/{branch}" , "destroy")->name("delete.branch");
+  });
+});
+
+Route::prefix("customer-service")->group(function(){
+  Route::controller(AdminCustomerServiceController::class)->group(function(){
+    Route::get("/" , "index")->name("admin.customer_s");
+    Route::get("/create" , "create")->name("admin.create.customer_s");
+    Route::post("/" , "store")->name("store.customer_s");
+    Route::get("/all" , "show")->name("admin.all.customer_s");
+    Route::get("/{customerService}/edit" , "edit")->name("edit.customer_s");
+    Route::put("/{customerService}" , "update")->name("update.customer_s");
+    Route::delete("/{customerService}" , "destroy")->name("delete.customer_s");
   });
 });

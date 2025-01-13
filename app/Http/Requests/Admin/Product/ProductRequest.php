@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Editor;
+namespace App\Http\Requests\Admin\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditorRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,14 @@ class EditorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name"=>"required|string|min:3|max:50",
-            "email"=>"required|email|string|unique:admins",
-            "password"=>"required|string|min:6|confirmed",
-            "branch_id" => "required|exists:branches,id",
+            "name" => "required|min:3|max:50",
+            "sizes" => "required",
+            "color" => "required|string",
+            "price" => "required|string",
+            "QTY" => "required|string",
+            "description" => "required|string|min:15|max:500",
+            "image" => "required|image",
+            "category_id" => "required",
         ];
     }
 }

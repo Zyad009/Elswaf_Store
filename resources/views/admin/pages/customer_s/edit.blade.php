@@ -5,22 +5,23 @@
                 <div class="col-6 mx-auto">
 
                         <div class="mb-3">
-                          <h1 class="text-center my-2 p-3">Add New Editor</h1>
+                          <h1 class="text-center my-2 p-3">Edit "{{$customerService->name}}"</h1>
                         </div>
 
-                    <form method="post" action="{{route("store.editors")}}" novalidate class="my-5 border p-3" enctype="multipart/form-data">
+                    <form method="post" action="{{route("update.customer_s" , $customerService)}}" novalidate class="my-5 border p-3" enctype="multipart/form-data">
                         <x-error></x-error>
                         <x-success></x-success>
                         @csrf
+                        @method('PUT')
 
                         <div class="mb-3">
                             <label for="">Name</label>
-                            <input type="text" name="name" id="" class="form-control">
+                            <input type="text" name="name" value="{{$customerService->name}}" id="" class="form-control">
                         </div>
 
                         <div class="mb-3">
                             <label for="">Email</label>
-                            <input type="email" name="email" id="" class="form-control">
+                            <input type="email" value="{{$customerService->email}}" name="email" id="" class="form-control">
                         </div>
 
                         <div class="mb-3">
@@ -31,15 +32,6 @@
                         <div class="mb-3">
                             <label for="">Confirm Password</label>
                             <input type="password" name="password_confirmation" id="" class="form-control">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="">Branch</label>
-                            <select name="branch_id" id="branch_id" class="form-control">
-                                @foreach($branches as $branch)
-                                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                                @endforeach
-                            </select>
                         </div>
 
                         <div class="mb-3">

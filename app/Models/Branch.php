@@ -13,11 +13,10 @@ class Branch extends Model
         'name',
         'phone',
         'address',
-        'admin_id',
     ];
 
     public function admin()
     {
-        return $this->belongsTo(Admin::class);
+        return $this->hasOne(Admin::class);
     }
 }

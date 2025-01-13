@@ -15,14 +15,12 @@ class BranchFactory extends Factory
      * @return array<string, mixed>
      */
 
-     private static $i = 1 ;
     public function definition(): array
     {
         return [
             "name"=>fake()->name() ,
             "address"=>fake()->address() ,
             "phone"=>fake()->phoneNumber() ,
-            "admin_id"=> self::$i++ ,
         ];
     }
 }

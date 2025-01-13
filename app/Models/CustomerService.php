@@ -13,4 +13,10 @@ class CustomerService extends Model
     {
         return $this->hasMany(Notification::class);
     }
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
 }

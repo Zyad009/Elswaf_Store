@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string("rating")->default(10);
             $table->boolean("is_active")->default(true);
 
-            $table->foreignId("category_id")->constrained();
+            $table->foreignId("category_id")->constrained()->onDelete("cascade");
 
             $table->timestamps();
         });

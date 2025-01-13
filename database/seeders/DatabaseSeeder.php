@@ -25,9 +25,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory(100)->create();
+        Branch::factory(8)->create();
         Admin::factory(8)->create();
         CustomerService::factory(6)->create();
         Product::factory(50)->create();
-        Branch::factory(8)->create();
     }
 }

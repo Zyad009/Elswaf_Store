@@ -42,7 +42,7 @@ class AdminCategoryController extends Controller
     public function show()
     {
         $attributes = ['id', 'name'];
-        $categories = Category::select($attributes)->get();
+        $categories = Category::select($attributes)->paginate(10);
 
         return view("admin.pages.category.all" , compact("categories"));
     }

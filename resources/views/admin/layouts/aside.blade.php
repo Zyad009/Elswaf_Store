@@ -49,6 +49,13 @@
         </a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{route("admin.customer_s")}}">
+          <i class="bi bi-headset"></i>
+          <span>Customer Service</span>
+        </a>
+      </li>
+
     </ul>
 
   </aside><!-- End Sidebar-->

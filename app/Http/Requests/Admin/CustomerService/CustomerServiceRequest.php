@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Editor;
+namespace App\Http\Requests\Admin\CustomerService;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditorRequest extends FormRequest
+class CustomerServiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,8 @@ class EditorRequest extends FormRequest
     {
         return [
             "name"=>"required|string|min:3|max:50",
-            "email"=>"required|email|string|unique:admins",
-            "password"=>"required|string|min:6|confirmed",
-            "branch_id" => "required|exists:branches,id",
+            "email"=>"required|string|email|unique:customer_services",
+            "password"=>"required|string|confirmed|min:6|max:50",
         ];
     }
 }

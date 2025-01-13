@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Product;
 
-use App\Http\Controllers\Admin\Traits\UploadImage;
-use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\Traits\UploadImage;
+use App\Http\Requests\Admin\Product\ProductRequest;
 
 class AdminProductController extends Controller
 {
@@ -24,41 +25,19 @@ use UploadImage;
     public function create()
     { 
         {
-            $categories =Category::all();
+            $categories =Category::select("id" , "name")->get();
             return view('admin.pages.products.add' , compact("categories"));
         }
     }
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $request->validate([
-            "name"=>"required|min:3|max:50",
-            "sizes"=>"required" ,
-            "color"=>"required|string" ,
-            "price"=>"required|string" ,
-            "QTY"=>"required|string",
-            "description"=>"required|string|min:15|max:500",
-            "image"=>"required|image",
-            "category_id"=>"required",
-        ]);
-
+        $data = $request->validated();
         $image_name=$this->upload("uploads/products/");
-
-        
-
-        // dd($request->all());
-        Product::create([
-            "name"=>$request->name,
-            "color"=>$request->color  ,
-            "price"=>$request->price  ,
-            "QTY"=> $request->QTY,
-            "description"=> $request->description,
-            "image"=>$image_name,
-            "sizes"=>$request->sizes ,
-            "category_id"=>$request->category_id
-        ]);
+        $data["image"]=$image_name;
+        Product::create($data);
 
         return back()->with("success", "the product added successfully");
     }
@@ -68,8 +47,7 @@ use UploadImage;
      */
     public function show()
     {
-        $products = Product::with("category")->get();
-        // dd($products);
+        $products = Product::with("category")->paginate(20);
         return view("admin.pages.products.all" , compact("products"));
     }
 
@@ -78,8 +56,7 @@ use UploadImage;
      */
     public function edit(Product $product)
     {
-        ;
-        $categories = Category::all();
+        $categories = Category::select("id", "name")->get();
         return view('admin.pages.products.edit', compact('product' , 'categories'));
     }
 
@@ -87,31 +64,14 @@ use UploadImage;
      * Remove the specified resource from storage.
      */
 
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
 
-        $request->validate([
-            "name" => "required|min:3|max:50",
-            "sizes" => "required",
-            "color" => "required|string",
-            "price" => "required|string",
-            "QTY" => "required|string",
-            "description" => "required|string|min:15|max:500",
-            "image" => "required|image",
-            "category_id" => "required",
-        ]);
+        $data = $request->validated();
 
         $image_name = $this->upload('uploads/products/');
-        $product->name = $request->name;
-        $product->sizes = $request->sizes;
-        $product->color = $request->color;
-        $product->price = $request->price;
-        $product->QTY = $request->QTY;
-        $product->description = $request->description;
-        $product->category_id = $request->category_id;
-        $product->image = $image_name;
-
-        $product->save();
+        $data['image'] = $image_name;
+        $product->update($data);
 
         return back()->with('success', 'data updated successfully');
     }

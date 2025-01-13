@@ -23,8 +23,7 @@ class AdminBranchController extends Controller
      */
     public function create() 
     {
-        $editors = Admin::select("id" ,"name")->get();
-        return view("admin.pages.branches.add" , compact("editors"));
+        return view("admin.pages.branches.add" );
     }
 
     /**
@@ -42,7 +41,8 @@ class AdminBranchController extends Controller
      */
     public function show()
     {
-        $branches = Branch::with("admin")->paginate(10);
+        $branches = Branch::with("admin")->paginate(20);
+        // dd($branches);
         return view("admin.pages.branches.all", compact("branches"));
     }
 

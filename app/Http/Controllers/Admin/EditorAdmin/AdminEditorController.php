@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Editor\EditorRequest;
 use App\Http\Requests\Admin\Editor\UpdateEditorRequest;
 use App\Models\Admin;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 
 class AdminEditorController extends Controller
@@ -19,12 +20,15 @@ class AdminEditorController extends Controller
     // Show the form for creating a new admin.
     public function create()
     {
-        return view("admin.pages.editors.add");
+        $branches = Branch::select("id" ,"name")->get();
+        return view("admin.pages.editors.add" , compact("branches"));
     }
 
     // Store a newly created admin in DB.
     public function store(EditorRequest $request)
     {
+        // dd($request);
+
         $data=$request->validated();
         Admin::create($data);
         return back()->with("success" , "editor add has been successfully");
@@ -33,7 +37,7 @@ class AdminEditorController extends Controller
     // Display the specified or all admin.
     public function show()
     {
-        $admins = Admin::paginate(12);
+        $admins = Admin::with("branch")->paginate(12);
         return view("admin.pages.editors.all", compact("admins"));
     }
 

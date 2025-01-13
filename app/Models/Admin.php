@@ -14,6 +14,7 @@ class Admin extends Authenticatable
         'name',
         'email',
         'password',
+        'branch_id',
     ];
 
     public function products()
@@ -21,8 +22,28 @@ class Admin extends Authenticatable
         return $this->hasMany(Product::class);
     }
 
-    public function branches()
+    public function branch()
     {
-        return $this->hasMany(Branch::class);
+        return $this->belongsTo(Branch::class);
     }
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'password' => 'hashed',
+    ];
 }
+

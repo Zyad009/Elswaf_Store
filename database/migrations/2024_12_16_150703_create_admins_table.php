@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string("image")->nullable();
+            $table->foreignId("branch_id")->nullable()->constrained()->onDelete("set null");
 
             $table->boolean("is_active")->default(true);
             $table->enum("role" ,["editor_admin" , "super_admin"])->default("editor_admin");

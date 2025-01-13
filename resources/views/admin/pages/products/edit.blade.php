@@ -26,7 +26,6 @@
                         <div class="mb-3">
                             <label for="size">Sizes</label>
                             <select name="sizes[]" id="size" class="form-control">
-                                <option value="">Select a size</option>
                                 <option value="S size">S</option>
                                 <option value="S&M size">S,M</option>
                                 <option value="S&M&L size">S,M,L</option>

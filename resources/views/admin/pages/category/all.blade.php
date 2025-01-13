@@ -10,13 +10,14 @@
                 <table class="table table-bordered">
                   <thead>                  
                     <tr>
-                      <th style="width: 10px">id</th>
+                      <th style="width: 10px">ID</th>
                       <th class="text-center">Name</th>
                       <th class="text-center">Delete</th>
+                      <th class="text-center">Count</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($categories as $category )
+                    @forelse ($categories as $category )
                     <tr>
                       <td>{{$category->id}}</td>
                       <td class="text-center">{{$category->name}}</td>
@@ -26,10 +27,16 @@
                            @method('DELETE')
                             <button type="submit" class="btn btn-danger" href="">delete</button>
                            </form>
+                           <td class="text-center">{{ $categories->firstItem() + $loop->iteration - 1 }}</td>
                      </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                      <td colspan="4" class="text-center">No categories found</td>
+                    </tr>
+                    @endforelse
                   </tbody>
+                    <h5 class="text-center">Total: {{ $categories->total() }}</h5> 
                 </table>
               </div>
             @endsection

@@ -29,15 +29,6 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="">Manager</label>
-                            <select name="admin_id" id="admin_id" class="form-control">
-                                @foreach($editors as $editor)
-                                    <option value="{{ $editor->id }}">{{ $editor->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
                             <input type="submit" value="Create" class="form-control btn btn-primary">
                         </div>
                     </form>

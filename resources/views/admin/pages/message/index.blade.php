@@ -10,17 +10,18 @@
                 <table class="table table-bordered">
                   <thead>                  
                     <tr>
-                      <th style="width: 10px">id</th>
+                      <th style="width: 10px">ID</th>
                       <th class="text-center">Name</th>
                       <th class="text-center">Email</th>
                       <th class="text-center">Phone</th>
                       <th class="text-center">Subject</th>
                       <th class="text-center">Message</th>
                       <th class="text-center">Delete</th>
+                      <th class="text-center">Count</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($messages as $message )
+                    @forelse ($messages as $index => $message )
                     <tr>
                       <td>{{$message->id}}</td>
                       <td class="text-center">{{$message->name}}</td>
@@ -29,15 +30,21 @@
                       <td class="text-center">{{$message->subject}}</td>
                       <td class="text-center">{{$message->message}}</td>
                       <td>
-                          <form class="text-center" action="{{route("delete.message", $message)}}" method="post">
-                           @csrf
-                           @method('DELETE')
-                            <button type="submit" class="btn btn-danger" href="">delete</button>
-                           </form>
-                     </td>
+                        <form class="text-center" action="{{route("delete.message", $message)}}" method="post">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="btn btn-danger" href="">delete</button>
+                        </form>
+                      </td>
+                      <td class="text-center">{{$index + 1}}</td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                      <td colspan="8" class="text-center">No messages found</td>
+                    </tr>
+                    @endforelse
                   </tbody>
+                    <h5 class="text-center">Total: {{ $messages->count() }}</h5>  
                 </table>
         <div class="text-center p-3">
             {{$messages->links()}}
