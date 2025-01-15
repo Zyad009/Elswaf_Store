@@ -28,6 +28,15 @@
                             <label for="">Confirm Password</label>
                             <input type="password" name="password_confirmation" id="" class="form-control">
                         </div>
+
+                        <div class="mb-3">
+                            <label for="">Branch</label>
+                            <select name="branch_id" id="branch_id" class="form-control">
+                                @foreach($branches as $branch)
+                                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         
                         <div class="mb-3">
                             <input type="submit" value="Edit" class="form-control btn btn-primary">

@@ -44,7 +44,8 @@ class AdminEditorController extends Controller
     // Show the form for editing the specified admin.
     public function edit(Admin $editor)
     {
-        return view("admin.pages.editors.edit" , compact("editor"));
+        $branches = Branch::select("id", "name")->get();
+        return view("admin.pages.editors.edit" , compact("editor" , "branches"));
     }
 
     // Update the specified admin in DB.

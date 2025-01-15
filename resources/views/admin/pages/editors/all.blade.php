@@ -53,7 +53,7 @@
                     </tr>
                     @endforelse
                   </tbody>
-                    <h5 class="text-center">Total: {{ $admins->count() }}</h5>
+                    <h5 class="text-center">Total: {{ $admins->total() }}</h5>
                 </table>
         <div class="text-center p-3">
             {{$admins->links()}}

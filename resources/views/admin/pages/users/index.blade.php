@@ -9,7 +9,7 @@
                     <input class="form-control form-control-lg" name="q" type="search" placeholder="phone" aria-label="Search">
                     <button class="btn btn-primary px-4" type="submit">
                             <i class="bi bi-search"></i>
-                        </button>
+                    </button>
                 </div>
             </form>
         </div>
