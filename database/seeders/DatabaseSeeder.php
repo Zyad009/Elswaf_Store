@@ -5,7 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Admin;
+use App\Models\Area;
 use App\Models\Branch;
+use App\Models\City;
 use App\Models\CustomerService;
 use App\Models\Message;
 use App\Models\Product;
@@ -27,6 +29,8 @@ class DatabaseSeeder extends Seeder
         User::factory(100)->create();
         Branch::factory(8)->create();
         Admin::factory(8)->create();
+        City::factory(1)->create();
+        Area::factory(8)->create();
         CustomerService::factory(6)->create();
         Product::factory(50)->create();
     }

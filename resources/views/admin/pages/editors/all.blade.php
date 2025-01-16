@@ -39,7 +39,7 @@
                         </td>
                         
                         <td>
-                          <form action="{{route('delete.editor', $admin)}}" method="post">
+                          <form action="{{route('delete.city', $admin)}}" method="post">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" href="">delete</button>

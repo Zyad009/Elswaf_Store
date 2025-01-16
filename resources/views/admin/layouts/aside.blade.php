@@ -56,6 +56,13 @@
         </a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{route("admin.shepping")}}">
+          <i class="bi bi-truck"></i>
+          <span>Shepping</span>
+        </a>
+      </li>
+
     </ul>
 
   </aside><!-- End Sidebar-->
@@ -63,9 +70,14 @@
     <main id="main" class="main">
 
     <div class="pagetitle">
-      <a href="{{route("admin-home")}}">
-        <h1>Dashboard</h1>
-        <hr>
-      </a>
-      </nav>
+      <h1>
+        <a href="{{route('admin-home')}}">Dashboard</a>
+        <i class="bi bi-gear"></i>
+        ||
+        <a href="{{route('home')}}">My Website</a>
+        <i class="bi bi-house"></i>
+
+      </h1>
+      <hr>
     </div>
+

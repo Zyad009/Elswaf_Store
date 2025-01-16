@@ -39,14 +39,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[HomeControler::class,"index"])->name("home");
 Route::get('/about',[AboutController::class,"index"])->name("about");
 
-Route::controller(ContactController::class)->group(function(){
-    Route::get('/contact',"index")->name("contact");
-    Route::post('/contact',"send")->name("send");
+Route::prefix("contact")->group(function(){
+    Route::controller(ContactController::class)->group(function(){
+        Route::get('/',"index")->name("contact");
+        Route::post('/',"send")->name("send");
+    });
 });
+
+Route::get('/cart',[CartController::class,"index"])->name("cart");
+
+
 Route::get('/shop',[ShopController::class,"index"])->name("shop");
 Route::get('/singel-product',[ProductController::class,"index"])->name("singel.product");
 Route::get('/myOrder',[MyOrderController::class,"index"])->name("my.order");
-Route::get('/cart',[CartController::class,"index"])->name("cart");
 Route::get('/messages',[NotificationsController::class,"index"])->name("messages");
 
 require __DIR__.'/auth.php';

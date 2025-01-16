@@ -1,14 +1,17 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminHomeController;
+use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\Branch\AdminBranchController;
-use App\Http\Controllers\Admin\Category\AdminCategoryController;
-use App\Http\Controllers\Admin\CustomerService\AdminCustomerServiceController;
-use App\Http\Controllers\Admin\EditorAdmin\AdminEditorController;
 use App\Http\Controllers\Admin\Message\AdminMessageController;
 use App\Http\Controllers\Admin\Product\AdminProductController;
-use App\Http\Controllers\Admin\User\AdminUserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Category\AdminCategoryController;
+use App\Http\Controllers\Admin\EditorAdmin\AdminEditorController;
+use App\Http\Controllers\Admin\Shepping\Home\AdminSheppingController;
+use App\Http\Controllers\Admin\Shepping\Area\AdminSheppingAreaController;
+use App\Http\Controllers\Admin\Shepping\City\AdminSheppingCityController;
+use App\Http\Controllers\Admin\CustomerService\AdminCustomerServiceController;
 
 // Route::get("/admin-home",[AdminHomeController::class,"index"])->name('admin-home');
 Route::get("/admin-home",[AdminHomeController::class,"index"])->name('admin-home');
@@ -84,3 +87,26 @@ Route::prefix("customer-service")->group(function(){
     Route::delete("/{customerService}" , "destroy")->name("delete.customer_s");
   });
 });
+
+Route::prefix("shepping")->group(function(){
+  Route::get("/" ,[AdminSheppingController::class,"index"] )->name("admin.shepping");
+
+    Route::controller(AdminSheppingCityController::class)->group(function(){
+      Route::get("/create/city" , "create")->name("admin.create.city");
+      Route::post("/city" , "store")->name("store.city");
+      Route::get("/all-cities" , "show")->name("admin.all.cities");
+      Route::get("/edit-city/{city}" , "edit")->name("edit.city");
+      Route::put("/update/{city}" , "update")->name("update.city");
+      Route::delete("/delete/{city}" , "destroy")->name("delete.city");
+  });
+    Route::controller(AdminSheppingAreaController::class)->group(function (){
+      Route::get("/area-c", "index")->name("admin.index.area");
+      Route::get("/create/area", "create")->name("admin.create.area");
+      Route::post("/area", "store")->name("store.area");
+      Route::get("/all-areas/{city}", "show")->name("admin.all.areas");
+      Route::get("/edit-area/{area}", "edit")->name("edit.area");
+      Route::put("/{area}", "update")->name("update.area");
+      Route::delete("/{area}", "destroy")->name("delete.area");
+  });
+});
+

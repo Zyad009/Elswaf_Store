@@ -25,7 +25,7 @@ class ProductRequest extends FormRequest
             "name" => "required|min:3|max:50",
             "sizes" => "required",
             "color" => "required|string",
-            "price" => "required|string",
+            "price" => "required|numeric|min:0",
             "QTY" => "required|string",
             "description" => "required|string|min:15|max:500",
             "image" => "required|image",
