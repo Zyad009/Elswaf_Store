@@ -34,6 +34,7 @@
                                 <ul class="list-unstyled">
                                     <li><a class="btn btn-success text-white" href="{{ route('singel.product', $product->id) }}"><i class="far fa-eye"></i></a></li>
                                     <li><a class="btn btn-success text-white mt-2" href="{{ route('singel.product', $product->id) }}"><i class="fas fa-cart-plus"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="https://ppo.gov.eg/ppo/r/ppoportal/ppoportal/traffic"><i class="fas fa-cart-plus"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -57,6 +58,12 @@
                                 </li>
                             </ul>
                             <h4 class="text-center mb-0">${{ $product->price }}</h4>
+                            <form action="#" method="POST" class="d-flex align-items-center mt-3">
+                                    @csrf
+                                    <label for="quantity" class="mr-2 mb-0">Quantity:</label>
+                                    <input type="number" name="quantity" id="quantity" min="1" value="1" class="form-control w-auto mr-2">
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                            </form>
                         </div>
                     </div>
                 </div>

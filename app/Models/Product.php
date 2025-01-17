@@ -12,8 +12,8 @@ class Product extends Model
     protected $fillable = [
         'name',
         'price',
-        'sizes',
-        'color',
+        // 'sizes',
+        // 'color',
         'description',
         'QTY',
         'image',
@@ -29,9 +29,12 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function productAndColors(){
+        return $this->belongsToMany(Color::class , "product_size_color")->withPivot('size_id' , "QTY");
+    }
 
     protected $casts = [
-        'sizes' => 'array', 
+        // 'sizes' => 'array', 
     ];
 
 }

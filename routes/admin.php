@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\Message\AdminMessageController;
 use App\Http\Controllers\Admin\Product\AdminProductController;
 use App\Http\Controllers\Admin\Category\AdminCategoryController;
 use App\Http\Controllers\Admin\EditorAdmin\AdminEditorController;
+use App\Http\Controllers\Admin\Product\AdminProductSizeController;
+use App\Http\Controllers\Admin\Product\AdminProductColorController;
 use App\Http\Controllers\Admin\Shepping\Home\AdminSheppingController;
 use App\Http\Controllers\Admin\Shepping\Area\AdminSheppingAreaController;
 use App\Http\Controllers\Admin\Shepping\City\AdminSheppingCityController;
@@ -23,6 +25,29 @@ Route::prefix("category")->group(function(){
     Route::post("/store","store")->name("store.category");
     Route::get("/all","show")->name("all.category");
     Route::delete("/{category}","destroy")->name("delete.category");
+  });
+});
+
+
+Route::prefix("color")->group(function(){
+  Route::controller(AdminProductColorController::class)->group(function(){
+    Route::get("/create","create")->name("new.color");
+    Route::post("/","store")->name("store.color");
+    Route::get("/all","show")->name("all.color");
+    Route::get("/{color}/edit","edit")->name("edit.color");
+    Route::put("/{color}/update","update")->name("update.color");
+    Route::delete("/{color}","destroy")->name("delete.color");
+  });
+});
+
+Route::prefix("size")->group(function(){
+  Route::controller(AdminProductSizeController::class)->group(function(){
+    Route::get("/create","create")->name("new.size");
+    Route::post("/","store")->name("store.size");
+    Route::get("/all","show")->name("all.size");
+    Route::get("/{size}/edit","edit")->name("edit.size");
+    Route::put("/{size}/update","update")->name("update.size");
+    Route::delete("/{size}","destroy")->name("delete.size");
   });
 });
 

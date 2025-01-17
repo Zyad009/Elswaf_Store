@@ -6,8 +6,58 @@
         <!-- Left side columns -->
         {{-- <div cs="col-lg-8">
           <div class="row">las --}}
-
             <!-- Sales Card -->
+            
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                  <h5 class="card-title">Set Colour</h5>
+                    <div class="inner">
+                        <h4>| Add & Edit & Delete & All</h4>
+                        <p></p>
+                    </div>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center me-3">
+                      <a href="{{route("new.color")}}">
+                        <i class="bi bi-plus"></i>
+                      </a>
+                    </div>
+
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <a href="{{route("all.color")}}">
+                        <i class="bi bi-text-left"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                  <h5 class="card-title">Set Size</h5>
+                    <div class="inner">
+                        <h4>| Add & Edit & Delete & All</h4>
+                        <p></p>
+                    </div>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center me-3">
+                      <a href="{{route("new.size")}}">
+                        <i class="bi bi-plus"></i>
+                      </a>
+                    </div>
+
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <a href="{{route("all.size")}}">
+                        <i class="bi bi-text-left"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
                 <div class="card-body">
