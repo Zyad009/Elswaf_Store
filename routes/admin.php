@@ -63,6 +63,18 @@ Route::prefix("product")->group(function(){
   });
 });
 
+Route::prefix("single-product")->group(function(){
+  Route::controller(AdminProductController::class)->group(function(){
+    Route::get("/","index")->name("admin.product.single");
+    Route::get("/create","create")->name("new.product.single");
+    Route::post("/","store")->name("store.product.single");
+    Route::get("/all","show")->name("all.product.single");
+    Route::get("/{product}/edit","edit")->name("edit.product.single");
+    Route::put("/{product}","update")->name("update.product.single");
+    Route::delete("/{product}","destroy")->name("delete.product.single");
+  });
+});
+
 Route::prefix("message")->group(function(){
   Route::controller(AdminMessageController::class)->group(function(){
     Route::get("/" ,"index")->name("admin.message");

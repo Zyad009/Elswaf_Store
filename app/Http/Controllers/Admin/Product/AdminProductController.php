@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Product;
 
+use App\Models\Size;
+use App\Models\Color;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -25,8 +27,10 @@ use UploadImage;
     public function create()
     { 
         {
+            $colors = Color::select("id" , "name")->get();
+            $sizes = Size::select("id" , "name")->get();
             $categories =Category::select("id" , "name")->get();
-            return view('admin.pages.products.add' , compact("categories"));
+            return view('admin.pages.products.add' , compact("categories" , "colors" , "sizes"));
         }
     }
     /**
@@ -34,10 +38,12 @@ use UploadImage;
      */
     public function store(ProductRequest $request)
     {
-        $data = $request->validated();
+        dd($request);
+
+        $dataProdcut = $request->validated();
         $image_name=$this->upload("uploads/products/");
-        $data["image"]=$image_name;
-        Product::create($data);
+        $dataProdcut["image"]=$image_name;
+        Product::create($dataProdcut);
 
         return back()->with("success", "the product added successfully");
     }
