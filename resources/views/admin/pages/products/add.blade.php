@@ -26,7 +26,7 @@
                                 @endforeach
                             </select>
                         </div>
-
+{{-- 
                     <div class="mb-3">
                         <h5>Size</h5>
                         <button type="button" class="btn btn-sm btn-primary mb-2" onclick="toggleCheckboxes('sizes', true)">Check All</button>
@@ -57,11 +57,11 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
+                    </div> --}}
 
 
                         <div class="mb-3">
-                            <label for="">QTY</label>
+                            <label for="">Total QTY</label>
                             <input type="number" name="QTY" id="" class="form-control">
                         </div>
 
@@ -71,8 +71,13 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="">price</label>
+                            <label for="">Price</label>
                             <input type="number" step="0.01" min="0" name="price" id="" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="">Offer</label>
+                            <input type="number" step="0.01" min="0" name="offer" value="0" id="" class="form-control">
                         </div>
 
                         <div class="mb-3">

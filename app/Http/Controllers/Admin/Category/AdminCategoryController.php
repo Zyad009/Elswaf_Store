@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Category;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Category\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -27,11 +28,12 @@ class AdminCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $data= $request->validate(["name"=>"required|string|min:3|max:30"]);
+        $data= $request->validated();
 
         Category::create($data);
+
         return back()->with("success", "the category added successfully");
 
     }
@@ -41,10 +43,29 @@ class AdminCategoryController extends Controller
      */
     public function show()
     {
-        $attributes = ['id', 'name'];
-        $categories = Category::select($attributes)->paginate(10);
+        $attributes = ['id', 'name' , 'parent_id'];
+        $categories = Category::withCount("children")->whereNull("parent_id")->addSelect($attributes)->orderBy("children_count" , "desc")->paginate(10);
 
         return view("admin.pages.category.all" , compact("categories"));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Category $category)
+    {
+        return view("admin.pages.category.edit" , compact("category"));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+
+    public function update(CategoryRequest $request , Category $category)
+    {
+        $data=$request->validated();
+        $category->update($data);
+        return back()->with("success" , "category updated successfully");
     }
 
     /**

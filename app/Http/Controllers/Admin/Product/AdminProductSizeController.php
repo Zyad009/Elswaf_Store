@@ -32,7 +32,7 @@ class AdminProductSizeController extends Controller
      */
     public function show()
     {
-        $sizes = Size::paginate(20);
+        $sizes = Size::orderBy("id", "desc")->paginate(20);
         return view('admin.pages.products.sizes.all', compact('sizes'));
     }
 

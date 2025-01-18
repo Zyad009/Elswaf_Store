@@ -24,23 +24,6 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="size">Sizes</label>
-                            <select name="sizes[]" id="size" class="form-control">
-                                <option value="S size">S</option>
-                                <option value="S&M size">S,M</option>
-                                <option value="S&M&L size">S,M,L</option>
-                                <option value="S&M&L&XL size">S,M,L,XL</option>
-                                <option value="S&M&L&XL&2XL size">S,M,L,2XL</option>
-                            </select>
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="">Colour</label>
-                            <input type="text" value="{{$product->color}}" name="color" id="" class="form-control">
-                        </div>
-
-                        <div class="mb-3">
                             <label for="">QTY</label>
                             <input type="text" name="QTY" value="{{$product->QTY}}" id="" class="form-control">
                         </div>
@@ -51,8 +34,13 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="">price</label>
+                            <label for="">Price</label>
                             <input type="text" name="price" value="{{$product->price}}" id="" class="form-control">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="">Offer</label>
+                            <input type="number" step="0.01" min="0" name="price" value="{{$product->offer}}" id="" class="form-control">
                         </div>
 
                         <div class="mb-3">

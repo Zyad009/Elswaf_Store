@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class AdminMessageController extends Controller
 {
     public function index(){
-        $messages = Message::paginate(10);
+        $messages = Message::orderBy("id", "desc")->paginate(10);
         return view("admin.pages.message.index" ,compact("messages"));
     }
 

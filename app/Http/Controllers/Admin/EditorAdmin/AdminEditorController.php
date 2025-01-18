@@ -37,7 +37,7 @@ class AdminEditorController extends Controller
     // Display the specified or all admin.
     public function show()
     {
-        $admins = Admin::with("branch")->paginate(12);
+        $admins = Admin::with("branch")->orderBy("id", "desc")->paginate(12);
         return view("admin.pages.editors.all", compact("admins"));
     }
 

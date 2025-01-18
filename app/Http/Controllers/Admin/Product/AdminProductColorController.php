@@ -32,7 +32,7 @@ class AdminProductColorController extends Controller
      */
     public function show()
     {
-        $colors = Color::paginate(20);
+        $colors = Color::orderBy("id", "desc")->paginate(20);
         return view('admin.pages.products.colors.all', compact('colors'));
     }
 

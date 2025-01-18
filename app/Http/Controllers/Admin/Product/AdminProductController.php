@@ -38,14 +38,11 @@ use UploadImage;
      */
     public function store(ProductRequest $request)
     {
-        dd($request);
-
-        $dataProdcut = $request->validated();
+        $dataProduct = $request->validated();
         $image_name=$this->upload("uploads/products/");
-        $dataProdcut["image"]=$image_name;
-        Product::create($dataProdcut);
-
-        return back()->with("success", "the product added successfully");
+        $dataProduct["image"]=$image_name;
+        Product::create($dataProduct);
+        return view("admin.pages.products.single-product.add" , compact("dataProduct"))->with("success", "the product added successfully");
     }
 
     /**
@@ -53,7 +50,7 @@ use UploadImage;
      */
     public function show()
     {
-        $products = Product::with("category")->paginate(20);
+        $products = Product::with("category")->orderBy("id", "desc")->paginate(20);
         return view("admin.pages.products.all" , compact("products"));
     }
 

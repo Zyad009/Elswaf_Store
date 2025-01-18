@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Product;
+namespace App\Http\Controllers\Admin\Category;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Category\SubCategoryRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class AdminProductSingleController extends Controller
+class AdminSubCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,15 +22,20 @@ class AdminProductSingleController extends Controller
      */
     public function create()
     {
-        
+        $parentCategories = Category::whereNull('parent_id')->select('id', 'name')->get(); 
+        $subCategories = Category::whereNotNull('parent_id')->select('id', 'name', 'parent_id')->get();  
+               
+        return view("admin.pages.category.sub-category.add", compact("parentCategories", "subCategories"));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SubCategoryRequest $request)
     {
-        //
+        $data = $request->validated();
+        Category::create($data);
+        return back()->with("success" , "the sub category has been add successfuly");
     }
 
     /**

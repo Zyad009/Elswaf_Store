@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\Product\AdminProductController;
 use App\Http\Controllers\Admin\Category\AdminCategoryController;
 use App\Http\Controllers\Admin\EditorAdmin\AdminEditorController;
 use App\Http\Controllers\Admin\Product\AdminProductSizeController;
+use App\Http\Controllers\Admin\Category\AdminSubCategoryController;
 use App\Http\Controllers\Admin\Product\AdminProductColorController;
 use App\Http\Controllers\Admin\Shepping\Home\AdminSheppingController;
 use App\Http\Controllers\Admin\Shepping\Area\AdminSheppingAreaController;
@@ -24,7 +25,19 @@ Route::prefix("category")->group(function(){
     Route::get("/create","create")->name("new.category");
     Route::post("/store","store")->name("store.category");
     Route::get("/all","show")->name("all.category");
+    Route::get("/edit/{category}","edit")->name("edit.category");
+    Route::put("/update/{category}","update")->name("update.category");
     Route::delete("/{category}","destroy")->name("delete.category");
+  });
+});
+
+Route::prefix("sub-category")->group(function(){
+  Route::controller(AdminSubCategoryController::class)->group(function(){
+    // Route::get("/","index")->name("admin.subcategory");
+    Route::get("/create","create")->name("new.subcategory");
+    Route::post("/store","store")->name("store.subcategory");
+    Route::get("/all","show")->name("all.subcategory");
+    Route::delete("/{category}","destroy")->name("delete.subcategory");
   });
 });
 
@@ -66,7 +79,7 @@ Route::prefix("product")->group(function(){
 Route::prefix("single-product")->group(function(){
   Route::controller(AdminProductController::class)->group(function(){
     Route::get("/","index")->name("admin.product.single");
-    Route::get("/create","create")->name("new.product.single");
+    Route::get("/create","create")->name("add.product.single");
     Route::post("/","store")->name("store.product.single");
     Route::get("/all","show")->name("all.product.single");
     Route::get("/{product}/edit","edit")->name("edit.product.single");

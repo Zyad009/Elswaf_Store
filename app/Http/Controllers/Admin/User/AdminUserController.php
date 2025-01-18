@@ -12,7 +12,7 @@ use function Laravel\Prompts\search;
 class AdminUserController extends Controller
 {
     public function index(){
-        $users= User::paginate(20);
+        $users= User::orderBy("id", "desc")->paginate(20);
         return view("admin.pages.users.index" , compact("users"));
     }
 

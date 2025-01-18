@@ -40,7 +40,7 @@ class AdminCustomerServiceController extends Controller
      */
     public function show()
     {
-        $customerServices = CustomerService::paginate(10);
+        $customerServices = CustomerService::orderBy("id", "desc")->paginate(10);
         return view("admin.pages.customer_s.all", compact("customerServices")); 
     }
 

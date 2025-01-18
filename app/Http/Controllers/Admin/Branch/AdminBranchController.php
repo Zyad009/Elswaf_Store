@@ -41,7 +41,7 @@ class AdminBranchController extends Controller
      */
     public function show()
     {
-        $branches = Branch::with("admin")->paginate(20);
+        $branches = Branch::with("admin")->orderBy("id", "desc")->paginate(20);
         // dd($branches);
         return view("admin.pages.branches.all", compact("branches"));
     }

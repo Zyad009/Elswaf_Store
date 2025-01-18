@@ -45,7 +45,7 @@ class AdminSheppingAreaController extends Controller
      */
     public function show(City $city)
     {
-        $areas = $city->areas()->paginate(25);
+        $areas = $city->areas()->orderBy("id", "desc")->paginate(25);
         return view("admin.pages.shepping.area.all" , compact("areas" , "city"));
     }
     

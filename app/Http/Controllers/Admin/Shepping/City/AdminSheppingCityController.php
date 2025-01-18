@@ -33,7 +33,7 @@ class AdminSheppingCityController extends Controller
      */
     public function show()
     {
-        $cities = City::paginate(10);
+        $cities = City::orderBy("id", "desc")->paginate(10);
         // dd($cities);
         return view("admin.pages.shepping.city.all" , compact("cities"));
     }
