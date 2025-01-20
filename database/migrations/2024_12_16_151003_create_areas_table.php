@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('areas', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->string("slug");
             $table->foreignId("city_id")->constrained()->onDelete("cascade");
             $table->integer("price_backup")->default(0);
             $table->unsignedDecimal("delivery_price_regular", 8, 2)->default(0);

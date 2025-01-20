@@ -30,6 +30,30 @@
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
                 <div class="card-body">
+                  <h5 class="card-title">Sub-Category</h5>
+                    <div class="inner">
+                        <h4>To Add Sub-Category</h4>
+                        <p>|</p>
+                    </div>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center me-3">
+                      <a href="{{route("new.subcategory")}}">
+                        <i class="bi bi-plus"></i>
+                      </a>
+                    </div>
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center ">
+                      <a href="{{route("all.subcategory")}}">
+                        <i class="bi bi-grid"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+                <div class="card-body">
                   <h5 class="card-title">All Category</h5>
                     <div class="inner">
                         <h4>Show Categories</h4>

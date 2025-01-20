@@ -3,14 +3,29 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Spatie\Sluggable\HasSlug;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Spatie\Sluggable\SlugOptions;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable , HasSlug;
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom("name")
+            ->saveSlugsTo("slug");
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
 
     public function notifys()
     {
@@ -20,11 +35,6 @@ class User extends Authenticatable
     public function payMents()
     {
         return $this->hasMany(Payment::class);
-    }
-
-    public function cart()
-    {
-        return $this->hasOne(cart::class);
     }
 
     public function comments()

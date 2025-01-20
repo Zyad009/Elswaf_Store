@@ -1,7 +1,7 @@
 
 @extends('admin.layouts.app')
 @section('admin-content')
-@dd($dataProduct)
+{{-- @dd($dataProduct) --}}
         <div class="container">
             <div class="row">
                 <div class="col-6 mx-auto">

@@ -23,7 +23,7 @@
                         </div>
 
                        @if(session('success'))
-                            <a href="{{route("new.subcategory")}}">Do You Want Add Sub-Category For This category </a>
+                            <a class="btn btn-link" href="{{route("new.subcategory")}}">Do You Want Add Sub-Category For This category </a>
                        @endif
                     </form>
                 </div>

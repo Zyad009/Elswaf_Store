@@ -41,9 +41,10 @@ class AdminSubCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+       $subCategories = Category::whereNotNull("parent_id")->with("parent")->select("id", "name","parent_id")->paginate(10); 
+         return view("admin.pages.category.sub-category.all", compact("subCategories"));
     }
 
     /**

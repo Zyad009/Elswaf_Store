@@ -21,7 +21,7 @@ class AdminCategoryController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    { 
+    {
         return view("admin.pages.category.add");
     }
 
@@ -30,12 +30,11 @@ class AdminCategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $data= $request->validated();
+        $data = $request->validated();
 
         Category::create($data);
 
         return back()->with("success", "the category added successfully");
-
     }
 
     /**
@@ -43,10 +42,10 @@ class AdminCategoryController extends Controller
      */
     public function show()
     {
-        $attributes = ['id', 'name' , 'parent_id'];
-        $categories = Category::withCount("children")->whereNull("parent_id")->addSelect($attributes)->orderBy("children_count" , "desc")->paginate(10);
+        $attributes = ['id', 'name', 'parent_id'];
+        $categories = Category::withCount("children")->whereNull("parent_id")->addSelect($attributes)->orderBy("children_count", "desc")->paginate(10);
 
-        return view("admin.pages.category.all" , compact("categories"));
+        return view("admin.pages.category.all", compact("categories"));
     }
 
     /**
@@ -54,18 +53,18 @@ class AdminCategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view("admin.pages.category.edit" , compact("category"));
+        return view("admin.pages.category.edit", compact("category"));
     }
 
     /**
      * Update the specified resource in storage.
      */
 
-    public function update(CategoryRequest $request , Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $data=$request->validated();
+        $data = $request->validated();
         $category->update($data);
-        return back()->with("success" , "category updated successfully");
+        return back()->with("success", "category updated successfully");
     }
 
     /**
