@@ -53,7 +53,13 @@ class AdminSheppingCityController extends Controller
     {
         $data = $request->validated();
         $city->update($data);
-        return back()->with("success", "the city updated successfully");
+
+        /*==
+        ** this way for redirect to route with slug **
+        ==*/
+        return to_route("edit.city", $city)->with("success", "category updated successfully");
+
+        // return back()->with("success", "the city updated successfully");
     }
 
     /**

@@ -53,7 +53,13 @@ class AdminEditorController extends Controller
     {
         $data=$request->validated();
         $editor->update($data);
-        return back()->with("success" , "editor updated successfully");
+
+        /*==
+        ** this way for redirect to route with slug **
+        ==*/
+        return to_route("admin.edit", $editor)->with("success", "category updated successfully");
+
+        // return back()->with("success" , "editor updated successfully");
     }
 
     // Remove the specified admin from DB.

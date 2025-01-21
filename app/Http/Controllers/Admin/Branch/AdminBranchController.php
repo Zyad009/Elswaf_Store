@@ -42,7 +42,7 @@ class AdminBranchController extends Controller
     public function show()
     {
         $branches = Branch::with("admin")->orderBy("id", "desc")->paginate(20);
-        // dd($branches);
+
         return view("admin.pages.branches.all", compact("branches"));
     }
 
@@ -62,7 +62,13 @@ class AdminBranchController extends Controller
     {
         $data=$request->validated();
         $branch->update($data);
-        return back()->with("success" , "branch updated successfully"); 
+
+        /*==
+        ** this way for redirect to route with slug **
+        ==*/
+        return to_route("branch.edit", $branch)->with("success", "category updated successfully");
+
+        // return back()->with("success" , "branch updated successfully"); 
     }
 
     /**

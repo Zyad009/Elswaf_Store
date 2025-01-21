@@ -14,7 +14,6 @@
                       <th class="text-center">Name</th>
                       <th class="text-center">Edit</th>
                       <th class="text-center">Delete</th>
-                      <th class="text-center">Count</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -31,12 +30,11 @@
                            @method('DELETE')
                             <button type="submit" class="btn btn-danger" href="">delete</button>
                            </form>
-                           <td class="text-center">{{ $colors->firstItem() + $loop->iteration - 1 }}</td>
                      </td>
                     </tr>
                     @empty
                     <tr>
-                      <td colspan="5" class="text-center">No colors found</td>
+                      <td colspan="4" class="text-center">No colors found</td>
                     </tr>
                     @endforelse
                   </tbody>

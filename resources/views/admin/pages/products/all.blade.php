@@ -21,7 +21,6 @@
                       <th class="text-center">Image</th>
                       <th class="text-center">Edit</th>
                       <th class="text-center">Delete</th>
-                      <th class="text-center">Count</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -49,7 +48,7 @@
                       <td>{{$product->description}}</td>
                       <td>{{$product->price}}</td>
                       <td>
-                          <img src="{{ asset('uploads/products/' . $product->image) }}" 
+                          <img src="{{ asset($product->image) }}" 
                           class="card-img-top rounded-circle card-image-circle" 
                           alt="product" 
                           style="width: 100px; height: 100px; object-fit: cover;">
@@ -66,11 +65,10 @@
                             <button type="submit" class="btn btn-danger" href="">delete</button>
                            </form>
                         </td>
-                        <td class="text-center">{{ $products->firstItem() + $loop->iteration - 1 }}</td>
                     </tr>
                     @empty
                     <tr>
-                      <td colspan="12" class="text-center">No products found</td>
+                      <td colspan="11" class="text-center">No products found</td>
                     </tr>
                     @endforelse
                   </tbody>

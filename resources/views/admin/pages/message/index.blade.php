@@ -17,7 +17,6 @@
                       <th class="text-center">Subject</th>
                       <th class="text-center">Message</th>
                       <th class="text-center">Delete</th>
-                      <th class="text-center">Count</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -40,7 +39,7 @@
                     </tr>
                     @empty
                     <tr>
-                      <td colspan="8" class="text-center">No messages found</td>
+                      <td colspan="7" class="text-center">No messages found</td>
                     </tr>
                     @endforelse
                   </tbody>

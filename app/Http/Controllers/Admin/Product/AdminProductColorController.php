@@ -51,7 +51,13 @@ class AdminProductColorController extends Controller
     {
         $data = $request->validated();
         $color->update($data);
-        return back()->with('success', 'the color updated successfully');
+
+        /*==
+        ** this way for redirect to route with slug **
+        ==*/
+        return to_route("edit.color", $color)->with("success", "category updated successfully");
+
+        // return back()->with('success', 'the color updated successfully');
     }
 
     /**

@@ -64,7 +64,13 @@ class AdminCategoryController extends Controller
     {
         $data = $request->validated();
         $category->update($data);
-        return back()->with("success", "category updated successfully");
+
+        /*==
+        ** this way for redirect to route with slug **
+        ==*/
+        return to_route("edit.category",$category)->with("success", "category updated successfully");
+        // return back()->with("success", "category updated successfully");
+
     }
 
     /**

@@ -59,7 +59,13 @@ class AdminCustomerServiceController extends Controller
     {
         $data = $request->validated();
         $customerService->update($data);
-        return back()->with("success", "customer service updated successfully");
+
+        /*==
+        ** this way for redirect to route with slug **
+        ==*/
+        return to_route("edit.customer_s", $customerService)->with("success", "category updated successfully");
+
+        // return back()->with("success", "customer service updated successfully");
     }
 
     /**

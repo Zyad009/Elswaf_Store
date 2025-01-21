@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\Traits\UploadImage;
 use App\Http\Requests\Admin\Product\ProductRequest;
+use File ;
 
 class AdminProductController extends Controller
 {
@@ -39,8 +40,8 @@ use UploadImage;
     public function store(ProductRequest $request)
     {
         $dataProduct = $request->validated();
-        $image_name=$this->upload("uploads/products/");
-        $dataProduct["image"]=$image_name;
+        $image = $request->file('image')->store("public/admin/products");
+        $dataProduct["image"]=$image;
         Product::create($dataProduct);
         return view("admin.pages.products.single-product.add" , compact("dataProduct"))->with("success", "the product added successfully");
     }
@@ -71,12 +72,24 @@ use UploadImage;
     {
 
         $data = $request->validated();
-
-        $image_name = $this->upload('uploads/products/');
-        $data['image'] = $image_name;
+        $oldImage = $product->image;
+        
+        if($request->hasFile('image')){
+            $newImage = $request->file('image')->store("public/admin/products");
+            File::delete($oldImage);
+            $data['image'] = $newImage;
+        }else{
+            $data['image'] = $oldImage;
+        }
+        
         $product->update($data);
 
-        return back()->with('success', 'data updated successfully');
+        /*==
+        ** this way for redirect to route with slug **
+        ==*/
+        return to_route("edit.product", $product)->with("success", "category updated successfully");
+
+        // return back()->with('success', 'data updated successfully');
     }
 
     public function destroy(Product $product)

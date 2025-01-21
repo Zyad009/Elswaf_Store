@@ -65,7 +65,13 @@ class AdminSheppingAreaController extends Controller
     {
         $data = $request->validated();
         $area->update($data);
-        return back()->with("success" , "data updated successfully");
+
+        /*==
+        ** this way for redirect to route with slug **
+        ==*/
+        return to_route("edit.area", $area)->with("success", "category updated successfully");
+
+        // return back()->with("success" , "data updated successfully");
     }
 
     /**

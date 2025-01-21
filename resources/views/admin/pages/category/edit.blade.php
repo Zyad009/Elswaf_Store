@@ -18,7 +18,6 @@
                             <label for="">Name</label>
                             <input type="text" name="name" value="{{$category->name}}" id="" class="form-control">
                         </div>
-
                         <div class="mb-3">
                             <input type="submit" value="Save" class="form-control btn btn-primary">
                         </div>

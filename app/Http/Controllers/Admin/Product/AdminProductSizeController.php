@@ -51,7 +51,13 @@ class AdminProductSizeController extends Controller
     {
         $data = $request->validated();
         $size->update($data);
-        return back()->with('success', 'the size updated successfully');
+
+        /*==
+        ** this way for redirect to route with slug **
+        ==*/
+        return to_route("edit.size", $size)->with("success", "category updated successfully");
+
+        // return back()->with('success', 'the size updated successfully');
     }
 
     /**

@@ -36,7 +36,7 @@ class ProductFactory extends Factory
             "price" => $price,
             "QTY" =>'100',
             "description" =>"Lorem ipsum dolor sit ame123",
-            "image" => "1.jpg",
+            "image" => "public/admin/products/2.jpg",
             // "sizes" => $size,
             "category_id" => 1
         ];

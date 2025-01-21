@@ -19,7 +19,6 @@
             <th class="text-center">Email</th>
             <th class="text-center">Edit</th>
             <th class="text-center">Delete</th>
-            <th class="text-center">Count</th>
           </tr>
         </thead>
         <tbody>
@@ -39,11 +38,10 @@
                   <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
               </td>
-              <td class="text-center">{{ $customerServices->firstItem() + $loop->iteration - 1 }}</td>
             </tr>
           @empty
             <tr>
-              <td colspan="6" class="text-center">No customer service found.</td>
+              <td colspan="5" class="text-center">No customer service found.</td>
             </tr>
           @endforelse
         </tbody>

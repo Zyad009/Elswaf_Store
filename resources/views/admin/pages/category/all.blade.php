@@ -15,7 +15,6 @@
                       <th class="text-center">Has Sub-Category</th>
                       <th class="text-center">Edit</th>
                       <th class="text-center">Delete</th>
-                      <th class="text-center">Count</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -35,12 +34,11 @@
                            @method('DELETE')
                             <button type="submit" class="btn btn-danger" href="">delete</button>
                            </form>
-                           <td class="text-center">{{ $categories->firstItem() + $loop->iteration - 1 }}</td>
                      </td>
                     </tr>
                     @empty
                     <tr>
-                      <td colspan="6" class="text-center">No categories found</td>
+                      <td colspan="5" class="text-center">No categories found</td>
                     </tr>
                     @endforelse
                   </tbody>

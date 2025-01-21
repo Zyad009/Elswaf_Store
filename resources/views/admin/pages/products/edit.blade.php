@@ -25,7 +25,7 @@
 
                         <div class="mb-3">
                             <label for="">QTY</label>
-                            <input type="text" name="QTY" value="{{$product->QTY}}" id="" class="form-control">
+                            <input type="number" name="QTY" id="" min="0" value="{{$product->QTY}}" class="form-control">
                         </div>
 
                         <div class="mb-3">
@@ -35,12 +35,12 @@
 
                         <div class="mb-3">
                             <label for="">Price</label>
-                            <input type="text" name="price" value="{{$product->price}}" id="" class="form-control">
+                            <input type="number" name="price" value="{{$product->price}}" id="" class="form-control">
                         </div>
                         
                         <div class="mb-3">
                             <label for="">Offer</label>
-                            <input type="number" step="0.01" min="0" name="price" value="{{$product->offer}}" id="" class="form-control">
+                            <input type="number" step="0.01" min="0" name="offer" value="{{$product->offer}}" id="" class="form-control">
                         </div>
 
                         <div class="mb-3">
