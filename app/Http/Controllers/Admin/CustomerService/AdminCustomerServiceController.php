@@ -9,12 +9,14 @@ use Illuminate\Http\Request;
 
 class AdminCustomerServiceController extends Controller
 {
+    private const DIR_VIEW = "admin.pages.customer_s";
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view("admin.pages.customer_s.index");
+        return view(SELF::DIR_VIEW . ".index");
     }
 
     /**
@@ -22,7 +24,7 @@ class AdminCustomerServiceController extends Controller
      */
     public function create()
     {
-        return view("admin.pages.customer_s.add");
+        return view(SELF::DIR_VIEW . ".add");
     }
 
     /**
@@ -32,7 +34,9 @@ class AdminCustomerServiceController extends Controller
     {
         $data= $request->validated();
         CustomerService::create($data);
-        return back()->with("success" , "Customer Service add has been successfully");
+        alert()->success("Success!", "Created has been successfully");
+
+        return back();
     }
 
     /**
@@ -40,8 +44,14 @@ class AdminCustomerServiceController extends Controller
      */
     public function show()
     {
-        $customerServices = CustomerService::orderBy("id", "desc")->paginate(10);
-        return view("admin.pages.customer_s.all", compact("customerServices")); 
+        $customerServices = CustomerService::orderBy("id", "desc")
+        ->paginate(config("pagination.count"));
+
+        $title = 'Delete This Customer Services!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+
+        return view(SELF::DIR_VIEW . ".all", compact("customerServices")); 
     }
 
     /**
@@ -49,7 +59,7 @@ class AdminCustomerServiceController extends Controller
      */
     public function edit(CustomerService $customerService)
     {
-        return view ("admin.pages.customer_s.edit",compact("customerService"));
+        return view (SELF::DIR_VIEW . ".edit",compact("customerService"));
     }
 
     /**
@@ -59,13 +69,9 @@ class AdminCustomerServiceController extends Controller
     {
         $data = $request->validated();
         $customerService->update($data);
+        alert()->success("Updated", "Customer Service updated successfully");
 
-        /*==
-        ** this way for redirect to route with slug **
-        ==*/
-        return to_route("edit.customer_s", $customerService)->with("success", "category updated successfully");
-
-        // return back()->with("success", "customer service updated successfully");
+        return to_route("admin-dashboard.customer_s.all");
     }
 
     /**
@@ -74,6 +80,40 @@ class AdminCustomerServiceController extends Controller
     public function destroy(CustomerService $customerService)
     {
         $customerService->delete();
-        return back()->with("success", "deleted has been successfully");
+        alert()->success("Deleted", "deleted has been successfully");
+
+        return back();
+    }
+
+    //========= view ======== //
+    public function archiveCustomerService()
+    {
+        $customerServices = CustomerService::onlyTrashed()->paginate(config("pagination.count"));
+
+        $title = 'Delete This';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+
+        return view(SELF::DIR_VIEW . ".archive", compact("customerServices"));
+    }
+
+    //========= Restore ======== //
+    public function archiveRestore($id)
+    {
+        $customerService = CustomerService::withTrashed()->findOrFail($id);
+        $customerService->restore();
+
+        alert()->success("Success!", "restored has been successfully");
+        return back();
+    }
+
+    //========= Remove ======== //
+    public function archiveRemove($id)
+    {
+        $customerService = CustomerService::withTrashed()->findOrFail($id);
+        $customerService->forceDelete();
+
+        alert()->success("Success!", "removed has been successfully");
+        return back();
     }
 }

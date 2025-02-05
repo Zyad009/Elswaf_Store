@@ -18,7 +18,7 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("admin.create.branches")}}">
+                      <a href="{{route("admin-dashboard.branches.new")}}">
                         <i class="bi bi-plus"></i>
                       </a>
                     </div>
@@ -37,7 +37,7 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("admin.all.branches")}}">
+                      <a href="{{route("admin-dashboard.branches.all")}}">
                         <i class="bi bi-text-left"></i>
                       </a>
                     </div>

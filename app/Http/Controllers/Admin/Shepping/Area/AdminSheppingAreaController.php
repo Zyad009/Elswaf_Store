@@ -10,15 +10,17 @@ use App\Http\Requests\Admin\Shepping\Area\AreaRequest;
 
 class AdminSheppingAreaController extends Controller
 {
+    private const DIR_VIEW = "admin.pages.shepping.area";
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $cities = City::select("id", "name")->get();
+        $cities = City::select("id", "name","slug")
+        ->get();
 
-        return view("admin.pages.shepping.area.index" , compact("cities"));
+        return view(SELF::DIR_VIEW . ".index" , compact("cities"));
     }
 
     /**
@@ -26,8 +28,10 @@ class AdminSheppingAreaController extends Controller
      */
     public function create()
     {
-        $cities = City::with("areas")->select("id", "name")->get();
-        return view("admin.pages.shepping.area.add" , compact("cities")); 
+        $cities = City::with("areas")
+        ->select("id", "name")
+        ->get();
+        return view(SELF::DIR_VIEW . ".add" , compact("cities")); 
     }
 
     /**
@@ -37,7 +41,10 @@ class AdminSheppingAreaController extends Controller
     {
         $data = $request->validated();
         Area::create($data);
-        return back()->with("success", "the area added successfully");
+        alert()->success("Success!", "Created has been successfully");
+
+
+        return back();
     }
 
     /**
@@ -45,8 +52,14 @@ class AdminSheppingAreaController extends Controller
      */
     public function show(City $city)
     {
-        $areas = $city->areas()->orderBy("id", "desc")->paginate(25);
-        return view("admin.pages.shepping.area.all" , compact("areas" , "city"));
+        $areas = $city->areas()
+        ->orderBy("id", "desc")
+        ->paginate(config("pagination.count"));
+        $title = 'Delete This City!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+
+        return view(SELF::DIR_VIEW . ".all" , compact("areas" , "city"));
     }
     
     /**
@@ -54,8 +67,9 @@ class AdminSheppingAreaController extends Controller
      */
     public function edit(Area $area)
     {
-        $cities = City::select("id" , "name")->get();
-        return view("admin.pages.shepping.area.edit" , compact("area" , "cities"));
+        $cities = City::select("id" , "name")
+        ->get();
+        return view(SELF::DIR_VIEW . ".edit" , compact("area" , "cities"));
     }
 
     /**
@@ -65,13 +79,12 @@ class AdminSheppingAreaController extends Controller
     {
         $data = $request->validated();
         $area->update($data);
+        $area = $area->load("city");
+        $cityOfArea = $area->city->slug;
 
-        /*==
-        ** this way for redirect to route with slug **
-        ==*/
-        return to_route("edit.area", $area)->with("success", "category updated successfully");
-
-        // return back()->with("success" , "data updated successfully");
+        // dd($area);
+        alert()->success("Success!", "area updated successfully");
+        return to_route("admin-dashboard.area.all" , $cityOfArea);
     }
 
     /**
@@ -80,6 +93,53 @@ class AdminSheppingAreaController extends Controller
     public function destroy(Area $area)
     {
         $area->delete();
-        return back()->with("success" , "data deleted successfully");
+        alert()->success("Deleted", "deleted has been successfully");
+
+        return back();
+    }
+
+    //========= view Cities======== //
+    public function archiveCitiesForAreas()
+    {
+        $cities = City::select("id", "name", "slug")
+        ->get();
+
+        return view(SELF::DIR_VIEW . ".archive.index", compact("cities"));
+    }
+
+    //========= view Areas======== //
+    public function archiveArea(City $city)
+    {
+        $areas = $city->areas()
+            ->onlyTrashed()
+            ->orderBy("id", "desc")
+            ->paginate(config("pagination.count"));
+
+        $title = 'Delete This Area!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+
+        return view(SELF::DIR_VIEW . ".archive.archive", compact("areas", "city"));
+    }
+
+
+    //========= Restore ======== //
+    public function archiveRestore($id)
+    {
+        $area = Area::withTrashed()->findOrFail($id);
+        $area->restore();
+
+        alert()->success("Success!", "restored has been successfully");
+        return back();
+    }
+
+    //========= Remove ======== //
+    public function archiveRemove($id)
+    {
+        $area = Area::withTrashed()->findOrFail($id);
+        $area->forceDelete();
+
+        alert()->success("Success!", "removed has been successfully");
+        return back();
     }
 }

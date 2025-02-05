@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CustomerService extends Model
 {
 
-    use HasFactory, HasSlug;
+    use HasFactory, HasSlug , SoftDeletes;
 
     public function getSlugOptions(): SlugOptions
     {
@@ -22,11 +23,6 @@ class CustomerService extends Model
     public function getRouteKeyName()
     {
         return 'slug';
-    }
-
-    public function notfiys()
-    {
-        return $this->hasMany(Notification::class);
     }
 
     protected $fillable = [

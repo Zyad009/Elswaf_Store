@@ -10,28 +10,33 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\Traits\UploadImage;
 use App\Http\Requests\Admin\Product\ProductRequest;
-use File ;
+use File;
 
 class AdminProductController extends Controller
 {
-use UploadImage;
+    use UploadImage;
+    private const DIR_VIEW = "admin.pages.products";
+
     /**
      * Display a listing of the resource.
      */
     public function index()
-    { 
-        {
-            return view('admin.pages.products.index');
+    { {
+            return view(SELF::DIR_VIEW . '.index');
         }
     }
 
     public function create()
-    { 
-        {
-            $colors = Color::select("id" , "name")->get();
-            $sizes = Size::select("id" , "name")->get();
-            $categories =Category::select("id" , "name")->get();
-            return view('admin.pages.products.add' , compact("categories" , "colors" , "sizes"));
+    { {
+            $selected = ["id", "name"];
+
+            $colors = Color::select($selected)
+                ->get();
+            $sizes = Size::select($selected)
+                ->get();
+            $categories = Category::select($selected)
+                ->get();
+            return view(SELF::DIR_VIEW . '.add', compact("categories", "colors", "sizes"));
         }
     }
     /**
@@ -41,9 +46,13 @@ use UploadImage;
     {
         $dataProduct = $request->validated();
         $image = $request->file('image')->store("public/admin/products");
-        $dataProduct["image"]=$image;
+        $dataProduct["image"] = $image;
+
         Product::create($dataProduct);
-        return view("admin.pages.products.single-product.add" , compact("dataProduct"))->with("success", "the product added successfully");
+        alert()->success("Success!", "Created has been successfully");
+
+
+        return view(SELF::DIR_VIEW . ".add", compact("dataProduct"));
     }
 
     /**
@@ -51,8 +60,15 @@ use UploadImage;
      */
     public function show()
     {
-        $products = Product::with("category")->orderBy("id", "desc")->paginate(20);
-        return view("admin.pages.products.all" , compact("products"));
+        $products = Product::with("category")
+            ->orderBy("id", "desc")
+            ->paginate(config("pagination.count"));
+
+        $title = 'Delete This Product!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+
+        return view(SELF::DIR_VIEW . ".all", compact("products"));
     }
 
     /**
@@ -60,8 +76,9 @@ use UploadImage;
      */
     public function edit(Product $product)
     {
-        $categories = Category::select("id", "name")->get();
-        return view('admin.pages.products.edit', compact('product' , 'categories'));
+        $categories = Category::select("id", "name")
+        ->get();
+        return view(SELF::DIR_VIEW . '.edit', compact('product', 'categories'));
     }
 
     /**
@@ -73,29 +90,58 @@ use UploadImage;
 
         $data = $request->validated();
         $oldImage = $product->image;
-        
-        if($request->hasFile('image')){
+
+        if ($request->hasFile('image')) {
             $newImage = $request->file('image')->store("public/admin/products");
             File::delete($oldImage);
             $data['image'] = $newImage;
-        }else{
+        } else {
             $data['image'] = $oldImage;
         }
-        
+
         $product->update($data);
+        alert()->success("Success!", "product updated successfully");
 
-        /*==
-        ** this way for redirect to route with slug **
-        ==*/
-        return to_route("edit.product", $product)->with("success", "category updated successfully");
-
-        // return back()->with('success', 'data updated successfully');
+        return to_route("admin-dashboard.product.all", $product);
     }
 
     public function destroy(Product $product)
     {
-
         $product->delete();
-        return back()->with('success', 'product deleted successfully');
+        alert()->success("Deleted", "deleted has been successfully");
+
+        return back();
+    }
+
+    //========= view ======== //
+    public function archiveProduct()
+    {
+        $products = Product::onlyTrashed()->paginate(config("pagination.count"));
+
+        $title = 'Delete Branch!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+
+        return view(SELF::DIR_VIEW . ".archive", compact("products"));
+    }
+
+    //========= Restore ======== //
+    public function archiveRestore($id)
+    {
+        $product = Product::withTrashed()->findOrFail($id);
+        $product->restore();
+
+        alert()->success("Success!", "restored has been successfully");
+        return back();
+    }
+
+    //========= Remove ======== //
+    public function archiveRemove($id)
+    {
+        $product = Product::withTrashed()->findOrFail($id);
+        $product->forceDelete();
+
+        alert()->success("Success!", "removed has been successfully");
+        return back();
     }
 }

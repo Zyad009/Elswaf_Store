@@ -9,12 +9,14 @@ use Illuminate\Http\Request;
 
 class AdminProductColorController extends Controller
 {
+    private const DIR_VIEW = "admin.pages.products.colors";
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('admin.pages.products.colors.add');
+        return view(SELF::DIR_VIEW . '.add');
     }
 
     /**
@@ -24,7 +26,9 @@ class AdminProductColorController extends Controller
     {
         $data = $request->validated();
         Color::create($data);
-        return back()->with('success', 'the color added successfully');
+        alert()->success("Success!", "Created has been successfully");
+
+        return back();
     }
 
     /**
@@ -32,8 +36,9 @@ class AdminProductColorController extends Controller
      */
     public function show()
     {
-        $colors = Color::orderBy("id", "desc")->paginate(20);
-        return view('admin.pages.products.colors.all', compact('colors'));
+        $colors = Color::orderBy("id", "desc")
+        ->paginate(config("pagination.count"));
+        return view(SELF::DIR_VIEW . '.all', compact('colors'));
     }
 
     /**
@@ -41,7 +46,7 @@ class AdminProductColorController extends Controller
      */
     public function edit(Color $color)
     {
-        return view('admin.pages.products.colors.edit', compact('color'));
+        return view(SELF::DIR_VIEW . '.edit', compact('color'));
     }
 
     /**
@@ -51,11 +56,9 @@ class AdminProductColorController extends Controller
     {
         $data = $request->validated();
         $color->update($data);
+        alert()->success("Success!", "colour updated successfully");
 
-        /*==
-        ** this way for redirect to route with slug **
-        ==*/
-        return to_route("edit.color", $color)->with("success", "category updated successfully");
+        return to_route("admin-dashboard.color.all", $color);
 
         // return back()->with('success', 'the color updated successfully');
     }
@@ -66,6 +69,8 @@ class AdminProductColorController extends Controller
     public function destroy(Color $color)
     {
         $color->delete();
-        return back()->with('success', 'the color deleted successfully');
+        alert()->success("Deleted", "deleted has been successfully");
+
+        return back();
     }
 }

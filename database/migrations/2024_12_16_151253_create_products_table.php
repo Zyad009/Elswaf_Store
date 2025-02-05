@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string("offer")->default(0);
             $table->string("rating")->default(10);
             $table->boolean("is_active")->default(true);
+            $table->softDeletes();
 
             $table->foreignId("category_id")->constrained()->onDelete("cascade");
 

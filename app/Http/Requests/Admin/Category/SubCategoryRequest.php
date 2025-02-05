@@ -23,7 +23,7 @@ class SubCategoryRequest extends FormRequest
     {
         return [
             "name" => "required|string|min:3|max:30",
-            "parent_id" => "required|exists:categories,id"
+            "parent_id" => "required|exists:categories,id|unique:categories,name"
         ];
     }
 }

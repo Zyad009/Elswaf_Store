@@ -18,7 +18,7 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("admin.create.customer_s")}}">
+                      <a href="{{route("admin-dashboard.customer_s.new")}}">
                         <i class="bi bi-plus"></i>
                       </a>
                     </div>
@@ -37,7 +37,7 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("admin.all.customer_s")}}">
+                      <a href="{{route("admin-dashboard.customer_s.all")}}">
                         <i class="bi bi-text-left"></i>
                       </a>
                     </div>

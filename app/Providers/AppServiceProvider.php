@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use RealRashid\SweetAlert\SweetAlertServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        SweetAlertServiceProvider::class;
+
     }
 
     /**

@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-6 mx-auto">
-                    <form method="post" action="{{route("update.product", $product)}}" class="my-5 border p-3" enctype="multipart/form-data">
+                    <form method="post" action="{{route("admin-dashboard.product.update", $product)}}" class="my-5 border p-3" enctype="multipart/form-data">
                         <x-error></x-error>
                         <x-success></x-success>
                         @csrf

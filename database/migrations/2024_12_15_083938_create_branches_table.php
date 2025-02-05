@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("slug");
             $table->string("phone");
             $table->string("address");
+            $table->softDeletes();
             $table->boolean("is_active")->default(true);
             $table->timestamps();
         });

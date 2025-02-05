@@ -2,19 +2,33 @@
 
 namespace App\Http\Controllers\Admin\Message;
 
-use App\Http\Controllers\Controller;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class AdminMessageController extends Controller
 {
+    private const DIR_VIEW = "admin.pages.message";
+
     public function index(){
-        $messages = Message::orderBy("id", "desc")->paginate(10);
-        return view("admin.pages.message.index" ,compact("messages"));
+        $messages = Message::orderBy("id", "desc")->paginate(config("pagination.count"));
+        return view(SELF::DIR_VIEW . ".index" ,compact("messages"));
     }
 
     public function destroy(Message $message){
         $message->delete();
-        return back()->with('success', 'message deleted successfully');
+        alert()->success("Deleted", "deleted has been successfully");
+
+        return back();
+    }
+
+    public function markAsRead($notification)
+    {
+        $notification = Auth::guard('admin')->user()->notifications->find($notification);
+        if ($notification) {
+            $notification->markAsRead();
+        }
+        return back();
     }
 }

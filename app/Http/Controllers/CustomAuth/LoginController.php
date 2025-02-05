@@ -22,8 +22,8 @@ class LoginController extends Controller
 
         if (Auth::guard('admin')->attempt($data)) {
             
-            // $user = Auth::guard('admin')->user();
-            // Auth::login($user);
+            $user = Auth::guard('admin')->user();
+            Auth::login($user);
             
             return redirect()->route('admin-home');
         }

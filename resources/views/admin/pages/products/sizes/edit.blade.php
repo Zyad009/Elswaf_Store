@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-6 mx-auto">
-                    <form method="post" action="{{route("update.size" , $size)}}" class="my-5 border p-3">
+                    <form method="post" action="{{route("size.update" , $size)}}" class="my-5 border p-3">
                         <x-error></x-error>
                         <x-success></x-success>
                         @csrf

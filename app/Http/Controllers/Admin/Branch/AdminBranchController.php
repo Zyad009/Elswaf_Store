@@ -2,20 +2,24 @@
 
 namespace App\Http\Controllers\Admin\Branch;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Branch\CreateBranchRequest;
 use App\Models\Admin;
 use App\Models\Branch;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Requests\Admin\Branch\CreateBranchRequest;
 
 class AdminBranchController extends Controller
 {
+    private const DIR_VIEW = "admin.pages.branches";
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view("admin.pages.branches.index");
+        return view(SELF::DIR_VIEW . ".index");
     }
 
     /**
@@ -23,7 +27,7 @@ class AdminBranchController extends Controller
      */
     public function create() 
     {
-        return view("admin.pages.branches.add" );
+        return view(SELF::DIR_VIEW . ".add" );
     }
 
     /**
@@ -33,7 +37,9 @@ class AdminBranchController extends Controller
     {
         $data=$request->validated();
         Branch::create($data);
-        return back()->with("success" , "branch add has been successfully");
+        alert()->success("Success!" , "created has been successfully");
+
+        return back();
     }
 
     /**
@@ -41,9 +47,16 @@ class AdminBranchController extends Controller
      */
     public function show()
     {
-        $branches = Branch::with("admin")->orderBy("id", "desc")->paginate(20);
+        $branches = Branch::with("admin")
+        ->orderBy("id", "desc")
+        ->paginate(config("pagination.count"));
 
-        return view("admin.pages.branches.all", compact("branches"));
+        $title = 'Delete Branch!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+
+        return view(SELF::DIR_VIEW . ".all", compact("branches"));
+        
     }
 
     /**
@@ -52,7 +65,7 @@ class AdminBranchController extends Controller
     public function edit(Branch $branch)
     {
         $editors = Admin::select("id", "name")->get();
-        return view("admin.pages.branches.edit" , compact("branch" , "editors"));
+        return view(SELF::DIR_VIEW . ".edit" , compact("branch" , "editors"));
     }
 
     /**
@@ -62,11 +75,9 @@ class AdminBranchController extends Controller
     {
         $data=$request->validated();
         $branch->update($data);
+        alert()->success("Success!", "ubdated has been successfully");
 
-        /*==
-        ** this way for redirect to route with slug **
-        ==*/
-        return to_route("branch.edit", $branch)->with("success", "category updated successfully");
+        return to_route("admin-dashboard.branches.all");
 
         // return back()->with("success" , "branch updated successfully"); 
     }
@@ -74,9 +85,43 @@ class AdminBranchController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    //========= Soft Delete ======== //
     public function destroy(Branch $branch)
     {
         $branch->delete();
-        return back()->with("success" , "deleted has been successfully");
+        alert()->success("Success!" , "deleted has been successfully");
+        return back();
+    }
+    
+    //========= view ======== //
+    public function archiveBranch()
+    {
+        $branches = Branch::onlyTrashed()->paginate(config("pagination.count"));
+
+        $title = 'Delete Branch!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+
+        return view(SELF::DIR_VIEW . ".archive" , compact("branches"));
+    }
+
+    //========= Restore ======== //
+    public function archiveRestore($id)
+    {
+        $branch = Branch::withTrashed()->findOrFail($id);
+        $branch->restore();
+        
+        alert()->success("Success!" , "restored has been successfully");
+        return back();
+    }
+
+    //========= Remove ======== //
+    public function archiveRemove($id)
+    {
+        $branch = Branch::withTrashed()->findOrFail($id);
+        $branch->forceDelete();
+
+        alert()->success("Success!", "removed has been successfully");
+        return back();
     }
 }

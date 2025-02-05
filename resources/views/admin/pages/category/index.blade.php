@@ -18,7 +18,7 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("new.category")}}">
+                      <a href="{{route("admin-dashboard.category.new")}}">
                         <i class="bi bi-plus"></i>
                       </a>
                     </div>
@@ -37,12 +37,12 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center me-3">
-                      <a href="{{route("new.subcategory")}}">
+                      <a href="{{route("admin-dashboard.subcategory.new")}}">
                         <i class="bi bi-plus"></i>
                       </a>
                     </div>
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center ">
-                      <a href="{{route("all.subcategory")}}">
+                      <a href="{{route("admin-dashboard.subcategory.all")}}">
                         <i class="bi bi-grid"></i>
                       </a>
                     </div>
@@ -61,7 +61,7 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("all.category")}}">
+                      <a href="{{route("admin-dashboard.category.all")}}">
                         <i class="bi bi-grid"></i>
                       </a>
                     </div>

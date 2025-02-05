@@ -3,6 +3,9 @@
 namespace App\Http\Requests\Admin\Editor;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class EditorRequest extends FormRequest
 {
@@ -28,4 +31,13 @@ class EditorRequest extends FormRequest
             "branch_id" => "required|exists:branches,id",
         ];
     }
+
+    // protected function failedValidation(Validator $validator)
+    // {
+    //     alert()->error("Error!", "Data verification failed");
+
+    //     throw new HttpResponseException(
+    //         back()->withErrors($validator)->withInput()
+    //     );
+    // }
 }

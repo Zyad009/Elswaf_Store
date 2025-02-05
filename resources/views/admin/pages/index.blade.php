@@ -1,8 +1,8 @@
 @extends('admin.layouts.app')
-@section("admin-content")
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    {{-- <div class="content-header">
+@section('admin-content')
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        {{-- <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
@@ -51,43 +51,42 @@
               <a href="{{route("admin.category")}}" class="small-box-footer">...Go<i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div> --}}
-          {{-- ///////////////// --}}
-           
+        {{-- ///////////////// --}}
 
-    <!-- End Page Title -->
 
-    <section class="section dashboard">
-      <div class="row">
-        <!-- Left side columns -->
-        {{-- <div cs="col-lg-8">
+        <!-- End Page Title -->
+
+        <section class="section dashboard">
+            <div class="row">
+                <!-- Left side columns -->
+                {{-- <div cs="col-lg-8">
           <div class="row">las --}}
 
-            <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
-                <div class="card-body">
-                  <h5 class="card-title">Category</h5>
+                <!-- Sales Card -->
+                <div class="col-xxl-4 col-md-6">
+                    <div class="card info-card sales-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Category</h5>
 
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("admin.category")}}">
-                        <i class="bi bi-grid"></i>
-                      </a>
-                    </div>
-                    <div class="ps-3">
-                      <h6>
-                         count of category##
-                      </h6>
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <a href="{{ route('admin-dashboard.category.admin') }}">
+                                        <i class="bi bi-grid"></i>
+                                    </a>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>
+                                        count of category##
+                                    </h6>
 
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
+                <!-- End Sales Card -->
             </div>
-            <!-- End Sales Card -->
-      </div>
-    </section>
+        </section>
 
-  </main><!-- End #main -->
-          
-  @endsection
+        </main><!-- End #main -->
+    @endsection

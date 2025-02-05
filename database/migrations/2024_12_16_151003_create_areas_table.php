@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer("price_backup")->default(0);
             $table->unsignedDecimal("delivery_price_regular", 8, 2)->default(0);
             $table->unsignedDecimal("delivery_price_super", 8, 2)->default(0);
+            $table->softDeletes();
+            
             $table->timestamps();
         });
     }

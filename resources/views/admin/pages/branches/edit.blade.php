@@ -8,9 +8,8 @@
                           <h1 class="text-center my-2 p-3">Edit Branch</h1>
                         </div>
 
-                    <form method="post" action="{{route("update.branch" , $branch )}}" novalidate class="my-5 border p-3" enctype="multipart/form-data">
+                    <form method="post" action="{{route("admin-dashboard.branches.update" , $branch )}}" novalidate class="my-5 border p-3" enctype="multipart/form-data">
                         <x-error></x-error>
-                        <x-success></x-success>
                         @csrf
                         @method('PUT')
 

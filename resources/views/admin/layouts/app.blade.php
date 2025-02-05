@@ -5,7 +5,13 @@
 @include("admin.layouts.nav")
 
 @include("admin.layouts.aside")
+@include('sweetalert::alert')
 
+@if ($errors->any())
+    <script>
+        Swal.fire('Error!', 'There was a validation error', 'error');
+    </script>
+@endif
   {{-- <main id="main" class="main">
 
     <div class="pagetitle">
@@ -25,5 +31,7 @@
 
   </main>
   <!-- End #main -->
-
+<body>
+  
+</body>
 @include("admin.layouts.footer")

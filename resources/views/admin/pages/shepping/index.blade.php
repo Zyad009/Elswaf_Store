@@ -18,7 +18,7 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("admin.create.city")}}">
+                      <a href="{{route("admin-dashboard.city.new")}}">
                         <i class="bi bi-plus"></i>
                       </a>
                     </div>
@@ -37,7 +37,7 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("admin.all.cities")}}">
+                      <a href="{{route("admin-dashboard.city.all")}}">
                         <i class="bi bi-text-left"></i>
                       </a>
                     </div>
@@ -56,7 +56,7 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("admin.create.area")}}">
+                      <a href="{{route("admin-dashboard.area.new")}}">
                         <i class="bi bi-plus"></i>
                       </a>
                     </div>
@@ -75,7 +75,7 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("admin.index.area")}}">
+                      <a href="{{route("admin-dashboard.area.admin")}}">
                         <i class="bi bi-text-left"></i>
                       </a>
                     </div>

@@ -10,7 +10,7 @@
                           <h1 class="text-center my-2 p-3">Add New Product</h1>
                         </div>
 
-                    <form method="post" action="{{route("store.product")}}" class="my-5 border p-3" enctype="multipart/form-data">
+                    <form method="post" action="{{route("admin-dashboard.product.store")}}" class="my-5 border p-3" enctype="multipart/form-data">
                         <x-error></x-error>
                         <x-success></x-success>
                         @csrf

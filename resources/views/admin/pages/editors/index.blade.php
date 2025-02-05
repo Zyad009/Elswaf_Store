@@ -18,7 +18,7 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("admin.create.editors")}}">
+                      <a href="{{route("admin-dashboard.editors.new")}}">
                         <i class="bi bi-plus"></i>
                       </a>
                     </div>
@@ -37,7 +37,7 @@
                     </div>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <a href="{{route("admin.all.editors")}}">
+                      <a href="{{route("admin-dashboard.editors.all")}}">
                         <i class="bi bi-text-left"></i>
                       </a>
                     </div>

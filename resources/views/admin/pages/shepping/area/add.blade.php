@@ -8,7 +8,7 @@
                           <h1 class="text-center my-2 p-3">Edit Area</h1>
                         </div>
 
-                    <form method="post" action="{{route("store.area")}}" novalidate class="my-5 border p-3" enctype="multipart/form-data">
+                    <form method="post" action="{{route("admin-dashboard.area.store")}}" novalidate class="my-5 border p-3" enctype="multipart/form-data">
                         <x-error></x-error>
                         <x-success></x-success>
                         @csrf

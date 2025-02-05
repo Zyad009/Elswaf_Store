@@ -9,12 +9,14 @@ use Illuminate\Http\Request;
 
 class AdminProductSizeController extends Controller
 {
+    private const DIR_VIEW = "admin.pages.products.sizes";
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('admin.pages.products.sizes.add');
+        return view(SELF::DIR_VIEW . '.add');
     }
 
     /**
@@ -24,7 +26,9 @@ class AdminProductSizeController extends Controller
     {
         $data = $request->validated();
         Size::create($data);
-        return back()->with('success', 'the size added successfully');
+        alert()->success("Success!", "Created has been successfully");
+
+        return back();
     }
 
     /**
@@ -32,8 +36,9 @@ class AdminProductSizeController extends Controller
      */
     public function show()
     {
-        $sizes = Size::orderBy("id", "desc")->paginate(20);
-        return view('admin.pages.products.sizes.all', compact('sizes'));
+        $sizes = Size::orderBy("id", "desc")
+        ->paginate(config("pagination.count"));
+        return view(SELF::DIR_VIEW . '.all', compact('sizes'));
     }
 
     /**
@@ -41,7 +46,7 @@ class AdminProductSizeController extends Controller
      */
     public function edit(Size $size)
     {
-        return view('admin.pages.products.sizes.edit', compact('size'));
+        return view(SELF::DIR_VIEW . '.edit', compact('size'));
     }
 
     /**
@@ -51,13 +56,9 @@ class AdminProductSizeController extends Controller
     {
         $data = $request->validated();
         $size->update($data);
+        alert()->success("Success!", "size updated successfully");
 
-        /*==
-        ** this way for redirect to route with slug **
-        ==*/
-        return to_route("edit.size", $size)->with("success", "category updated successfully");
-
-        // return back()->with('success', 'the size updated successfully');
+        return to_route("admin-dashboard.size.all");
     }
 
     /**
@@ -66,6 +67,8 @@ class AdminProductSizeController extends Controller
     public function destroy(Size $size)
     {
         $size->delete();
-        return back()->with('success', 'the size deleted successfully');
+        alert()->success("Deleted", "deleted has been successfully");
+
+        return back();
     }
 }

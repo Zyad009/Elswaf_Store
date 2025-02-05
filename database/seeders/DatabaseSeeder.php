@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory(100)->create();
-        Branch::factory(8)->create();
-        Admin::factory(8)->create();
+        Branch::factory(25)->create();
+        Admin::factory(24)->create();
         City::factory(1)->create();
         Area::factory(8)->create();
         CustomerService::factory(6)->create();

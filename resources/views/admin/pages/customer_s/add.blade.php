@@ -8,9 +8,8 @@
                           <h1 class="text-center my-2 p-3">Add New Customer Service Representative</h1>
                         </div>
 
-                    <form method="post" action="{{route("store.customer_s")}}" novalidate class="my-5 border p-3" enctype="multipart/form-data">
+                    <form method="post" action="{{route("admin-dashboard.customer_s.store")}}" novalidate class="my-5 border p-3" enctype="multipart/form-data">
                         <x-error></x-error>
-                        <x-success></x-success>
                         @csrf
 
                         <div class="mb-3">

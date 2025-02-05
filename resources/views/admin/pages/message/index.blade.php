@@ -29,21 +29,20 @@
                       <td class="text-center">{{$message->subject}}</td>
                       <td class="text-center">{{$message->message}}</td>
                       <td>
-                        <form class="text-center" action="{{route("delete.message", $message)}}" method="post">
+                        <form class="text-center" action="{{route("admin-dashboard.message.delete", $message)}}" method="post">
                           @csrf
                           @method('DELETE')
                           <button type="submit" class="btn btn-danger" href="">delete</button>
                         </form>
                       </td>
-                      <td class="text-center">{{$index + 1}}</td>
                     </tr>
                     @empty
                     <tr>
-                      <td colspan="7" class="text-center">No messages found</td>
+                      <td colspan="6" class="text-center">No messages found</td>
                     </tr>
                     @endforelse
                   </tbody>
-                    <h5 class="text-center">Total: {{ $messages->count() }}</h5>  
+                    <h5 class="text-center">Total: {{ $messages->total() }}</h5>  
                 </table>
         <div class="text-center p-3">
             {{$messages->links()}}

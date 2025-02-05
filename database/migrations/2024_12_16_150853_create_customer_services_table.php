@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string("image")->nullable();
+            $table->softDeletes();
 
             $table->boolean("is_active")->default(true);
             $table->timestamps();

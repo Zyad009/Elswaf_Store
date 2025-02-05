@@ -2,7 +2,7 @@
    @section('admin-content')
     <section class="section dashboard">
         <div class="row">
-            @forelse ( $cities as $city )
+          @forelse ( $cities as $city )
   
               <div class="col-xxl-4 col-md-6">
                 <div class="card info-card sales-card">
@@ -14,7 +14,7 @@
                       </div>
                     <div class="d-flex align-items-center">
                       <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <a href="{{route("admin.all.areas" , $city)}}">
+                        <a href="{{route("admin-dashboard.area.all" , $city)}}">
                           <i class="bi bi-text-left"></i>
                         </a>
                       </div>

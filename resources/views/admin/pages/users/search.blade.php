@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <form class="d-flex" action="{{route('admin.users.search')}}" method="GET">
+            <form class="d-flex" action="{{route('admin-dashboard.user.search')}}" method="GET">
               @csrf
                 <div class="input-group">
                     <input class="form-control form-control-lg" name="q" value="{{$search}}" type="phone" placeholder="Search" aria-label="Search">
@@ -30,7 +30,6 @@
                       <th class="text-center">Email</th>
                       <th class="text-center">Phone</th>
                       <th class="text-center">Address</th>
-                      <th class="text-center">Count</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -41,11 +40,10 @@
                       <td class="text-center">{{$user->email}}</td>
                       <td class="text-center">{{$user->phone}}</td>
                       <td class="text-center">{{$user->address}}</td>
-                      <td class="text-center">{{$users->firstItem() + $loop->iteration - 1}}</td>
                     </tr>
                     @empty
                     <tr>
-                      <td colspan="6" class="text-center">No users found</td>
+                      <td colspan="5" class="text-center">No users found</td>
                     </tr>
                     @endforelse
                   </tbody>

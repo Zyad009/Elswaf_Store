@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Admin\Category;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Category\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Category\CategoryRequest;
 
 class AdminCategoryController extends Controller
 {
+    private const DIR_VIEW = "admin.pages.category";
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view("admin.pages.category.index");
+        return view(SELF::DIR_VIEW . ".index");
     }
 
     /**
@@ -22,7 +24,7 @@ class AdminCategoryController extends Controller
      */
     public function create()
     {
-        return view("admin.pages.category.add");
+        return view(SELF::DIR_VIEW . ".add");
     }
 
     /**
@@ -32,9 +34,10 @@ class AdminCategoryController extends Controller
     {
         $data = $request->validated();
 
-        Category::create($data);
+        $parentCategory = Category::create($data);
+        alert()->success("Success!", "Created has been successfully");
 
-        return back()->with("success", "the category added successfully");
+        return back()->with(["parentCategory" => $parentCategory]);
     }
 
     /**
@@ -42,10 +45,26 @@ class AdminCategoryController extends Controller
      */
     public function show()
     {
-        $attributes = ['id', 'name', 'parent_id'];
-        $categories = Category::withCount("children")->whereNull("parent_id")->addSelect($attributes)->orderBy("children_count", "desc")->paginate(10);
+        $selected = ['id', 'name', "slug", 'parent_id'];
+        $categories = Category::select($selected)
+            ->withCount("children")
+            ->whereNull("parent_id")
+            ->orderBy("children_count", "desc")
+            ->paginate(config("pagination.count"));
 
-        return view("admin.pages.category.all", compact("categories"));
+        $title = 'Delete This Category!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+
+        return view(SELF::DIR_VIEW . ".all", compact("categories"));
+    }
+
+
+    public function view(Category $category)
+    {
+        $categories = Category::where("parent_id", $category->id)
+            ->paginate(config("pagination.count"));
+        return view(SELF::DIR_VIEW . ".view-sub", compact("categories", "category"));
     }
 
     /**
@@ -53,7 +72,7 @@ class AdminCategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view("admin.pages.category.edit", compact("category"));
+        return view(SELF::DIR_VIEW . ".edit", compact("category"));
     }
 
     /**
@@ -64,13 +83,9 @@ class AdminCategoryController extends Controller
     {
         $data = $request->validated();
         $category->update($data);
+        alert()->success("Success!", "editor updated successfully");
 
-        /*==
-        ** this way for redirect to route with slug **
-        ==*/
-        return to_route("edit.category",$category)->with("success", "category updated successfully");
-        // return back()->with("success", "category updated successfully");
-
+        return to_route("admin-dashboard.category.all");
     }
 
     /**
@@ -78,8 +93,43 @@ class AdminCategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-
         $category->delete();
-        return back()->with('success', 'Category deleted successfully');
+        alert()->success("Deleted", "deleted has been successfully");
+
+        return back();
+    }
+    //========= view ======== //
+    public function archiveCategory()
+    {
+        $categories = Category::onlyTrashed()
+        ->paginate(config("pagination.count"));
+
+        $title = 'Delete Category!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+
+        return view(SELF::DIR_VIEW . ".archive", compact("categories"));
+    }
+
+    //========= Restore ======== //
+    public function archiveRestore($id)
+    {
+        $category = Category::withTrashed()
+        ->findOrFail($id);
+        $category->restore();
+
+        alert()->success("Success!", "restored has been successfully");
+        return back();
+    }
+
+    //========= Remove ======== //
+    public function archiveRemove($id)
+    {
+        $category = Category::withTrashed()
+        ->findOrFail($id);
+        $category->forceDelete();
+
+        alert()->success("Success!", "removed has been successfully");
+        return back();
     }
 }
