@@ -42,6 +42,11 @@ class Admin extends Authenticatable
     {
         return $this->belongsTo(Branch::class);
     }
+    
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

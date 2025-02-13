@@ -8,7 +8,7 @@
                 <h1 class="text-center my-2 p-3">Add New Category</h1>
             </div>
 
-                    <form method="post" action="{{route("admin-dashboard.category.store")}}" class="my-5 border p-3">
+                    <form method="post" action="{{route("admin-dashboard.category.store")}}" class="my-5 border p-3" enctype="multipart/form-data">
                         <x-error></x-error>
 
                         @csrf
@@ -19,8 +19,14 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="">Main Image</label>
+                            <input type="file" name="main_image" id="main_image" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
                             <input type="submit" value="Save" class="form-control btn btn-primary">
                         </div>
+
 
                         @if(session('parentCategory'))
                         @php
@@ -33,4 +39,35 @@
             </div>
     </div>
 
+    
 @endsection
+@push("js")
+
+    <script>
+        
+        // Get a reference to the file input element
+        const inputElement = document.querySelectorAll('input[type=file]');
+
+        console.log(inputElement)
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        // Create a FilePond instance
+        const mainIMagePond = FilePond.create(document.querySelector('#main_image'), {
+            allowImagePreview: true,
+            imagePreviewHeight: 200,
+            storeAsFile: true,
+            allowMultiple: false,
+            acceptedFileTypes: ['image/*'],
+        });
+
+        
+        // FilePond.setOptions({
+        //     server: {
+        //         process: '{{ route('admin-dashboard.product.set.image') }}',
+        //         revert: './image-delete',
+        //         headers: {
+        //             "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        //         }
+        //     },
+        // });
+        </script>
+        @endpush

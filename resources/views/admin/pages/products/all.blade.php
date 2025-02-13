@@ -27,7 +27,8 @@
                     </thead>
                     <tbody>
                         @forelse ($products as $product)
-                            <tr>
+                        <tr>
+                            {{-- {{dd($product->images[0]->main_image)}} --}}
                                 <td>{{ $product->id }}</td>
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->category->name }}</td>
@@ -44,14 +45,13 @@
                                     @endif
                                 </td>
 
-
                                 <td>{{ $product->color }}</td>
                                 <td>{{ $product->QTY }}</td>
                                 <td>{{ $product->description }}</td>
                                 <td>{{ $product->price }}</td>
                                 <td>
-                                    <img src="{{ asset($product->image) }}"
-                                        class="card-img-top rounded-circle card-image-circle" alt="product"
+                                    <img src="{{asset($product->images->first()?->main_image)}}"
+                                        class="card-img-top rounded-.circle card-image-circle" alt="product"
                                         style="width: 100px; height: 100px; object-fit: cover;">
                                 </td>
 

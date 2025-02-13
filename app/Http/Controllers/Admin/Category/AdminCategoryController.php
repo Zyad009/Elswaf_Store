@@ -6,9 +6,11 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\CategoryRequest;
+use App\Http\Controllers\Admin\Traits\UploadImage;
 
 class AdminCategoryController extends Controller
 {
+    use UploadImage;
     private const DIR_VIEW = "admin.pages.category";
 
     /**
@@ -32,9 +34,13 @@ class AdminCategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
+        $mainImage = $request->file("main_image");
+        $nameCategory = $request->name;
         $data = $request->validated();
-
         $parentCategory = Category::create($data);
+        $parentCategoryId = $parentCategory->id;
+        $this->saveImages("Category" ,$parentCategoryId ,$nameCategory, $mainImage);
+        
         alert()->success("Success!", "Created has been successfully");
 
         return back()->with(["parentCategory" => $parentCategory]);

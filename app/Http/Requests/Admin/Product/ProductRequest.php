@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Product;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
@@ -25,11 +26,14 @@ class ProductRequest extends FormRequest
         return [
             "name" => "required|min:3|max:50",
             "price" => "required|numeric|min:0",
-            "offer" => "required|numeric|min:0",
-            "QTY" => "required|string",
             "description" => "required|string|min:15|max:500",
-            "image" => "$imageRule|image|mimes:png,jpg,jpeg,gif",
-            "category_id" => "required",
+            'type_size' => 'required|in:letter,number',
+            "main_image" => "$imageRule|image|mimes:png,jpg,jpeg,gif",
+            "hover_image" => "required|image|mimes:png,jpg,jpeg,gif",
+            "images" => "$imageRule",
+            "images.*" => [$imageRule, "file", "image", "mimes:png,jpg,jpeg,gif"],
+            // Rule::ignore($this->id),
+            "category_id" => "required|exists:categories,id",
         ];
     }
 }

@@ -20,9 +20,9 @@ use App\Http\Controllers\Admin\CustomerService\AdminCustomerServiceController;
 // Route::get("/admin-home",[AdminHomeController::class,"index"])->name('admin-home');
 
 
-Route::get("/admin-home", [AdminHomeController::class, "index"])->name('admin-home');
+Route::get("/admin-home", [AdminHomeController::class, "index"])->name('admin-home')->middleware('auth');
 
-Route::name("admin-dashboard.")->prefix("admin-dashboard")->group(function () {
+Route::name("admin-dashboard.")->middleware('auth')->prefix("admin-dashboard")->group(function () {
   Route::name("category.")->prefix("category")->group(function () {
     Route::controller(AdminCategoryController::class)->group(function () {
       Route::get("/", "index")->name("admin");
@@ -79,11 +79,17 @@ Route::name("admin-dashboard.")->prefix("admin-dashboard")->group(function () {
     });
   });
 
-  Route::name("product.")->prefix("product")->group(function () {
+  Route::name("product.")->prefix("product")->middleware('auth:admin')->group(function () {
     Route::controller(AdminProductController::class)->group(function () {
       Route::get("/", "index")->name("admin");
       Route::get("/create", "create")->name("new");
       Route::post("/", "store")->name("store");
+      
+      
+      /////////////////
+      Route::post("/image-upload", "imageUpload")->name("set.image");
+      Route::delete("/image-delete", "imageDelete")->name("remove.image");
+      ////////////////
       Route::get("/all", "show")->name("all");
       Route::get("/{product}/edit", "edit")->name("edit");
       Route::put("/{product}", "update")->name("update");

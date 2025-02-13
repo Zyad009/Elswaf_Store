@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\Admin\Product;
 
-use App\Models\Size;
-use App\Models\Color;
+use App\Models\Image;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Admin\Traits\UploadImage;
 use App\Http\Requests\Admin\Product\ProductRequest;
-use File;
 
 class AdminProductController extends Controller
 {
     use UploadImage;
+
     private const DIR_VIEW = "admin.pages.products";
 
     /**
@@ -27,32 +28,52 @@ class AdminProductController extends Controller
     }
 
     public function create()
-    { {
-            $selected = ["id", "name"];
-
-            $colors = Color::select($selected)
-                ->get();
-            $sizes = Size::select($selected)
-                ->get();
-            $categories = Category::select($selected)
-                ->get();
-            return view(SELF::DIR_VIEW . '.add', compact("categories", "colors", "sizes"));
-        }
+    {
+        $selected = ["id", "name"];
+        $categories = Category::select($selected)
+            ->doesntHave("children")
+            ->get();
+        return view(SELF::DIR_VIEW . '.add', compact("categories"));
     }
     /**
      * Store a newly created resource in storage.
      */
+
+    // public function imageUpload(ProductRequest $request){ {
+    //     return response()->json(
+    //         $request
+    //     );
+    //             if ($request->hasFile('image')) {
+    //             $image = $request->file('image');
+    //             $fileName = $image->getClientOriginalName();
+    //             $folder = uniqid('image_', true);
+    //             $image->storeAs('public/admin/products/' . $folder, $fileName);
+    //         Image::create([
+    //             "folder" => $folder,
+    //             "file" => $fileName,
+    //         ]);
+    //             return $folder;
+    //         }
+    //         return response()->json(['error' => 'No image uploaded'], 400);
+    //     }
+    // }
+
     public function store(ProductRequest $request)
     {
-        $dataProduct = $request->validated();
-        $image = $request->file('image')->store("public/admin/products");
-        $dataProduct["image"] = $image;
+        $mainImage = $request->file('main_image');
+        $hoverImage = $request->file('hover_image');
+        $images = $request->file('images');
+        $categoryId = $request->category_id;
+        $nameProduct = $request->name;
 
-        Product::create($dataProduct);
+        $dataProduct = $request->validated();
+        $product = Product::create($dataProduct);
+        $productId = $product->id;
+
+        $this->saveImages("Product", $productId, $nameProduct, $mainImage, $hoverImage , $images, $categoryId);
         alert()->success("Success!", "Created has been successfully");
 
-
-        return view(SELF::DIR_VIEW . ".add", compact("dataProduct"));
+        return view("admin.pages.products.single-product.add", compact("dataProduct"));
     }
 
     /**
@@ -60,7 +81,7 @@ class AdminProductController extends Controller
      */
     public function show()
     {
-        $products = Product::with("category")
+        $products = Product::with("category", "images")
             ->orderBy("id", "desc")
             ->paginate(config("pagination.count"));
 
@@ -77,7 +98,7 @@ class AdminProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::select("id", "name")
-        ->get();
+            ->get();
         return view(SELF::DIR_VIEW . '.edit', compact('product', 'categories'));
     }
 

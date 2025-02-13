@@ -1,10 +1,9 @@
+@include('admin.layouts.header')
 
-@include("admin.layouts.header")
 
+@include('admin.layouts.nav')
 
-@include("admin.layouts.nav")
-
-@include("admin.layouts.aside")
+@include('admin.layouts.aside')
 @include('sweetalert::alert')
 
 @if ($errors->any())
@@ -12,7 +11,7 @@
         Swal.fire('Error!', 'There was a validation error', 'error');
     </script>
 @endif
-  {{-- <main id="main" class="main">
+{{-- <main id="main" class="main">
 
     <div class="pagetitle">
       <h1>Dashboard</h1>
@@ -23,15 +22,13 @@
         </ol>
       </nav>
     </div> --}}
-    <!-- End Page Title -->
+<!-- End Page Title -->
 
-      <!-- Content Wrapper. Contains page content -->
-        <section> @yield("admin-content") </section>
-  <!-- /.content-wrapper -->
+<!-- Content Wrapper. Contains page content -->
+<section> @yield('admin-content') </section>
+<!-- /.content-wrapper -->
 
-  </main>
-  <!-- End #main -->
-<body>
-  
-</body>
-@include("admin.layouts.footer")
+</main>
+<!-- End #main -->
+
+@include('admin.layouts.footer')

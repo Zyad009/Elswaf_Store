@@ -18,6 +18,7 @@ return new class extends Migration
             $table->softDeletes();
             
             $table->foreignId("parent_id")->nullable()->constrained("categories")->onDelete("cascade");
+            $table->foreignId("offer_id")->nullable()->constrained("categories")->onDelete("cascade");
             $table->timestamps();
         });
     }

@@ -40,9 +40,18 @@ class Category extends Model
         return $this->hasMany(Category::class , "parent_id");
     }
 
+    public function offer()
+    {
+        return $this->hasOne(Offer::class);
+    }
 
     public function products()
     {
         return $this->hasMany(product::class);
+    }
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

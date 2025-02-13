@@ -4,15 +4,18 @@
         <div class="row">
             <div class="col-12">
                 <h1 class="text-center">All Sizes</h1>
-                <a href="{{ route("admin-dashboard.size.new") }}" class="btn btn-success">Create</a>
+                <div class="mb-3">
+                    <a href="{{ route('admin-dashboard.size.new') }}" class="btn btn-success">
+                        <i class="bi bi-plus-circle"></i> Create
+                    </a>
+                </div>
                 <x-error></x-error>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th style="width: 10px">ID</th>
                             <th class="text-center">Name</th>
-                            <th class="text-center">Edit</th>
-                            <th class="text-center">Delete</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -21,20 +24,25 @@
                                 <td>{{ $size->id }}</td>
                                 <td class="text-center">{{ $size->name }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin-dashboard.size.edit', $size) }}" class="btn btn-info">Edit</a>
-                                </td>
-                                <td>
-                                    <form class="text-center" action="{{ route('admin-dashboard.size.delete', $size) }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" href="">delete</button>
-                                    </form>
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="{{ route('admin-dashboard.size.edit', $size) }}" class="btn btn-warning">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <form action="{{ route('admin-dashboard.size.delete', $size) }}" method="post"
+                                            data-confirm-delete="true">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
-                            <tr>
-                                <td colspan="4" class="text-center">No sizes found</td>
-                            </tr>
+                            <div class="col-12">
+                                <div class="alert alert-danger text-center" role="alert">
+                                    No Size Found
                         @endforelse
                     </tbody>
                     <h5 class="text-center">Total: {{ $sizes->total() }}</h5>

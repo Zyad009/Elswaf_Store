@@ -30,4 +30,9 @@ class CustomerService extends Model
         'email',
         'password',
     ];
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 }

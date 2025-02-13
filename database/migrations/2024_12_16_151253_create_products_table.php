@@ -15,18 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->string("slug");
+            $table->enum("type_size", ["number", "letter"]);
             $table->unsignedDecimal("price");
-            $table->integer("QTY");
-            $table->string("image");
-            // $table->json("sizes")->nullable();
-            // $table->string("color");
+            $table->integer("QTY")->default(0);
             $table->string("description");
-            $table->string("offer")->default(0);
             $table->string("rating")->default(10);
             $table->boolean("is_active")->default(true);
             $table->softDeletes();
 
             $table->foreignId("category_id")->constrained()->onDelete("cascade");
+            $table->foreignId("offer_id")->nullable()->constrained()->onDelete("cascade");
 
             $table->timestamps();
         });

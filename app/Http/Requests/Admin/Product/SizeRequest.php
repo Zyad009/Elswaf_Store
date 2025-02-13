@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Product;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SizeRequest extends FormRequest
@@ -22,7 +23,13 @@ class SizeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name"=>"required|string|min:1|max:50",
+
+            'type_size' => 'required|in:letter,number',
+            'name' => [
+                'required',
+                Rule::when($this->type_size === 'number', ['numeric', 'min:1', 'max:100']),
+                Rule::when($this->type_size === 'letter', ['string', 'regex:/^[A-Za-z]+$/']),
+            ],
         ];
     }
 }

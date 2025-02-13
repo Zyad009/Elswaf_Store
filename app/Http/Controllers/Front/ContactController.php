@@ -11,12 +11,17 @@ use App\Notifications\MessageNotification;
 
 class ContactController extends Controller
 {
+//     public function index()
+//     {
+//         return view("front.contact");
+//     }
+
     public function index()
     {
-        return view("front.contact");
+        return view("front.pages.contact");
     }
 
-    public function send(ContactRequest $request){
+    public function store(ContactRequest $request){
         $message = $request->validated();
          $data = Message::create($message);
         $admins = Admin::all();

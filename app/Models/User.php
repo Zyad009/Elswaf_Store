@@ -27,10 +27,10 @@ class User extends Authenticatable
     }
 
 
-    public function notifys()
-    {
-        return $this->hasMany(Notification::class);
-    }
+    // public function notifys()
+    // {
+    //     return $this->hasMany(Notification::class);
+    // }
 
     public function payMents()
     {
@@ -45,6 +45,10 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(order::class);
+    }
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
     
     /**
