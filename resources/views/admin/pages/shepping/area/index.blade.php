@@ -1,4 +1,7 @@
    @extends('admin.layouts.app')
+@section('admin-title', 'All Areas')
+@section('admin-title', 'All Areas')
+@section("areas-active", "active")
    @section('admin-content')
     <section class="section dashboard">
         <div class="row">

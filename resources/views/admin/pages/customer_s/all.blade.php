@@ -1,5 +1,6 @@
 @extends('admin.layouts.app')
-
+@section('admin-title', 'All Customer Service')
+@section("customer-services-active", "active")
 @section('admin-content')
     <div class="card-body">
         <div class="row">

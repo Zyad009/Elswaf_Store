@@ -1,4 +1,6 @@
 @extends('admin.layouts.app')
+@section('admin-title', 'All Products')
+@section("products-active", "active")
 @section('admin-content')
 
 @push("cdn")

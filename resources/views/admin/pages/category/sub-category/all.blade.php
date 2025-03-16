@@ -1,4 +1,6 @@
 @extends('admin.layouts.app')
+@section('admin-title', 'All Sub Categories')
+@section("sub-categories-active", "active")
 @section('admin-content')
     <div class="card-body">
         <div class="row">

@@ -1,34 +1,48 @@
-@include('admin.layouts.header')
+@include("admin.layouts.header")
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+
+@include("admin.layouts.aside")
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+@include("admin.layouts.nav")
+
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <!-- Content -->
+
+          <div class="container-xxl flex-grow-1 container-p-y">
+@yield("admin-content")
+          </div>
+          <!-- / Content -->
+
+          <!-- Footer -->
+@include("admin.layouts.footer")
+          <!-- / Footer -->
+
+          <div class="content-backdrop fade"></div>
+        </div>
+        <!-- Content wrapper -->
+      </div>
+      <!-- / Layout page -->
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+  </div>
+  <!-- / Layout wrapper -->
 
 
-@include('admin.layouts.nav')
-
-@include('admin.layouts.aside')
-@include('sweetalert::alert')
-
-@if ($errors->any())
-    <script>
-        Swal.fire('Error!', 'There was a validation error', 'error');
-    </script>
-@endif
-{{-- <main id="main" class="main">
-
-    <div class="pagetitle">
-      <h1>Dashboard</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
-    </div> --}}
-<!-- End Page Title -->
-
-<!-- Content Wrapper. Contains page content -->
-<section> @yield('admin-content') </section>
-<!-- /.content-wrapper -->
-
-</main>
-<!-- End #main -->
-
-@include('admin.layouts.footer')
+  @include("admin.layouts.scripts")
+</body>
+</html>

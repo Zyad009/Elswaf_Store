@@ -1,6 +1,6 @@
   {{-- <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script> --}}
+  <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script> 
   <!-- Vendor JS Files -->
   <script src="{{ asset('admin/vendor') }}/apexcharts/apexcharts.min.js"></script>
   <script src="{{ asset('admin/vendor') }}/bootstrap/js/bootstrap.bundle.min.js"></script>

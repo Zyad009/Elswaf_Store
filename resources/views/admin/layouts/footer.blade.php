@@ -1,21 +1,19 @@
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-      <div class="copyright">
-          &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-          <!-- All the links in the footer should remain intact. -->
-          <!-- You can delete the links only if you purchased the pro version. -->
-          <!-- Licensing information: https://bootstrapmade.com/license/ -->
-          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-  </footer><!-- End Footer -->
+<footer class="content-footer footer bg-footer-theme">
+    <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+        <div class="mb-2 mb-md-0">
+            ©
+            , made with ❤️ by
+            <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
+        </div>
+        <div>
+            <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+            <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-          class="bi bi-arrow-up-short"></i></a>
+            <a href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/" target="_blank"
+                class="footer-link me-4">Documentation</a>
 
-  @include('admin.layouts.script')
-  </body>
-
-  </html>
+            <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank"
+                class="footer-link me-4">Support</a>
+        </div>
+    </div>
+</footer>

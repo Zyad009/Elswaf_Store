@@ -1,4 +1,6 @@
 @extends('admin.layouts.app')
+@section('admin-title', 'All Messages')
+@section("messages-active", "active")
 @section('admin-content')
 
 <div class="card-body">

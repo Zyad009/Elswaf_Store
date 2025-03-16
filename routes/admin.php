@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\CustomerService\AdminCustomerServiceController;
 Route::get("/admin-home", [AdminHomeController::class, "index"])->name('admin-home')->middleware('auth');
 
 Route::name("admin-dashboard.")->middleware('auth')->prefix("admin-dashboard")->group(function () {
+  Route::get("/account/{account?}", [AdminAccountController::class, "index"])->name("account");
   Route::name("category.")->prefix("category")->group(function () {
     Route::controller(AdminCategoryController::class)->group(function () {
       Route::get("/", "index")->name("admin");
@@ -213,5 +214,4 @@ Route::name("admin-dashboard.")->middleware('auth')->prefix("admin-dashboard")->
 
   Route::get("/archives", [AdminArchiveController::class, "index"])->name("archives");
 
-  Route::get("/account/{account?}", [AdminAccountController::class, "index"])->name("account");
 });
