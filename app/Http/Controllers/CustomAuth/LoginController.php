@@ -15,22 +15,22 @@ class LoginController extends Controller
         return view("front.pages.auth.login");
     }
 
-    public function store(LoginRequest $request)
-    {
+    // public function store(LoginRequest $request)
+    // {
 
-        $data = $request->validated();
-        if (Auth::guard('admin')->attempt($data)) {
+    //     $data = $request->validated();
+    //     if (Auth::guard('admin')->attempt($data)) {
             
-            $user = Auth::guard('admin')->user();
-            Auth::login($user);
+    //         $user = Auth::guard('admin')->user();
+    //         Auth::login($user);
             
-            return to_route('admin-home');
-        }
-        elseif (Auth::guard('web')->attempt($data)) {
+    //         return to_route('admin-home');
+    //     }
+    //     elseif (Auth::guard('web')->attempt($data)) {
 
-            return redirect()->route('home');
-        } else {
-            return back()->withErrors(["email_not_correct" => "your email or password not valid !"]);
-        }
-    }
+    //         return redirect()->route('home');
+    //     } else {
+    //         return back()->withErrors(["email_not_correct" => "your email or password not valid !"]);
+    //     }
+    // }
 }

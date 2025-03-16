@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\Branch\AdminBranchController;
+use App\Http\Controllers\Admin\Account\AdminAccountController;
 use App\Http\Controllers\Admin\Message\AdminMessageController;
 use App\Http\Controllers\Admin\Product\AdminProductController;
 use App\Http\Controllers\Admin\Archives\AdminArchiveController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\EditorAdmin\AdminEditorController;
 use App\Http\Controllers\Admin\Product\AdminProductSizeController;
 use App\Http\Controllers\Admin\Category\AdminSubCategoryController;
 use App\Http\Controllers\Admin\Product\AdminProductColorController;
+use App\Http\Controllers\Admin\Product\AdminProductSingleController;
 use App\Http\Controllers\Admin\Shepping\Home\AdminSheppingController;
 use App\Http\Controllers\Admin\Shepping\Area\AdminSheppingAreaController;
 use App\Http\Controllers\Admin\Shepping\City\AdminSheppingCityController;
@@ -102,14 +104,11 @@ Route::name("admin-dashboard.")->middleware('auth')->prefix("admin-dashboard")->
   });
 
   Route::name("single-product.")->prefix("single-product")->group(function () {
-    Route::controller(AdminProductController::class)->group(function () {
-      Route::get("/", "index")->name("admin");
-      Route::get("/create", "create")->name("add");
-      Route::post("/", "store")->name("store");
-      Route::get("/all", "show")->name("all");
-      Route::get("/{product}/edit", "edit")->name("edit");
-      Route::put("/{product}", "update")->name("update");
-      Route::delete("/{product}", "destroy")->name("delete");
+    Route::controller(AdminProductSingleController::class)->group(function () {
+      Route::get("/create/{singleProduct}", "create")->name("add");
+      Route::get("/{singleProduct}/edit", "edit")->name("edit");
+      Route::put("/{singleProduct}", "update")->name("update");
+      Route::delete("/{singleProduct}", "destroy")->name("delete");
     });
   });
 
@@ -213,4 +212,6 @@ Route::name("admin-dashboard.")->middleware('auth')->prefix("admin-dashboard")->
   });
 
   Route::get("/archives", [AdminArchiveController::class, "index"])->name("archives");
+
+  Route::get("/account/{account?}", [AdminAccountController::class, "index"])->name("account");
 });

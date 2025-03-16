@@ -1,4 +1,8 @@
 @extends('admin.layouts.app')
+@push("cdn")
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
+@endpush
 @section('admin-content')
         <div class="container">
             <div class="row">
@@ -41,11 +45,12 @@
 
     
 @endsection
-@push("js")
+@push('js')
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
-    <script>
-        
-        // Get a reference to the file input element
+<script>
+    // Get a reference to the file input element
         const inputElement = document.querySelectorAll('input[type=file]');
 
         console.log(inputElement)
@@ -58,16 +63,5 @@
             allowMultiple: false,
             acceptedFileTypes: ['image/*'],
         });
-
-        
-        // FilePond.setOptions({
-        //     server: {
-        //         process: '{{ route('admin-dashboard.product.set.image') }}',
-        //         revert: './image-delete',
-        //         headers: {
-        //             "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        //         }
-        //     },
-        // });
-        </script>
-        @endpush
+</script>
+@endpush

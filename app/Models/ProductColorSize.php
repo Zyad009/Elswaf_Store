@@ -14,4 +14,18 @@ class ProductColorSize extends Model
         'size_id',
         'QTY',
     ];
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function color()
+    {
+        return $this->belongsTo(Color::class, 'color_id');
+    }
+
+    public function size()
+    {
+        return $this->belongsTo(Size::class, 'size_id');
+    }
 }

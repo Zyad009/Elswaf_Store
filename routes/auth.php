@@ -14,7 +14,7 @@ Route::name("login.")->prefix("login")->group(function(){
 
 
 Route::post('/register',[RegisterController::class ,"store"])->name("store");
-Route::post('/logout',[LogoutController::class ,"out"])->name("out");
+Route::post('/logout',[LogoutController::class ,"out"])->name("logout");
 
 
 

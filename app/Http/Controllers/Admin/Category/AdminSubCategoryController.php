@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Category;
 
+use App\Http\Controllers\Admin\Traits\UploadImage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\SubCategoryRequest;
 use App\Models\Category;
@@ -10,6 +11,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class AdminSubCategoryController extends Controller
 {
+    use UploadImage;
     private const DIR_VIEW = "admin.pages.category.sub-category";
 
     /**
@@ -44,9 +46,13 @@ class AdminSubCategoryController extends Controller
      */
     public function store(SubCategoryRequest $request)
     {
-
+        $mainImage = $request->file("main_image");
+        $nameCategory = $request->name;
         $data = $request->validated();
-        Category::create($data);
+        $subCategory = Category::create($data);
+        $subCategoryId = $subCategory->id;
+        $this->saveImages("Category", $subCategoryId, $nameCategory, $mainImage);
+
         alert()->success("Success!", "Created has been successfully");
 
         return back();

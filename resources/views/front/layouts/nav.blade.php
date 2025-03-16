@@ -4,15 +4,15 @@
                         <nav class="main-nav">
                             <ul class="menu sf-arrows">
                                 <li class="megamenu-container active">
-                                    <a href="{{route("home")}}">Home</a>
+                                    <a href="{{ route('home') }}">Home</a>
                                 </li>
 
                                 <li>
-                                    <a href="{{route("shop")}}">Shop</a>
+                                    <a href="{{ route('shop') }}">Shop</a>
                                 </li>
 
                                 <li>
-                                    <a  class="sf-with-ul">Categories</a>
+                                    <a class="sf-with-ul">Categories</a>
                                     <ul>
                                         <li>
                                             <a href="about.html" class="sf-with-ul">About</a>
@@ -21,28 +21,48 @@
                                 </li>
 
                                 <li>
-                                    <a href="{{route("about")}}">About</a>
+                                    <a href="{{ route('about') }}">About</a>
                                 </li>
 
                                 <li>
-                                    <a href="{{route("contact")}}">Contact</a>
+                                    <a href="{{ route('contact') }}">Contact</a>
                                 </li>
-
+                                                                    
                                 @auth("admin")
-                                <li>
-                                    <a href="{{route("admin-home")}}">
-                                        <i class="fas fa-cog"></i> Dashboard
-                                    </a>
-                                </li>
+                                        <li>
+                                        <a href="{{ route('admin-home') }}">
+                                            <i class="fas fa-cog"></i> Dashboard
+                                        </a>
+                                        </li>
+                                @endauth
+
+                                @auth("web")
+                                        <li>
+                                        <a href="#">
+                                            <i class="fas fa-cog"></i> Profile
+                                        </a>
+                                        </li>
                                 @endauth
 
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-left -->
 
-                    <div class="header-right">
-                        <a href="{{route("login.index")}}">Login & Register</a>
-                    </div>
+                    @guest
+                        <div class="header-right">
+                            <a href="{{ route('login.index') }}">Login & Register</a>
+                        </div>
+                    @endguest
+
+                    
+                    @auth
+                        <form class="header-right" action="{{route("logout")}}" method="post">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-light navigation--button"
+                                href="">Logout</button>
+                        </form>
+                    @endauth
+
                 </div><!-- End .container -->
             </div><!-- End .header-bottom -->
             </header><!-- End .header -->

@@ -21,27 +21,7 @@
 
 
 							    <div class="tab-pane fade" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
-							    	<form action="{{route("login.store")}}" method="POST">
-                        <x-error></x-error>
-                        @csrf
-							    		<div class="form-group">
-							    			<label for="singin-email-2"> Email *</label>
-							    			<input type="text" class="form-control" name="email" required>
-							    		</div><!-- End .form-group -->
-
-							    		<div class="form-group">
-							    			<label for="singin-password-2">Password *</label>
-							    			<input type="password" class="form-control"  name="password" required>
-							    		</div><!-- End .form-group -->
-
-							    		<div class="form-footer">
-							    			<button type="submit" class="btn btn-outline-primary-2">
-			                					<span>LOG IN</span>
-			            						<i class="icon-long-arrow-right"></i>
-			                				</button>
-
-                            </div><!-- End .form-footer -->
-                          </form>
+										<livewire:auth.login>
                           {{-- التسجيل ب جوجل او الفيس --}}
 							    	{{-- <div class="form-choice">
 								    	<p class="text-center">or sign in with</p>
@@ -75,45 +55,7 @@
 
 
 							    <div class="tab-pane fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
-							    	<form action="#" method="POST">
-                        <x-error></x-error>
-                        @csrf
-							    		<div class="form-group">
-							    			<label for="register-email-2">Email *</label>
-							    			<input type="email" class="form-control"  name="email" required>
-							    		</div><!-- End .form-group -->
-
-							    		<div class="form-group">
-							    			<label for="register-email-2">Phone *</label>
-							    			<input type="email" class="form-control"  name="phone" required>
-							    		</div><!-- End .form-group -->
-
-							    		<div class="form-group">
-							    			<label for="register-email-2">Address *</label>
-							    			<input type="email" class="form-control"  name="address" required>
-							    		</div><!-- End .form-group -->
-
-							    		<div class="form-group">
-							    			<label for="register-email-2">Password *</label>
-							    			<input type="email" class="form-control"  name="password" required>
-							    		</div><!-- End .form-group -->
-
-							    		<div class="form-group">
-							    			<label for="register-password-2">Password *</label>
-							    			<input type="password" class="form-control" name="password_confirmation" required>
-							    		</div><!-- End .form-group -->
-
-							    		<div class="form-footer">
-							    			<button type="submit" class="btn btn-outline-primary-2">
-			                					<span>SIGN UP</span>
-			            						<i class="icon-long-arrow-right"></i>
-			                				</button>
-
-			                				<div class="custom-control custom-checkbox">
-
-											</div><!-- End .custom-checkbox -->
-							    		</div><!-- End .form-footer -->
-							    	</form>
+										<livewire:auth.register>
 {{-- بالفيس اوجوجل --}}
 							    	{{-- <div class="form-choice">
 								    	<p class="text-center">or sign in with</p>

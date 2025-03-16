@@ -10,8 +10,6 @@
   <script src="{{ asset('admin/vendor') }}/simple-datatables/simple-datatables.js"></script>
   <script src="{{ asset('admin/vendor') }}/tinymce/tinymce.min.js"></script>
   <script src="{{ asset('admin/vendor') }}/php-email-form/validate.js"></script>
-  <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-  <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
   @stack('js')
   <!-- Template Main JS File -->

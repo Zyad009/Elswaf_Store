@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section("active-product" , "active")
 @section("admin-content")
 
         <section class="section dashboard">

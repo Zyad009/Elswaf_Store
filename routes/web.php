@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Front\ProfileController;
 use App\Http\Controllers\Front\HomeControler;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\AboutController;
@@ -42,6 +42,7 @@ Route::get('/cart',[CartController::class,"index"])->name("cart");
 Route::get('/checkout',[CheckoutController::class,"index"])->name("checkout");
 Route::get('/single-product',[SingleProductController::class,"index"])->name("singel.product");
 Route::get('/shop',[ShopController::class,"index"])->name("shop");
+Route::get('/profile',[ProfileController::class,"index"]);
 
 Route::prefix("contact")->group(function(){
     Route::controller(ContactController::class)->group(function(){

@@ -14,6 +14,7 @@
                             <th style="width: 10px">ID</th>
                             <th class="text-center">Name</th>
                             <th class="text-center">Belongs To</th>
+                            <th class="text-center">Image</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -30,6 +31,10 @@
                                     @endif
 
                                 </td>
+                                <td class="text-center">
+                                                    <img src="{{ asset($subCategory ->images->first()?->main_image) }}" width="120" height="120"
+                                                        style="aspect-ratio: 1/1; object-fit: cover; border-radius: 50%;" alt="product">
+                                                </td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="{{ route('admin-dashboard.subcategory.edit', $subCategory) }}"

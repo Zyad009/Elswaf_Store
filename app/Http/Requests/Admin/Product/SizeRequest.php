@@ -27,6 +27,7 @@ class SizeRequest extends FormRequest
             'type_size' => 'required|in:letter,number',
             'name' => [
                 'required',
+                'unique:sizes,name',
                 Rule::when($this->type_size === 'number', ['numeric', 'min:1', 'max:100']),
                 Rule::when($this->type_size === 'letter', ['string', 'regex:/^[A-Za-z]+$/']),
             ],

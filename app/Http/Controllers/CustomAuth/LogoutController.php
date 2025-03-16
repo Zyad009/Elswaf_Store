@@ -8,9 +8,10 @@ use Illuminate\Http\Request;
 class LogoutController extends Controller
 {
 
-    public function logout()
+    public function out()
     {
-        auth()->logout();
+        auth()->guard("admin")->logout();
+        auth()->guard("web")->logout();
         return redirect()->route('home');
     }
 }

@@ -4,49 +4,15 @@ namespace App\Http\Controllers\Admin\Traits;
 
 use App\Models\Image;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Livewire\WithFileUploads;
 
 
 trait UploadImage
 {
 
-  // public function saveImagesProduct($categoryId, $productId, $nameProduct, $mainImage, $images)
-  // {
-  //   //=== Create Folder Name ===//
-  //   $folderName = Str::slug($nameProduct) . "_" . Str::uuid();
-  //   $category = Category::find($categoryId);
-
-  //   //=== Create Stroge Path ===//
-  //   $startPath = [];
-  //   while ($category) {
-  //     array_unshift($startPath, $category->name);
-  //     $category = Category::find($category->parent_id);
-  //   }
-  //   $path = implode('/', $startPath) . "/$folderName";
-
-  //   //=== Save Main Image ===//
-  //   $mainImage->store("public/admin/products/$path");
-  //   $mainImageName = $mainImage->getClientOriginalName();
-
-  //   //=== Save Images ===//
-  //   $nameOfImages = [];
-  //   foreach ($images as $image) {
-  //     $nameOfImages[] = $image->getClientOriginalName();
-  //     $image->store("public/admin/products/$path");
-  //   }
-  //   //===Save Images In DB===//
-
-  //   Image::create([
-  //     "folder" => $folderName,
-  //     "main_image" => $mainImageName,
-  //     "images" =>  json_encode($nameOfImages),
-  //     "product_id" => $productId,
-  //   ]);
-  // }
-
-  ////////////////////////////////////////////
-  ////////////////////////////////////////////
-  private function buildStoragePath($entityName, $folderName, int $categoryId = null)
+  private function buildStoragePath($entityName, $folderName,  $categoryId = null)
   {
 
     $basePath = "public/admin/$entityName/";
@@ -64,8 +30,10 @@ trait UploadImage
 
   private function saveMainImage($mainImage, $path)
   {
+
     $imageName = time() . '_' . Str::random(10) . '.' . $mainImage->getClientOriginalExtension();
     $mainImage->storeAs($path, $imageName);
+    
     return "$path/$imageName";
   }
 
@@ -86,8 +54,9 @@ trait UploadImage
     }
     $nameOfImages = [];
     foreach ($images as $image) {
-      $nameOfImages[] = "$path/" . $image;
-      $image->storeAs($path);
+      $ttt = "$path/" . $image;
+      $nameOfImages[] = $ttt;
+      $image->store($path);
     }
     return $nameOfImages;
   }
@@ -99,20 +68,20 @@ trait UploadImage
     $mainImage,
     $hoverImage = null,
     array $images = null,
-    int $categoryId = null
+     $categoryId = null
   ) {
     //=== Validate Main Image ===//
 
     // === Create Folder Name === //
     $folderName = Str::slug($requestName) . "_" . Str::uuid();
-
     // === Build Storage Path === //
     $path = $this->buildStoragePath($entityName, $folderName, $categoryId);
-
+    $path  = str_replace(" ", "-", $path);
     // === Save Main Image === //
     $mainImageName = $this->saveMainImage($mainImage, $path);
-
+    
     // === Save Main Image === //
+    // dd($mainImageName);
     $hoverImageName = $this->saveHoverImage($hoverImage, $path);
 
 

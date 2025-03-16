@@ -26,14 +26,11 @@
   <link href="{{asset('admin/vendor')}}/remixicon/remixicon.css" rel="stylesheet">
   <link href="{{asset('admin/vendor')}}/simple-datatables/style.css" rel="stylesheet">
 </style>
-
-  <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
-<link
-    href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-    rel="stylesheet"
-/>
+  
   <!-- Template Main CSS File -->
   <link href="{{asset('admin/css')}}/style.css" rel="stylesheet">
+
+  @stack("cdn")
 
   <!-- =======================================================
   * Template Name: NiceAdmin

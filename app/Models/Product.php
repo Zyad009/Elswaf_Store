@@ -52,8 +52,13 @@ class Product extends Model
         return $this->hasOne(Offer::class);
     }
 
-    public function productAndColors(){
-        return $this->belongsToMany(Color::class , "product_size_color")->withPivot('size_id' , "QTY");
+    // public function productAndColors(){
+    //     return $this->belongsToMany(Color::class , "product_color_sizes")->withPivot('size_id' , "QTY");
+    // }
+
+    public function productColorsSizes()
+    {
+        return $this->hasMany(ProductColorSize::class, 'product_id');
     }
 
     public function images() : MorphMany

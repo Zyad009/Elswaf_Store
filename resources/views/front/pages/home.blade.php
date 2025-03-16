@@ -1,5 +1,8 @@
 @extends('front.layouts.app')
 @section('content.front')
+{{-- @dd(auth()->guard('web')->check())
+
+@dd(auth()->guard("admin")->check()) --}}
     <main class="main">
         <div class="intro-slider-container">
             <div class="intro-slider owl-carousel owl-theme owl-nav-inside owl-light" data-toggle="owl"

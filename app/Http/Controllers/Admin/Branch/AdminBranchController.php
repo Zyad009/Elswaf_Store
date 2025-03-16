@@ -50,7 +50,6 @@ class AdminBranchController extends Controller
         $branches = Branch::with("admin")
         ->orderBy("id", "desc")
         ->paginate(config("pagination.count"));
-
         $title = 'Delete Branch!';
         $text = "Are you sure you want to delete?";
         confirmDelete($title, $text);

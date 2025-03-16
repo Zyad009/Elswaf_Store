@@ -6,7 +6,6 @@ use App\Models\Image;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Admin\Traits\UploadImage;
@@ -67,13 +66,14 @@ class AdminProductController extends Controller
         $nameProduct = $request->name;
 
         $dataProduct = $request->validated();
-        $product = Product::create($dataProduct);
-        $productId = $product->id;
+        $singleProduct = Product::create($dataProduct);
+        $productId = $singleProduct->id;
+
 
         $this->saveImages("Product", $productId, $nameProduct, $mainImage, $hoverImage , $images, $categoryId);
         alert()->success("Success!", "Created has been successfully");
 
-        return view("admin.pages.products.single-product.add", compact("dataProduct"));
+        return to_route("admin-dashboard.single-product.add" , $singleProduct);
     }
 
     /**
@@ -81,15 +81,12 @@ class AdminProductController extends Controller
      */
     public function show()
     {
-        $products = Product::with("category", "images")
-            ->orderBy("id", "desc")
-            ->paginate(config("pagination.count"));
 
         $title = 'Delete This Product!';
         $text = "Are you sure you want to delete?";
         confirmDelete($title, $text);
 
-        return view(SELF::DIR_VIEW . ".all", compact("products"));
+        return view(SELF::DIR_VIEW . ".all");
     }
 
     /**
@@ -97,9 +94,19 @@ class AdminProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $product->load("category");
+        $nameCategory = $product->category->name;
+        unset($product->category);
+
+        if($product->type_size == "number"){
+            $nameSize = "Numeric";
+        }else{
+            $nameSize = "Alphabetic";
+        }
+
         $categories = Category::select("id", "name")
             ->get();
-        return view(SELF::DIR_VIEW . '.edit', compact('product', 'categories'));
+        return view(SELF::DIR_VIEW . '.edit', compact('product', 'categories' , 'nameCategory' , 'nameSize'));
     }
 
     /**
