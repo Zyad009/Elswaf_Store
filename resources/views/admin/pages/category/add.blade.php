@@ -1,47 +1,38 @@
 @extends('admin.layouts.app')
+@section("admin-title" , "Create Category")
 @push("cdn")
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 @endpush
 @section('admin-content')
-        <div class="container">
-            <div class="row">
-                <div class="col-6 mx-auto">
 
-            <div class="mb-3">
-                <h1 class="text-center my-2 p-3">Add New Category</h1>
-            </div>
+<x-form.create title="Add New Category">
+    <form method="post" action="{{route("admin-dashboard.category.store")}}" class="" enctype="multipart/form-data">
+        <x-error></x-error>
 
-                    <form method="post" action="{{route("admin-dashboard.category.store")}}" class="my-5 border p-3" enctype="multipart/form-data">
-                        <x-error></x-error>
+        @csrf
 
-                        @csrf
+        <div class="mb-3">
+            <label for="">Name</label>
+            <input type="text" name="name" id="" class="form-control">
+        </div>
 
-                        <div class="mb-3">
-                            <label for="">Name</label>
-                            <input type="text" name="name" id="" class="form-control">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="">Main Image</label>
-                            <input type="file" name="main_image" id="main_image" class="form-control">
-                        </div>
-
-                        <div class="mb-3">
-                            <input type="submit" value="Save" class="form-control btn btn-primary">
-                        </div>
+        <div class="mb-3">
+            <label for="">Main Image</label>
+            <input type="file" name="main_image" id="main_image" class="form-control">
+        </div>
+<x-button.submit.create></x-button.submit.create>
 
 
-                        @if(session('parentCategory'))
-                        @php
-                            $parentCategory = session('parentCategory');
-                        @endphp
-                            <a class="btn btn-link" href="{{route("admin-dashboard.subcategory.new" , $parentCategory)}}">Do You Want Add Sub-Category For "{{$parentCategory["name"]}}" </a>
-                       @endif
-                    </form>
-                </div>
-            </div>
-    </div>
+        @if(session('parentCategory'))
+        @php
+            $parentCategory = session('parentCategory');
+        @endphp
+            <a class="btn btn-link" href="{{route("admin-dashboard.subcategory.new" , $parentCategory)}}">Do You Want Add Sub-Category For "{{$parentCategory["name"]}}" </a>
+       @endif
+    </form>
+</x-form.create>
+
 
     
 @endsection

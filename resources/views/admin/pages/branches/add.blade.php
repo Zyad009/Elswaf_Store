@@ -1,38 +1,34 @@
 @extends('admin.layouts.app')
+@section("title" , "Create Branch")
 @section('admin-content')
-        <div class="container">
-            <div class="row">
-                <div class="col-6 mx-auto">
 
-                        <div class="mb-3">
-                          <h1 class="text-center my-2 p-3">Add New Branch</h1>
-                        </div>
 
-                    <form method="post" action="{{route("admin-dashboard.branches.store")}}" novalidate class="my-5 border p-3" enctype="multipart/form-data">
-                        <x-error></x-error>
-                        @csrf
+<x-form.create title="Add New Branch">
+    <form method="post" action="{{ route('admin-dashboard.branches.store') }}" novalidate>
+        <x-error></x-error>
+        @csrf
 
-                        <div class="mb-3">
-                            <label for="">Name</label>
-                            <input type="text" name="name" id="" class="form-control">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="">Phone</label>
-                            <input type="text" name="phone" id="" class="form-control">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="">Address</label>
-                            <input type="text" name="address" id="" class="form-control">
-                        </div>
-
-                        <div class="mb-3">
-                            <input type="submit" value="Create" class="form-control btn btn-primary">
-                        </div>
-                    </form>
-                </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Name</label>
+                <input type="text" name="name" class="form-control">
             </div>
-    </div>
+            <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <input type="text" name="phone" class="form-control">
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Address</label>
+            <textarea type="text" name="address" class="form-control"></textarea> 
+        </div>
+
+        <div class="mb-3 text-center">
+            <input type="submit" value="Create" class="btn btn-primary w-50 text-white">
+        </div>
+
+    </form>
+</x-form.create>
 
 @endsection

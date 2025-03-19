@@ -1,45 +1,35 @@
 @extends('admin.layouts.app')
+@section("admin-title" , "Edit Category")
 @push("cdn")
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 @endpush
 @section('admin-content')
-<div class="container">
-    <div class="row">
-        <div class="col-6 mx-auto">
+<x-form.edit title="Edit category" :name="$category->name">
+    <form method="post" action="{{route("admin-dashboard.category.update" , $category)}}"
+        class="">
+        <x-error></x-error>
+        @csrf
+        @method('PUT')
 
-            <div class="mb-3">
-                <h1 class="text-center my-2 p-3">Edit Category</h1>
-            </div>
-
-            <form method="post" action="{{route("admin-dashboard.category.update" , $category)}}"
-                class="my-5 border p-3">
-                <x-error></x-error>
-                @csrf
-                @method('PUT')
-
-                <div class="mb-3">
-                    <label for="">Name</label>
-                    <input type="text" name="name_en" id="" value="{{ $category->name }}" class="form-control">
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Main Image</label>
-
-                    <input type="file" name="main_image" id="main_image" class="form-control">
-
-                    <input style="display: none" type="image" src="{{ asset($category->images->first()?->hover_image) }}"
-                        name="imagePreviewMainImage" id="imagePreviewMainImage" class="form-control">
-                </div>
-
-                <div class="mb-3">
-                    <input type="submit" value="Save" class="form-control btn btn-primary">
-                </div>
-
-            </form>
+        <div class="mb-3">
+            <label for="">Name</label>
+            <input type="text" name="name_en" id="" value="{{ $category->name }}" class="form-control">
         </div>
-    </div>
-</div>
+
+        <div class="col-md-12">
+            <label class="form-label">Main Image</label>
+
+            <input type="file" name="main_image" id="main_image" class="form-control">
+
+            <input style="display: none" type="image" src="{{ asset($category->images->first()?->hover_image) }}"
+                name="imagePreviewMainImage" id="imagePreviewMainImage" class="form-control">
+        </div>
+
+        <x-button.submit.edit></x-button.submit.edit>
+
+    </form>
+</x-form.edit>
 
 @push('js')
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>

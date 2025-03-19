@@ -17,7 +17,7 @@ class ShowProduct extends Component
             ->where("id", $id)
             ->first();
         $this->title = $this->data->name;
-        $this->dispatch("detailsProduct");
+        $this->dispatch("showModelToggle");
     }
     public function render()
     {

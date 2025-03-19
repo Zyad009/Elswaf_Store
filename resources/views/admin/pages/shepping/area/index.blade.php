@@ -1,35 +1,29 @@
-   @extends('admin.layouts.app')
-@section('admin-title', 'All Areas')
-@section('admin-title', 'All Areas')
-@section("areas-active", "active")
-   @section('admin-content')
-    <section class="section dashboard">
-        <div class="row">
-          @forelse ( $cities as $city )
-  
-              <div class="col-xxl-4 col-md-6">
-                <div class="card info-card sales-card">
-                  <div class="card-body">
-                    <h5 class="card-title">Areas for {{$city->name}}</h5>
-                      <div class="inner">
-                          <h4>All Areas In {{$city->name}} </h4>
-                          <p>|edit & delete & all</p>
-                      </div>
-                    <div class="d-flex align-items-center">
-                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <a href="{{route("admin-dashboard.area.all" , $city)}}">
-                          <i class="bi bi-text-left"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            @empty
-            <div class="col-12">
-              <div class="alert alert-danger text-center" role="alert">
-                No City Found
-                @endforelse
-          </div>
-    </section>
-        @endsection
+@extends('admin.layouts.app')
+@section('admin-title', 'All Areas For Cities')
+
+@section('admin-content')
+<section class="section dashboard">
+  <div class="row g-4">
+    @forelse ($cities as $city)
+    <div class="col-lg-4 col-md-6 col-12">
+      <div class="card info-card sales-card shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Areas for {{ $city->name }}</h5>
+          <h4 class="fw-bold">All Areas In {{ $city->name }}</h4>
+          <p class="text-muted small">Edit & Delete & View All</p>
+          <a href="{{ route('admin-dashboard.area.all', $city) }}" class="btn btn-primary ">
+            <i class="bx bx-list-ul fs-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    @empty
+    <div class="col-12">
+      <div class="alert alert-danger text-center" role="alert">
+        No City Found
+      </div>
+    </div>
+    @endforelse
+  </div>
+</section>
+@endsection

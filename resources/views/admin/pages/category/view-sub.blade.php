@@ -1,49 +1,65 @@
 @extends('admin.layouts.app')
-@section('admin-content')
 
+@section('admin-title', 'View Sub For Master')
+
+@section('admin-content')
 <div class="card-body">
   <div class="row">
     <div class="col-12">
-    <h1 class="text-center">All Sub Categories For ({{$category->name}})</h1>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold mb-0">All Sub Categories For ({{$category->name}})</h2>
+      </div>
+
     <x-success></x-success>
     <x-error></x-error>
-                <table class="table table-bordered">
-                  <thead>                  
-                    <tr>
-                      <th style="width: 10px">Code</th>
-                      <th class="text-center">Name</th>
-                      <th class="text-center">Edit</th>
-                      <th class="text-center">Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @forelse ($categories as $subCategory )
-                    <tr>
-                      <td>{{$subCategory->id}}</td>
-                      <td class="text-center">{{$subCategory->name}}</td>
-                      <td class="text-center">
-                        <a href="{{route("admin-dashboard.subcategory.edit", $subCategory)}}" class="btn btn-info">Edit</a>
-                      </td>
 
-                      <td>
-                          <form class="text-center" action="{{route("admin-dashboard.subcategory.delete", $subCategory)}}" method="post">
-                           @csrf
-                           @method('DELETE')
-                            <button type="submit" class="btn btn-danger" href="">delete</button>
-                           </form>
-                     </td>
-                    </tr>
-                    @empty
-                    <tr>
-                      <td colspan="5" class="text-center">No categories found</td>
-                    </tr>
-                    @endforelse
-                  </tbody>
-                    <h5 class="text-center">Total: {{ $categories->total() }}</h5> 
-                </table>
+    <x-table.index :items="$categories">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 10px">ID</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Image</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          @foreach ($categories as $subCategory)
+          <tr>
+            <td class="text-center">{{ $subCategory->id }}</td>
+            <td class="text-center">
+              <i class="fab fa-angular fa-lg text-danger me-3"></i>
+              <strong>{{$subCategory->name}}</strong>
+            </td>
+            <td class="text-center">
+              <img src="{{ asset($subCategory->images->first()?->main_image) }}" class="product-image" alt="product">
+            </td>
+            <td class="text-center">
+              <div class="d-flex justify-content-center gap-2 align-items-center">
+                <a href="{{ route('admin-dashboard.subcategory.edit', $subCategory) }}" class="btn btn-outline-warning">
+                  <i class="bx bx-pencil"></i>
+                </a>
+                <form action="{{ route('admin-dashboard.subcategory.delete', $subCategory) }}" method="post"
+                  data-confirm-delete="true">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-outline-danger confirm-delete">
+                    <i class="bx bx-trash"></i>
+                  </button>
+                </form>
               </div>
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+        <h5 class="text-center mt-3">Total: {{ $categories->total() }}</h5>
+      </table>
+    </x-table.index>
 
-        <div class="text-center p-3">
-            {{$categories->links()}}
-        </div>  
-            @endsection
+    <div class="text-center p-3">
+      {{ $categories->links() }}
+    </div>
+  </div>
+</div>
+</div>
+@endsection

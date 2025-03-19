@@ -83,7 +83,9 @@ class AdminEditorController extends Controller
     //========= view ======== //
     public function archiveEditor()
     {
-        $editors = Admin::onlyTrashed()->paginate(config("pagination.count"));
+        $editors = Admin::onlyTrashed()
+        ->with("branch")
+        ->paginate(config("pagination.count"));
 
         $title = 'Delete This Admin!';
         $text = "Are you sure you want to delete?";

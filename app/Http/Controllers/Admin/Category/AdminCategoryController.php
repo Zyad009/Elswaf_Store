@@ -39,8 +39,8 @@ class AdminCategoryController extends Controller
         $data = $request->validated();
         $parentCategory = Category::create($data);
         $parentCategoryId = $parentCategory->id;
-        $this->saveImages("Category" ,$parentCategoryId ,$nameCategory, $mainImage);
-        
+        $this->saveImages("Category", $parentCategoryId, $nameCategory, $mainImage);
+
         alert()->success("Success!", "Created has been successfully");
 
         return back()->with(["parentCategory" => $parentCategory]);
@@ -55,6 +55,7 @@ class AdminCategoryController extends Controller
         $categories = Category::select($selected)
             ->withCount("children")
             ->whereNull("parent_id")
+            ->with("images")
             ->orderBy("children_count", "desc")
             ->paginate(config("pagination.count"));
 
@@ -69,6 +70,7 @@ class AdminCategoryController extends Controller
     public function view(Category $category)
     {
         $categories = Category::where("parent_id", $category->id)
+            ->with("images")
             ->paginate(config("pagination.count"));
         return view(SELF::DIR_VIEW . ".view-sub", compact("categories", "category"));
     }
@@ -108,7 +110,9 @@ class AdminCategoryController extends Controller
     public function archiveCategory()
     {
         $categories = Category::onlyTrashed()
-        ->paginate(config("pagination.count"));
+            ->with("images")
+            ->whereNull("parent_id")
+            ->paginate(config("pagination.count"));
 
         $title = 'Delete Category!';
         $text = "Are you sure you want to delete?";
@@ -121,7 +125,7 @@ class AdminCategoryController extends Controller
     public function archiveRestore($id)
     {
         $category = Category::withTrashed()
-        ->findOrFail($id);
+            ->findOrFail($id);
         $category->restore();
 
         alert()->success("Success!", "restored has been successfully");
@@ -132,7 +136,7 @@ class AdminCategoryController extends Controller
     public function archiveRemove($id)
     {
         $category = Category::withTrashed()
-        ->findOrFail($id);
+            ->findOrFail($id);
         $category->forceDelete();
 
         alert()->success("Success!", "removed has been successfully");

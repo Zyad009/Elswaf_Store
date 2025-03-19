@@ -1,4 +1,94 @@
 @extends('admin.layouts.app')
+@section('admin-title', 'All Sizes')
+@section('admin-content')
+
+<div class="card-body">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="fw-bold mb-0">All sizes</h2>
+                <a href="{{ route("admin-dashboard.size.new") }}" class="btn btn-primary">
+                    <i class='bx bx-plus bx-tada'></i> Create
+                </a>
+            </div>
+            <x-error></x-error>
+
+            <x-table.index :items="$sizes">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">ID</th>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Edit</th>
+                            <th class="text-center">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        @foreach ($sizes as $size)
+                        <tr>
+                            <td>{{ $size->id }} || </td>
+                            <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3 text-center"></i>
+                                <strong>{{
+                                    $size->name
+                                    }}</strong>
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ route('admin-dashboard.size.edit', $size) }}"
+                                    class="btn btn-icon btn-outline-warning">
+                                    <i class="bx bx-pencil"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <form action="{{ route('admin-dashboard.size.delete', $size) }}" method="post"
+                                    data-confirm-delete="true">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-icon btn-outline-danger confirm-delete">
+                                        <i class="bx bx-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+        </div>
+        </td>
+        </tr>
+        @endforeach
+        </tbody>
+        <h5 class="text-center">Total: {{ $sizes->total() }}</h5>
+        </table>
+
+        </x-table.index>
+
+        <div class="text-center p-3">
+            {{ $sizes->links() }}
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+@endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{-- @extends('admin.layouts.app')
 @section('admin-content')
     <div class="card-body">
         <div class="row">
@@ -48,4 +138,4 @@
                     <h5 class="text-center">Total: {{ $sizes->total() }}</h5>
                 </table>
             </div>
-        @endsection
+        @endsection --}}

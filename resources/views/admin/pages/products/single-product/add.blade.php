@@ -1,25 +1,15 @@
 @extends('admin.layouts.app')
+@section("admin-title" , "Add Details For Product")
 @section('admin-content')
 
 @push("cdn")
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow-lg border-0 mt-4">
-                <div class="card-header bg-primary text-white text-center">
-                    <h2 class="mb-0">QTY For Product</h2>
-                </div>
-                <div class="card-body p-4">
-                    <livewire:admin.product.create-single-product :singleProduct="$singleProduct" :colors="$colors"
-                        :sizes="$sizes" />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<x-form.create title="Rest Of The Details">
+    <livewire:admin.product.create-single-product :singleProduct="$singleProduct" :colors="$colors"
+        :sizes="$sizes" />
+</x-form.create>
 
 <script>
     window.addEventListener("success", () => {

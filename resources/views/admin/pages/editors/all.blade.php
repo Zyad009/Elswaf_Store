@@ -1,16 +1,21 @@
 @extends('admin.layouts.app')
-@section('admin-title', 'All Admins')
-@section("admin-active", "active")
+@section('admin-title', 'All Editors')
 @section('admin-content')
-    <div class="card-body">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="text-center">All Admins</h1>
-                <a href="{{ route('admin-dashboard.editors.new') }}" class="btn btn-success">
-                    <i class="bi bi-plus-circle"></i> Create
+
+
+<div class="card-body">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="fw-bold mb-0">All Branches</h2>
+                <a href="{{ route('admin-dashboard.editors.new') }}" class="btn btn-primary">
+                    <i class='bx bx-plus bx-tada'></i> Create
                 </a>
-                <x-error></x-error>
-                <table class="table table-bordered">
+            </div>
+            <x-error></x-error>
+
+            <x-table.index :items="$editors">
+                <table class="table">
                     <thead>
                         <tr>
                             <th style="width: 10px">ID</th>
@@ -21,47 +26,56 @@
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @forelse ($editors as $editor)
-                            <tr>
-                                <td>{{ $editor->id }}</td>
-                                <td class="text-center">{{ $editor->name }}</td>
-                                <td class="text-center">{{ $editor->email }}</td>
-                                <td class="text-center">{{ $editor->role }}</td>
-                                <td class="text-center">
-                                    @if ($editor->branch)
-                                        {{ $editor->branch->name }}
-                                    @else
-                                        <h5 class="text-danger">No Branch</h5>
-                                    @endif
-                                </td>
-                                <td class="text-center">
-                                    <div class="d-flex gap-2 justify-content-center">
-                                        <a href="{{ route('admin-dashboard.editors.edit', $editor) }}"
-                                            class="btn btn-warning">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                        <form action="{{ route('admin-dashboard.editors.delete', $editor) }}" method="post"
-                                            data-confirm-delete="true">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center">No admins found</td>
-                            </tr>
-                        @endforelse
+                    <tbody class="table-border-bottom-0">
+                        @foreach ($editors as $editor)
+                        <tr>
+                            <td>{{ $editor->id }} || </td>
+                            <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3 text-center"></i>
+                                <strong>{{
+                                    $editor->name
+                                    }}</strong>
+                            </td>
+
+                            <td class="text-center">{{ $editor->email }}</td>
+                            <td class="text-center">{{ $editor->role }}</td>
+                            <td class="text-center">
+                                @if ($editor->branch)
+                                {{ $editor->branch->name }}
+                                @else
+                                <b class="badge bg-label-danger me-1">No Branch</b>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center align-items-center gap-2">
+                                    <a href="{{ route('admin-dashboard.editors.edit', $editor) }}"
+                                        class="btn btn-icon btn-outline-warning">
+                                        <i class="bx bx-pencil"></i>
+                                    </a>
+                                    <form action="{{ route('admin-dashboard.editors.delete', $editor) }}" method="post"
+                                        data-confirm-delete="true">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-icon btn-outline-danger confirm-delete">
+                                            <i class="bx bx-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
                     </tbody>
                     <h5 class="text-center">Total: {{ $editors->total() }}</h5>
                 </table>
-                <div class="text-center p-3">
-                    {{ $editors->links() }}
-                </div>
+
+            </x-table.index>
+
+            <div class="text-center p-3">
+                {{ $editors->links() }}
             </div>
+        </div>
+    </div>
+</div>
+
+
+
         @endsection

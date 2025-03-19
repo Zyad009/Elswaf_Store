@@ -1,36 +1,63 @@
 @extends("admin.layouts.app")
-
+@section("title", "Archived Records")
 @section("admin-content")
+
+<h2 class="mb-4 text-center">Archived Records</h2>
 <div class="container mt-4">
-    <h2 class="mb-4 text-center">Archived Records</h2>
-    <div class="list-group">
-        <a href="{{ route('admin-dashboard.category.archive') }}" class="list-group-item list-group-item-action">
-            <i class="bi bi-grid"></i> Categories
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="list-group">
+        <!-- Categories -->
+        <a href="{{ route('admin-dashboard.category.archive') }}"
+          class="list-group-item list-group-item-action d-flex align-items-center">
+          <i class="bx bx-grid-alt me-2"></i> Categories
         </a>
-        <a href="{{ route('admin-dashboard.subcategory.archive') }}" class="list-group-item list-group-item-action">
-            <i class="bi bi-grid"></i> Sub-Categories
+
+        <!-- Sub-Categories -->
+        <a href="{{ route('admin-dashboard.subcategory.archive') }}"
+          class="list-group-item list-group-item-action d-flex align-items-center">
+          <i class="bx bx-grid me-2"></i> Sub-Categories
         </a>
-        <br>
-        <a href="{{ route('admin-dashboard.product.archive') }}" class="list-group-item list-group-item-action">
-          <i class="bi bi-box"></i> Products
-        </a>
-        <br>
-        <a href="{{ route('admin-dashboard.editors.archive') }}" class="list-group-item list-group-item-action">
-          <i class="bi bi-person"></i> Admins
-        </a>
-        <a href="{{ route('admin-dashboard.branches.archive') }}" class="list-group-item list-group-item-action">
-          <i class="bi bi-building"></i> Branches
-        </a>
-        <a href="{{ route('admin-dashboard.customer_s.archive') }}" class="list-group-item list-group-item-action">
-          <i class="bi bi-headset"></i> Customer Service
+
+        <!-- Products -->
+        <a href="{{ route('admin-dashboard.product.archive') }}"
+          class="list-group-item list-group-item-action d-flex align-items-center">
+          <i class="bx bx-box me-2"></i> Products
         </a>
         <br>
-        <a href="{{ route('admin-dashboard.city.archive') }}" class="list-group-item list-group-item-action">
-          <i class="bi bi-map-fill"></i> City
+        <!-- Admins -->
+        <a href="{{ route('admin-dashboard.editors.archive') }}"
+          class="list-group-item list-group-item-action d-flex align-items-center">
+          <i class="bx bx-user me-2"></i> Admins
         </a>
-        <a href="{{ route('admin-dashboard.area.index') }}" class="list-group-item list-group-item-action">
-          <i class="bi bi-geo-alt"></i> Area
+
+        <!-- Branches -->
+        <a href="{{ route('admin-dashboard.branches.archive') }}"
+          class="list-group-item list-group-item-action d-flex align-items-center">
+          <i class="bx bx-building me-2"></i> Branches
         </a>
+
+        <!-- Customer Service -->
+        <a href="{{ route('admin-dashboard.customer_s.archive') }}"
+          class="list-group-item list-group-item-action d-flex align-items-center">
+          <i class="bx bx-headphone me-2"></i> Customer Service
+        </a>
+
+        <br>
+        <!-- City -->
+        <a href="{{ route('admin-dashboard.city.archive') }}"
+          class="list-group-item list-group-item-action d-flex align-items-center">
+          <i class="bx bx-map me-2"></i> City
+        </a>
+
+        <!-- Area -->
+        <a href="{{ route('admin-dashboard.area.index') }}"
+          class="list-group-item list-group-item-action d-flex align-items-center">
+          <i class="bx bx-map-pin me-2"></i> Area
+        </a>
+      </div>
     </div>
+  </div>
 </div>
+
 @endsection

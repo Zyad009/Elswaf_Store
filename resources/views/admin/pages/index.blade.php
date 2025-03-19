@@ -1,4 +1,6 @@
 @extends('admin.layouts.app')
+@section('admin-title', 'Home')
+@section("dashboard-active", "active")
 @section('admin-content')
         <section class="section dashboard">
             <div class="row">

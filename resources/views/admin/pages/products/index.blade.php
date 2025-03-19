@@ -1,12 +1,12 @@
-@extends('admin.layouts.app')
+{{-- @extends('admin.layouts.app')
 @section("active-product" , "active")
 @section("admin-content")
 
         <section class="section dashboard">
       <div class="row">
         <!-- Left side columns -->
-        {{-- <div cs="col-lg-8">
-          <div class="row">las --}}
+         <div cs="col-lg-8">
+          <div class="row">las 
             <!-- Sales Card -->
             
             <div class="col-xxl-4 col-md-6">
@@ -102,4 +102,4 @@
     
 
 
-@endsection
+@endsection --}}

@@ -14,6 +14,7 @@
         <!-- Navbar -->
 
 @include("admin.layouts.nav")
+@include('sweetalert::alert')
 
         <!-- / Navbar -->
 

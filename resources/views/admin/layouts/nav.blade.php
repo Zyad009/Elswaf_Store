@@ -10,26 +10,24 @@
         <!-- Search -->
         <div class="navbar-nav-right d-flex align-items-center">
             <div class="nav-item d-flex align-items-center">
-                <i class="bx bx-search fs-4 lh-0"></i>
-                <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
-                    aria-label="Search..." />
+                <!-- يمكنك إضافة حقل البحث هنا إذا كان مطلوبًا -->
             </div>
         </div>
         <!-- /Search -->
 
         <ul class="navbar-nav flex-row align-items-center mr-auto">
-            <!-- Place this tag where you want the button to render. -->
-            <li class="nav-item lh-1 me-3">
-                <a class="github-button" href="https://github.com/themeselection/sneat-html-admin-template-free"
-                    data-icon="octicon-star" data-size="large" data-show-count="true"
-                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
+            <li class="nav-item ms-3">
+<a href="{{ route('admin-dashboard.archives') }}" class="btn btn-dark d-flex align-items-center">
+    <i class="bx bx-archive fs-4 me-2"></i> Archives
+</a>
             </li>
 
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="{{asset("admin/assets/img")}}/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                        <img src="{{ asset('admin/assets/img/avatars/1.png') }}" alt
+                            class="w-px-40 h-auto rounded-circle" />
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -38,7 +36,7 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img src="{{asset("admin/assets/img")}}/avatars/1.png" alt
+                                        <img src="{{ asset('admin/assets/img/avatars/1.png') }}" alt
                                             class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </div>
@@ -56,22 +54,6 @@
                         <a class="dropdown-item" href="#">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">My Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="bx bx-cog me-2"></i>
-                            <span class="align-middle">Settings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <span class="d-flex align-items-center align-middle">
-                                <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                                <span class="flex-grow-1 align-middle">Billing</span>
-                                <span
-                                    class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                            </span>
                         </a>
                     </li>
                     <li>

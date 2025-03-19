@@ -36,7 +36,7 @@ class AdminProductSizeController extends Controller
      */
     public function show()
     {
-        $sizes = Size::orderBy("id", "desc")
+        $sizes = Size::orderBy("type_size", "desc")
         ->paginate(config("pagination.count"));
         return view(SELF::DIR_VIEW . '.all', compact('sizes'));
     }

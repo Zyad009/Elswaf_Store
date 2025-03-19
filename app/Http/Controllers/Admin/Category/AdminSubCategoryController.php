@@ -67,6 +67,7 @@ class AdminSubCategoryController extends Controller
         $subCategories = Category::select($selected)
             ->whereNotNull("parent_id")
             ->with("parent")
+            ->with("images")
             ->orderBy("id", "desc")
             ->paginate(config("pagination.count"));
 
@@ -82,32 +83,37 @@ class AdminSubCategoryController extends Controller
      */
     public function edit(Category $subCategory)
     {
-        if (!$subCategory->parent == null) {
+        if ($subCategory->parent !== null) {
+
+            $selected = ['id', 'name', 'slug', 'parent_id'];
             
-            $selected = ['id', 'name', "slug", 'parent_id'];
+            // تجنب تحميل العلاقة إذا كانت محملة مسبقًا
+            $subCategory->loadMissing("parent");
             
-            $subCategory = $subCategory->load("parent");
             
+            // تحميل الفئات مع تصفية مباشرة في الاستعلام
             $mainCategories = Category::select($selected)
-            ->whereNull('parent_id')
-            ->get();
-            
+                ->whereNull('parent_id')
+                ->get();
+
             $subCategories = Category::select($selected)
-            ->whereNotNull("parent_id")
-            ->with("parent")
-            ->get();
+                ->whereNotNull('parent_id')
+                ->with("parent") // تحميل العلاقة فقط عند الحاجة
+                ->get();
+
             return view(SELF::DIR_VIEW . ".edit", compact("subCategory", "subCategories", "mainCategories"));
         }
+
         alert()->warning('Warning', 'You Must Be Add This Sub-Category For Any (Main Category / Sub-Category).');
-        return to_route("admin-dashboard.subcategory.new" , $subCategory);
+        return to_route("admin-dashboard.subcategory.new", $subCategory);
     }
+
 
     public function editSub(Category $editCategory)
     {
         $editCategory = $editCategory->load("parent");
-
         $selected = ['id', 'name', "slug", 'parent_id'];
-
+        
         $mainCategories = Category::select($selected)
             ->whereNull('parent_id')
             ->get();
@@ -155,6 +161,8 @@ class AdminSubCategoryController extends Controller
     public function archiveSubCategory()
     {
         $subCategories = Category::onlyTrashed()
+        ->with("images")
+        ->whereNotNull("parent_id")
         ->paginate(config("pagination.count"));
 
         $title = 'Delete This Sub-Category!';

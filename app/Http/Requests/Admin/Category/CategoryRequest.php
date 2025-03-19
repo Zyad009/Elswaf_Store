@@ -22,8 +22,9 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         $imageRule = $this->isMethod("POST") ? "required" : "nullable";
+        $checkName = $this->isMethod("POST") ? "unique:categories,name" : "";
         return [
-            "name" => "required|string|min:3|max:30|unique:categories,name",
+            "name" => "required|string|min:3|max:30|$checkName",
             "main_image" => "$imageRule|image|mimes:png,jpg,jpeg,gif",
         ];
     }

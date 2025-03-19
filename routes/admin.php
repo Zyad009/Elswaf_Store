@@ -189,8 +189,8 @@ Route::name("admin-dashboard.")->middleware('auth')->prefix("admin-dashboard")->
         Route::delete("/delete/{city}", "destroy")->name("delete");
         //soft delete
         Route::get("/archive-c", "archiveCity")->name("archive");
-        Route::post("/{id}/restore", "archiveRestore")->name("restore");
-        Route::delete("/{id}/confirm-delete", "archiveRemove")->name("remove");
+        Route::post("/{id}/restore-city", "archiveRestore")->name("restore");
+        Route::delete("/{id}/confirm-delete-city", "archiveRemove")->name("remove");
       });
     });
 

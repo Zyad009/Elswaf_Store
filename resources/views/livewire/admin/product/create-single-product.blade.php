@@ -40,16 +40,11 @@
 
     {{-- set QTY  --}}
     <div class="mb-4">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="form-label fw-bold">Quantity</label>
             <input type="number" wire:model="QTY" class="form-control" placeholder="Enter quantity" min="1">
             <x-message.error name="quantity" />
         </div>
     </div>
-
-    <div class="text-center">
-        <button type="submit" class="btn btn-success w-50">
-            <i class="bi bi-save"></i> Save Product
-        </button>
-    </div>
+<x-button.submit.create></x-button.submit.create>
 </form>
