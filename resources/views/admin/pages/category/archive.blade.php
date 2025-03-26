@@ -46,7 +46,11 @@
                                     alt="product">
                             </td>
 
-                            <td class="text-center">{{ $category->deleted_at }}</td>
+                            <td class="text-center">
+                                <b class="badge bg-label-danger me-1 fw-bold">
+                                {{ $category->deleted_at }}
+                                </b>
+                            </td>
                             <td class="text-center">
                                 <div class="d-flex gap-2 justify-content-center">
                                     <form action="{{ route('admin-dashboard.category.restore', $category->id) }}"

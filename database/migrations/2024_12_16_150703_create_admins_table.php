@@ -15,9 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string("slug");
+            
             $table->string('email')->unique();
+            $table->enum("gender", ["male", "female"]);
+            $table->text('address');
+            $table->decimal("salary", 10, 2);
+
+
+            $table->string('phone');
+            $table->string('whatsapp')->nullable();
             $table->string('password');
-            $table->string("image")->nullable();
+            // $table->string("image")->nullable();
             $table->foreignId("branch_id")->nullable()->constrained()->onDelete("set null");
             $table->softDeletes();
 

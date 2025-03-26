@@ -39,7 +39,10 @@ class AdminCategoryController extends Controller
         $data = $request->validated();
         $parentCategory = Category::create($data);
         $parentCategoryId = $parentCategory->id;
-        $this->saveImages("Category", $parentCategoryId, $nameCategory, $mainImage);
+
+        if(isset($mainImage)){
+            $this->saveImages("Category", $parentCategoryId, $nameCategory, $mainImage);
+        }
 
         alert()->success("Success!", "Created has been successfully");
 

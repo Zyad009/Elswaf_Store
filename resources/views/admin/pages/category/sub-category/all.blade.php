@@ -42,8 +42,13 @@
 
                             </td>
                             <td class="text-center">
-                                <img src="{{ asset($subCategory ->images->first()?->main_image) }}"
-                                    class="product-image" alt="product">
+
+                                @if (isset($subCategory ->images->first()?->main_image))
+                                <img src="{{ asset($subCategory ->images->first()?->main_image) }}" class="product-image"
+                                    alt="product">
+                                @else
+                                <b class="badge bg-label-danger me-1">No Image</b>
+                                @endif
                             </td>
 
                             <td class="text-center">

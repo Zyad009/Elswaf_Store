@@ -61,7 +61,7 @@
 
     <ul class="menu-inner py-1">
       <!-- Dashboard -->
-      <li class="menu-item {{request()->routeIs(" admin-home") ? "active" : "" }}">
+      <li class="menu-item {{request()->routeIs('admin-home') ? " active" : "" }}">
         <a href="{{ route('admin-home') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-home"></i>
           <div data-i18n="Analytics">Dashboard</div>
@@ -77,7 +77,7 @@
       </li>
 
       <!-- Account -->
-      <li class="menu-item {{request()->routeIs(" admin-dashboard.account") ? "active" : "" }}">
+      <li class="menu-item {{request()->routeIs('admin-dashboard.account') ? " active" : "" }}">
         <a href="{{ route('admin-dashboard.account') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-user"></i>
           <div data-i18n="Analytics">Account</div>
@@ -97,7 +97,7 @@
       </li>
 
       <!-- Main Categories -->
-      <li class="menu-item {{request()->is('admin-dashboard/category/*') ? "active" : "" }}">
+      <li class="menu-item {{request()->is('admin-dashboard/category/*') ? " active" : "" }}">
         <a href="{{ route('admin-dashboard.category.all') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-category"></i>
           <div>Main Categories</div>
@@ -119,10 +119,31 @@
           <div>Products</div>
         </a>
       </li>
+
+
+      <li class="menu-item {{request()->is('admin-dashboard/offer/*') ? " active open " : "" }}" style="">
+        <a href="javascript:void(0)" class="menu-toggle menu-link  ">
+          <i class="menu-icon tf-icons bx bx-purchase-tag"></i>
+          <div data-i18n="User interface">Offers</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item {{request()->is('admin-dashboard/offer/product/*') ? " active" : "" }}">
+            <a href="{{route('admin-dashboard.offer.product.all')}}" class="menu-link ">
+              <div data-i18n="Tooltips &amp; Popovers">Products</div>
+            </a>
+          </li>
+          <li class="menu-item {{request()->is('admin-dashboard/offer/category/*') ? " active" : "" }}">
+            <a href="{{route('admin-dashboard.offer.category.all')}}" class="menu-link ">
+              <div data-i18n="Typography">Categories</div>
+            </a>
+          </li>
+        </ul>
+      </li>
+
       <!-- Color -->
       <li class="menu-item {{ request()->is('admin-dashboard/color/*') ? 'active' : '' }}">
         <a href="{{ route('admin-dashboard.color.all') }}" class="menu-link">
-          <i class="menu-icon tf-icons bx bx-palette"></i> 
+          <i class="menu-icon tf-icons bx bx-palette"></i>
           <div>Colors</div>
         </a>
       </li>
@@ -161,12 +182,20 @@
         </a>
       </li>
 
+      <!-- Employees -->
+      <li class="menu-item {{ request()->is('admin-dashboard/employee/*') ? 'active' : '' }} ">
+        <a href="{{ route('admin-dashboard.employee.all') }}" class="menu-link">
+          <i class="menu-icon tf-icons bx bx-id-card"></i>
+          <div>Employees</div>
+        </a>
+      </li>
+
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Users & Messages</span></li>
 
       <!-- Users -->
       <li class="menu-item {{request()->routeIs('admin-dashboard.user.admin') ? " active" : "" }}">
         <a href="{{ route('admin-dashboard.user.admin') }}" class="menu-link">
-          <i class="bi bi-people"></i>
+          <i class='menu-icon tf-icons bx bx-group'></i>
           <div>Users</div>
         </a>
       </li>
@@ -182,7 +211,7 @@
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Shipping</span></li>
 
       <!-- Cities -->
-      <li class="menu-item {{request()->routeIs('admin-dashboard.city.all') ? " active" : "" }}">
+      <li class="menu-item {{request()->is('admin-dashboard/shepping/city/*') ? " active" : "" }}">
         <a href="{{ route('admin-dashboard.city.all') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-map"></i>
           <div>Cities</div>
@@ -190,7 +219,7 @@
       </li>
 
       <!-- Areas -->
-      <li class="menu-item {{request()->routeIs('admin-dashboard.area.admin') ? " active" : "" }}">
+      <li class="menu-item {{request()->is('admin-dashboard/shepping/area/*') ? " active" : "" }}">
         <a href="{{ route('admin-dashboard.area.admin') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-map-pin"></i>
           <div>Areas</div>

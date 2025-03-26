@@ -21,15 +21,34 @@
                             <th style="width: 10px">ID</th>
                             <th class="text-center">Name</th>
                             <th class="text-center">Email</th>
-                            <th class="text-center">Role</th>
+                            <th class="text-center">salary</th>
                             <th class="text-center">Branch</th>
+                            <th class="text-center">Phone</th>
+                            <th class="text-center">Whatsapp</th>
+                            <th class="text-center">Gender</th>
+                            <th class="text-center" style="width: 200px;">Address</th>
+                            <th class="text-center">Role</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
                         @foreach ($editors as $editor)
                         <tr>
-                            <td>{{ $editor->id }} || </td>
+                            <td class="text-center">
+                                @php
+                                if($editor->gender == "male"){
+                                $defaultImage = config("default-image.male-image");
+                                }else{
+                                $defaultImage = config("default-image.female-image");
+                                }
+                                @endphp
+                                <div class="d-flex align-items-center">
+                                    {{ $editor->id }} ||
+                                    <img src="{{ asset($editor->images->first()?->main_image ?? $defaultImage) }}"
+                                        class="rounded-circle ms-2" alt="avatar"
+                                        style="width: 100px; height: 100px; object-fit: cover;">
+                                </div>
+                            </td>
                             <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3 text-center"></i>
                                 <strong>{{
                                     $editor->name
@@ -37,14 +56,32 @@
                             </td>
 
                             <td class="text-center">{{ $editor->email }}</td>
-                            <td class="text-center">{{ $editor->role }}</td>
+                            <td class="text-center">
+                                <div>
+                                    <b class="badge bg-success me-1 fw-bold text-white">
+                                        {{$editor->salary}} EGP
+                                    </b>
+                                </div>
+                            </td>
                             <td class="text-center">
                                 @if ($editor->branch)
+                                <b class="badge bg-label-primary me-1 fw-bold">
                                 {{ $editor->branch->name }}
+                                </b>
                                 @else
                                 <b class="badge bg-label-danger me-1">No Branch</b>
                                 @endif
                             </td>
+                            <td class="text-center">{{ $editor->phone }}</td>
+                            <td class="text-center">{{ $editor->whatsapp }}</td>
+                            <td class="text-center">{{ $editor->gender }}</td>
+                            <td class="text-center">
+                                <textarea class="form-control" rows="3"
+                                    style="width: 100%; min-width: 200px; resize: none;" readonly>
+                                    {{ $editor->address }}
+                                </textarea>
+                            </td>
+                            <td class="text-center">{{ $editor->role }}</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center align-items-center gap-2">
                                     <a href="{{ route('admin-dashboard.editors.edit', $editor) }}"
@@ -78,4 +115,4 @@
 
 
 
-        @endsection
+@endsection

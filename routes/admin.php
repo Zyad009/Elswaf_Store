@@ -9,7 +9,10 @@ use App\Http\Controllers\Admin\Message\AdminMessageController;
 use App\Http\Controllers\Admin\Product\AdminProductController;
 use App\Http\Controllers\Admin\Archives\AdminArchiveController;
 use App\Http\Controllers\Admin\Category\AdminCategoryController;
+use App\Http\Controllers\Admin\Employee\AdminEmployeeController;
 use App\Http\Controllers\Admin\EditorAdmin\AdminEditorController;
+use App\Http\Controllers\Admin\Offer\AdminOfferProductController;
+use App\Http\Controllers\Admin\Offer\AdminOfferCategoryController;
 use App\Http\Controllers\Admin\Product\AdminProductSizeController;
 use App\Http\Controllers\Admin\Category\AdminSubCategoryController;
 use App\Http\Controllers\Admin\Product\AdminProductColorController;
@@ -18,6 +21,7 @@ use App\Http\Controllers\Admin\Shepping\Home\AdminSheppingController;
 use App\Http\Controllers\Admin\Shepping\Area\AdminSheppingAreaController;
 use App\Http\Controllers\Admin\Shepping\City\AdminSheppingCityController;
 use App\Http\Controllers\Admin\CustomerService\AdminCustomerServiceController;
+use App\Http\Controllers\Admin\Offer\AdminOfferController;
 
 // Route::get("/admin-home",[AdminHomeController::class,"index"])->name('admin-home');
 
@@ -79,6 +83,34 @@ Route::name("admin-dashboard.")->middleware('auth')->prefix("admin-dashboard")->
       Route::get("/{size}/edit", "edit")->name("edit");
       Route::put("/{size}/update", "update")->name("update");
       Route::delete("/{size}", "destroy")->name("delete");
+    });
+  });
+
+  Route::name("offer.")->prefix("offer")->group(function () {
+    
+    Route::get("/",[AdminOfferController::class , "index"])->name("admin");
+
+    Route::name("product.")->prefix("product")->group(function () {
+      Route::controller(AdminOfferProductController::class)->group(function () {
+        Route::get("/create", "create")->name("new");
+        Route::post("/", "store")->name("store");
+        Route::get("/all", "show")->name( "all");
+        // Route::get("/{categort}/category-all-products", "showProductsFromCategory")->name("all.category-products");
+        Route::get("/{offerProduct}/edit", "edit")->name("edit");
+        Route::put("/{offerProduct}/update", "update")->name("update");
+        Route::delete("/{offerProduct}/delete", "destroy")->name("delete");
+      });
+    });
+    
+    Route::name("category.")->prefix("category")->group(function () {
+      Route::controller(AdminOfferCategoryController::class)->group(function () {
+        Route::get("/create", "create")->name("new");
+        Route::post("/", "store")->name("store");
+        Route::get("/all", "show")->name(name: "all");
+        Route::get("/{offerCategory}/edit", "edit")->name("edit");
+        Route::put("/{offerCategory}/update", "update")->name("update");
+        Route::delete("/{offerCategory}/delete", "destroy")->name("delete");
+      });
     });
   });
 
@@ -176,36 +208,52 @@ Route::name("admin-dashboard.")->middleware('auth')->prefix("admin-dashboard")->
     });
   });
 
+  Route::name("employee.")->prefix("employee")->group(function () {
+    Route::controller(AdminEmployeeController::class)->group(function () {
+      Route::get("/", "index")->name("admin");
+      Route::get("/create", "create")->name("new");
+      Route::post("/", "store")->name("store");
+      Route::get("/all", "show")->name("all");
+      Route::get("/{employee}/edit", "edit")->name("edit");
+      Route::put("/{employee}", "update")->name("update");
+      Route::delete("/{employee}", "destroy")->name("delete");
+      //soft delete
+      Route::get("/archive", "archiveEmployee")->name("archive");
+      Route::post("/{id}/restore", "archiveRestore")->name("restore");
+      Route::delete("/{id}/confirm-delete", "archiveRemove")->name("remove");
+    });
+  });
+
   Route::prefix("shepping")->group(function () {
     Route::get("/", [AdminSheppingController::class, "index"])->name("shepping.admin");
 
-    Route::name("city.")->group(function () {
+    Route::name("city.")->prefix("city")->group(function () {
       Route::controller(AdminSheppingCityController::class)->group(function () {
-        Route::get("/create/city", "create")->name("new");
+        Route::get("/create", "create")->name("new");
         Route::post("/city", "store")->name("store");
-        Route::get("/all-cities", "show")->name("all");
-        Route::get("/edit-city/{city}", "edit")->name("edit");
+        Route::get("/all", "show")->name("all");
+        Route::get("/edit/{city}", "edit")->name("edit");
         Route::put("/update/{city}", "update")->name("update");
         Route::delete("/delete/{city}", "destroy")->name("delete");
         //soft delete
-        Route::get("/archive-c", "archiveCity")->name("archive");
+        Route::get("/archive-city", "archiveCity")->name("archive");
         Route::post("/{id}/restore-city", "archiveRestore")->name("restore");
         Route::delete("/{id}/confirm-delete-city", "archiveRemove")->name("remove");
       });
     });
 
-    Route::name("area.")->group(function () {
+    Route::name("area.")->prefix("area")->group(function () {
       Route::controller(AdminSheppingAreaController::class)->group(function () {
-        Route::get("/area-c", "index")->name("admin");
-        Route::get("/create/area", "create")->name("new");
-        Route::post("/area", "store")->name("store");
-        Route::get("/all-areas/{city}", "show")->name("all");
-        Route::get("/edit-area/{area}", "edit")->name("edit");
+        Route::get("/for-city", "index")->name("admin");
+        Route::get("/create", "create")->name("new");
+        Route::post("/", "store")->name("store");
+        Route::get("/all/{city}", "show")->name("all");
+        Route::get("/edit/{area}", "edit")->name("edit");
         Route::put("/{area}", "update")->name("update");
         Route::delete("/{area}", "destroy")->name("delete");
         //soft delete
-        Route::get("/archive-cit_for_area", "archiveCitiesForAreas")->name("index");
-        Route::get("/archive-a/{city}", "archiveArea")->name("archive");
+        Route::get("/archive-city_for_area", "archiveCitiesForAreas")->name("index");
+        Route::get("/archive-area/{city}", "archiveArea")->name("archive");
         Route::post("/{id}/restore", "archiveRestore")->name("restore");
         Route::delete("/{id}/confirm-delete", "archiveRemove")->name("remove");
       });

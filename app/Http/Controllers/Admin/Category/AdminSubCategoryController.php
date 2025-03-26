@@ -51,7 +51,10 @@ class AdminSubCategoryController extends Controller
         $data = $request->validated();
         $subCategory = Category::create($data);
         $subCategoryId = $subCategory->id;
-        $this->saveImages("Category", $subCategoryId, $nameCategory, $mainImage);
+        
+        if(isset($mainIage)){
+            $this->saveImages("Category", $subCategoryId, $nameCategory, $mainImage);
+        }
 
         alert()->success("Success!", "Created has been successfully");
 

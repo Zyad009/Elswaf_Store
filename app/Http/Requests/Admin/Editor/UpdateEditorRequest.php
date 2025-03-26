@@ -24,6 +24,14 @@ class UpdateEditorRequest extends FormRequest
         return [
             "name" => "required|string|min:3|max:50",
             "email" => "required|email|string",
+            "address" => "required|string|min:15|max:255",
+            "salary" => "required|integer|min:1000|max:100000",
+
+
+            "phone" => "required|string|unique:admins|regex:/^\+?[0-9-]+$/",
+            "whatsapp" => "required|string|unique:admins|regex:/^\+?[0-9-]+$/",
+
+            "gender" => "required|string|in:male,female",
             "password" => "required|string|min:6|confirmed",
         ];
     }

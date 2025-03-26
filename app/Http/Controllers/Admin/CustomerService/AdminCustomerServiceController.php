@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\CustomerService;
 
+use App\Http\Controllers\Admin\Traits\UploadImage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CustomerService\CustomerServiceRequest;
 use App\Models\CustomerService;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 
 class AdminCustomerServiceController extends Controller
 {
+    use UploadImage;
     private const DIR_VIEW = "admin.pages.customer_s";
 
     /**
@@ -33,9 +35,16 @@ class AdminCustomerServiceController extends Controller
     public function store(CustomerServiceRequest $request)
     {
         $data= $request->validated();
-        CustomerService::create($data);
-        alert()->success("Success!", "Created has been successfully");
+        $customerService=CustomerService::create($data);
+        $mainImage = $request->file("main_image");
+        $customerServiceName = $request->name;
+        $customerServiceId = $customerService->id;
 
+        if (isset($mainImage)) {
+            $this->saveImages("CustomerService", $customerServiceId, $customerServiceName, $mainImage);
+        }
+
+        alert()->success("Success!", "Created has been successfully");
         return back();
     }
 
@@ -44,7 +53,7 @@ class AdminCustomerServiceController extends Controller
      */
     public function show()
     {
-        $customerServices = CustomerService::orderBy("id", "desc")
+        $customerServices = CustomerService::with("images")->orderBy("id", "desc")
         ->paginate(config("pagination.count"));
 
         $title = 'Delete This Customer Services!';
@@ -88,7 +97,9 @@ class AdminCustomerServiceController extends Controller
     //========= view ======== //
     public function archiveCustomerService()
     {
-        $customerServices = CustomerService::onlyTrashed()->paginate(config("pagination.count"));
+        $customerServices = CustomerService::onlyTrashed()
+        ->with("images")
+        ->paginate(config("pagination.count"));
 
         $title = 'Delete This';
         $text = "Are you sure you want to delete?";

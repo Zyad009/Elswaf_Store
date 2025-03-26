@@ -2,7 +2,7 @@
 @section('admin-title', 'All Products')
 @section('admin-content')
 
-@push("cdn")
+@push("admin-cdn")
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
@@ -14,7 +14,7 @@
 <livewire:admin.product.table-product />
 <livewire:admin.product.show-product />
 
-    @push("js")
+    @push("admin-js")
         <script>
             window.addEventListener("showModelToggle" , event =>{
                 $("#showModel").modal("toggle");

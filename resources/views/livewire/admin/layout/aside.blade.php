@@ -1,4 +1,4 @@
-
+{{-- 
  <ul class="menu-inner py-1" wire:scroll>
   <!-- Dashboard -->
   <li class="menu-item @yield('dashboard-active')">
@@ -165,4 +165,4 @@ aside.classList.remove('open');
 
 
 
-</script>
+</script> --}}

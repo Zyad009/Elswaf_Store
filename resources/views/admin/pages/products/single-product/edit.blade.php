@@ -2,7 +2,7 @@
 @section('admin-title', 'Edit Details')
 @section('admin-content')
 
-@push("cdn")
+@push("admin-cdn")
 {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 @endpush
 <x-form.edit title="Edit Details" :name="$singleProduct->product->name">

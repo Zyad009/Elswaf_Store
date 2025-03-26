@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests\Admin\Editor;
 
+use Illuminate\Validation\Rule;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class EditorRequest extends FormRequest
 {
@@ -25,9 +26,26 @@ class EditorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name"=>"required|string|min:3|max:50",
-            "email"=>"required|email|string|unique:admins",
-            "password"=>"required|string|min:6|confirmed",
+            "name" => "required|string|min:3|max:50",
+            "email" => [
+                "required",
+                "string",
+                "email",
+                Rule::unique("admins", "email")->ignore($this->route("editor"))
+            ],
+            "address" => "required|string|min:15|max:255",
+            "salary" => "required|numeric|min:1000|max:100000",
+
+            "phone" => ["required", "string", "regex:/^\+?[0-9\s\-\(\)]{10,20}$/",
+            Rule::unique("admins", "phone")->ignore($this->route("editor"))],
+
+            "whatsapp" => ["required", "string", "regex:/^\+?[0-9\s\-\(\)]{10,20}$/",
+            Rule::unique("admins", "whatsapp")->ignore($this->route("editor"))],
+
+            "gender" => "required|string|in:male,female",
+            "main_image" => "nullable|image|mimes:png,jpg,jpeg,gif|max:2048",
+
+            "password" => "required|string|min:6|confirmed",
             "branch_id" => "required|exists:branches,id",
         ];
     }

@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section("admin-title" , "Create Sub-Category")
-@push("cdn")
+@push("admin-cdn")
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 @endpush
@@ -21,7 +21,7 @@
         <x-error></x-error>
 
         <div class="mb-3">
-            <label for="name">Name</label>
+            <label for="name">Name <span class="text-danger">*</span></label>
             <input type="text" name="name" value="{{ $restoredSubCategory->name ?? '' }}" class="form-control" required>
         </div>
         <div class="row mb-3">
@@ -64,7 +64,7 @@
 </x-form.create>
 
 
-@push('js')
+@push('admin-js')
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 

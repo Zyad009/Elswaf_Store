@@ -16,8 +16,6 @@ class TableProduct extends Component
     protected $listeners = ["dataRefresh" => '$refresh'];
 
 
-
-    // إعادة تعيين البحث وإظهار كل المنتجات
     public function resetFilters()
     {
         $this->reset("search", "searchBy");

@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section("admin-title" , "Edit Category")
-@push("cdn")
+@push("admin-cdn")
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 @endpush
@@ -31,7 +31,7 @@
     </form>
 </x-form.edit>
 
-@push('js')
+@push('admin-js')
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 <script>

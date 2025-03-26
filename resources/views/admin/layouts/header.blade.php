@@ -43,7 +43,7 @@
 
 
   <!-- Page CSS -->
-@stack("cdn")
+@stack("admin-cdn")
   <!-- Helpers -->
   <script src="{{asset("admin/assets/vendor")}}/js/helpers.js"></script>
 

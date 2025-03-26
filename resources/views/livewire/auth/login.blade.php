@@ -1,12 +1,12 @@
 <form wire:submit.prevent='submit'>
     <x-error></x-error>
     <div class="form-group">
-        <label for="singin-email-2"> Email *</label>
+        <label for="singin-email-2"> Email <span class="text-danger">*</span></label>
         <input type="text" class="form-control" wire:model.blur='email'>
     </div><!-- End .form-group -->
 
     <div class="form-group">
-        <label for="singin-password-2">Password *</label>
+        <label for="singin-password-2">Password <span class="text-danger">*</span></label>
         <input type="password" class="form-control" wire:model.blur='password'>
     </div><!-- End .form-group -->
 

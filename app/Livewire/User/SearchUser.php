@@ -20,7 +20,7 @@ class SearchUser extends Component
 
     public function render()
     {
-        return view('livewire.user.search-user', ["users" => User::where("phone", "LIKE", "%" . $this->search . "%")
+        return view('livewire.user.search-user', ["users" => User::with("images")->where("phone", "LIKE", "%" . $this->search . "%")
             ->orWhere("name", "LIKE", "%" . $this->search . "%")
             ->orderBy("id", "desc")->paginate(config("pagination.count"))]);
     }

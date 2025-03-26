@@ -14,7 +14,7 @@
 
         <div class="row mb-3">
             <div class="col-md-6">
-                <label class="form-label">Name</label>
+                <label class="form-label">Name </label>
                 <input type="text" name="name" value="{{$branch->name}}" class="form-control">
             </div>
             <div class="col-md-6">

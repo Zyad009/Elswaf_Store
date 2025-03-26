@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section("admin-title" , "Create Category")
-@push("cdn")
+@push("admin-cdn")
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 @endpush
@@ -13,7 +13,7 @@
         @csrf
 
         <div class="mb-3">
-            <label for="">Name</label>
+            <label for="">Name <span class="text-danger">*</span></label>
             <input type="text" name="name" id="" class="form-control">
         </div>
 
@@ -36,7 +36,7 @@
 
     
 @endsection
-@push('js')
+@push('admin-js')
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 

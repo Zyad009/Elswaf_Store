@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section("admin-title" , "Add Details For Product")
 @section("admin-title" , "Create Product")
-@push("cdn")
+@push("admin-cdn")
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 @endpush
@@ -15,12 +15,12 @@
 
         <div class="row g-3">
             <div class="col-md-6">
-                <label class="form-label">Name</label>
+                <label class="form-label">Name <span class="text-danger">*</span></label>
                 <input type="text" name="name" class="form-control" required>
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">Category</label>
+                <label class="form-label">Category <span class="text-danger">*</span></label>
                 <select name="category_id" class="form-control" required>
                     <option value="">Select Category</option>
                     @foreach ($categories as $category)
@@ -30,7 +30,7 @@
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">Type Size</label>
+                <label class="form-label">Type Size <span class="text-danger">*</span></label>
                 <select name="type_size" class="form-control">
                     <option value="">Select Type Size</option>
                     <option value="letter">Alphabetic</option>
@@ -39,27 +39,27 @@
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">Price</label>
+                <label class="form-label">Price <span class="text-danger">*</span></label>
                 <input type="number" step="0.01" min="0" name="price" class="form-control" required>
             </div>
 
             <div class="col-12">
-                <label class="form-label">Description</label>
+                <label class="form-label">Description <span class="text-danger">*</span></label>
                 <textarea name="description" class="form-control" rows="4"></textarea>
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">Main Image</label>
+                <label class="form-label">Main Image <span class="text-danger">*</span></label>
                 <input type="file" name="main_image" id="main_image" class="form-control">
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">Hover Image</label>
+                <label class="form-label">Hover Image <span class="text-danger">*</span></label>
                 <input type="file" name="hover_image" id="hover_image" class="form-control">
             </div>
 
             <div class="col-12">
-                <label class="form-label">Additional Images</label>
+                <label class="form-label">Additional Images <span class="text-danger">*</span></label>
                 <input type="file" name="images[]" id="images" class="form-control" multiple>
             </div>
         </div>
@@ -69,7 +69,7 @@
 </x-form.create>
 @endsection
 
-@push('js')
+@push('admin-js')
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
@@ -77,7 +77,7 @@
         // Get a reference to the file input element
         const inputElement = document.querySelectorAll('input[type=file]');
 
-        console.log(inputElement)
+        // console.log(inputElement)
         FilePond.registerPlugin(FilePondPluginImagePreview);
         // Create a FilePond instance
         const mainIMagePond = FilePond.create(document.querySelector('#main_image'), {

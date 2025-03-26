@@ -35,7 +35,7 @@ class ProductFactory extends Factory
         return [
             "name" => fake()->name(),
             "price" => $price,
-            "QTY" =>'100',
+            "QTY" =>'0',
             "description" =>"Lorem ipsum dolor sit ame123",
             // "image" => "public/admin/products/2.jpg",
             "category_id" => 1,

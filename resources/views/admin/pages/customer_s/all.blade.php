@@ -21,13 +21,32 @@
                             <th style="width: 10px">ID</th>
                             <th class="text-center">Name</th>
                             <th class="text-center">Email</th>
+                            <th class="text-center">Salary</th>
+                            <th class="text-center">Phone</th>
+                            <th class="text-center">Whatsapp</th>
+                            <th class="text-center">Gender</th>
+                            <th class="text-center" style="width: 200px;">Address</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
                         @foreach ($customerServices as $customerService)
                         <tr>
-                            <td>{{ $customerService->id }} || </td>
+                            <td class="text-center">
+                                @php
+                                if($customerService->gender == "male"){
+                                $defaultImage = config("default-image.male-image");
+                                }else{
+                                $defaultImage = config("default-image.female-image");
+                                }
+                                @endphp
+                                <div class="d-flex align-items-center">
+                                    {{ $customerService->id }} ||
+                                    <img src="{{ asset($customerService->images->first()?->main_image ?? $defaultImage ) }}"
+                                        class="rounded-circle ms-2" alt="avatar"
+                                        style="width: 100px; height: 100px; object-fit: cover;">
+                                </div>
+                            </td>
                             <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3 text-center"></i>
                                 <strong>{{
                                     $customerService->name
@@ -35,6 +54,22 @@
                             </td>
 
                             <td class="text-center">{{ $customerService->email }}</td>
+                            <td class="text-center">
+                                <div>
+                                    <b class="badge bg-success me-1 fw-bold text-white">
+                                        {{$customerService->salary}} EGP
+                                    </b>
+                                </div>
+                            </td>
+                            <td class="text-center">{{ $customerService->phone }}</td>
+                            <td class="text-center">{{ $customerService->whatsapp }}</td>
+                            <td class="text-center">{{ $customerService->gender }}</td>
+                            <td class="text-center">
+                                <textarea class="form-control" rows="3"
+                                    style="width: 100%; min-width: 200px; resize: none;" readonly>
+                                    {{ $customerService->address }}
+                                </textarea>
+                            </td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center align-items-center gap-2">
                                     <a href="{{ route('admin-dashboard.customer_s.edit', $customerService) }}"

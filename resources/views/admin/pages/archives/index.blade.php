@@ -43,6 +43,12 @@
           <i class="bx bx-headphone me-2"></i> Customer Service
         </a>
 
+        <!-- Employee -->
+        <a href="{{ route('admin-dashboard.employee.archive') }}"
+          class="list-group-item list-group-item-action d-flex align-items-center">
+          <i class="bx bx-id-card"></i> Employee
+        </a>
+
         <br>
         <!-- City -->
         <a href="{{ route('admin-dashboard.city.archive') }}"

@@ -1,6 +1,3 @@
-
-
-
 @extends('admin.layouts.app')
 @section('admin-title', 'Archive Customer Services')
 @section('admin-content')
@@ -17,11 +14,16 @@
 
             <x-table.index :items="$customerServices">
                 <table class="table">
-<thead>
+                    <thead>
                         <tr>
                             <th style="width: 10px">ID</th>
                             <th class="text-center">Name</th>
                             <th class="text-center">Email</th>
+                            <th class="text-center">Salary</th>
+                            <th class="text-center">Phone</th>
+                            <th class="text-center">Whatsapp</th>
+                            <th class="text-center">Gender</th>
+                            <th class="text-center" style="width: 200px;">Address</th>
                             <th class="text-center">Deleted-At</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -29,17 +31,52 @@
                     <tbody class="table-border-bottom-0">
                         @foreach ($customerServices as $customerService)
                         <tr>
-                            <td class="text-center">{{ $customerService->id }} || </td>
+                            <td class="text-center">
+                                @php
+                                if($customerService->gender == "male"){
+                                $defaultImage = config("default-image.male-image");
+                                }else{
+                                $defaultImage = config("default-image.female-image");
+                                }
+                                @endphp
+                                <div class="d-flex align-items-center">
+                                    {{ $customerService->id }} ||
+                                    <img src="{{ asset($customerService->images->first()?->main_image ?? $defaultImage ) }}"
+                                        class="rounded-circle ms-2" alt="avatar"
+                                        style="width: 100px; height: 100px; object-fit: cover;">
+                                </div>
+                            </td>
                             <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3 text-center"></i>
                                 <strong>{{
                                     $customerService->name
                                     }}</strong>
                             </td>
                             <td class="text-center">{{ $customerService->email }}</td>
-                            <td class="text-center">{{ $customerService->deleted_at }}</td>
+                            <td class="text-center">
+                                <div>
+                                    <b class="badge bg-success me-1 fw-bold text-white">
+                                        {{$customerService->salary}} EGP
+                                    </b>
+                                </div>
+                            </td>
+                            <td class="text-center">{{ $customerService->phone }}</td>
+                            <td class="text-center">{{ $customerService->whatsapp }}</td>
+                            <td class="text-center">{{ $customerService->gender }}</td>
+                            <td class="text-center">
+                                <textarea class="form-control" rows="3"
+                                    style="width: 100%; min-width: 200px; resize: none;" readonly>
+                                            {{ $customerService->address }}
+                                </textarea>
+                            </td>
+                            <td class="text-center">
+                                <b class="badge bg-label-danger me-1 fw-bold">
+                                    {{ $customerService->deleted_at }}
+                                </b>
+                            </td>
                             <td class="text-center">
                                 <div class="d-flex gap-2 justify-content-center">
-                                    <form action="{{ route('admin-dashboard.customer_s.restore', $customerService->id) }}"
+                                    <form
+                                        action="{{ route('admin-dashboard.customer_s.restore', $customerService->id) }}"
                                         method="post">
                                         @csrf
                                         <button type="submit" class="btn btn-success">
@@ -47,7 +84,8 @@
                                         </button>
                                     </form>
 
-                                    <form action="{{ route('admin-dashboard.customer_s.remove', $customerService->id) }}"
+                                    <form
+                                        action="{{ route('admin-dashboard.customer_s.remove', $customerService->id) }}"
                                         method="post" data-confirm-delete="true">
                                         @csrf
                                         @method('DELETE')
@@ -72,6 +110,3 @@
     </div>
 </div>
 @endsection
-
-
-

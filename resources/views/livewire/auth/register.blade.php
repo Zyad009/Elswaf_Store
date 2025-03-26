@@ -2,37 +2,54 @@
     {{-- <x-error></x-error> --}}
 
     <div class="form-group">
-        <label for="register-email-2">Name *</label>
-        <input type="email" class="form-control" wire:model.blur='name' required>
+        <label for="register-email-2">Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" wire:model.blur='name' required>
         <x-message.error name="name"></x-message.error>
     </div><!-- End .form-group -->
 
     <div class="form-group">
-        <label for="register-email-2">Email *</label>
+        <label for="register-email-2">Email <span class="text-danger">*</span></label>
         <input type="email" class="form-control" wire:model.blur='email' required>
         <x-message.error name="email"></x-message.error>
     </div><!-- End .form-group -->
-    
+
     <div class="form-group">
-        <label for="register-email-2">Phone *</label>
-        <input type="email" class="form-control" wire:model.blur='phone' required>
+        <label for="register-email-2">Phone <span class="text-danger">*</span></label>
+        <input type="tel" class="form-control" wire:model.blur='phone' required>
         <x-message.error name="phone"></x-message.error>
     </div><!-- End .form-group -->
 
     <div class="form-group">
-        <label for="register-email-2">Address *</label>
-        <input type="email" class="form-control" wire:model.blur='address' required>
-        <x-message.error name="address"></x-message.error>
+        <label for="register-email-2">whatsapp <span class="text-danger">*</span></label>
+        <input type="tel" class="form-control" wire:model.blur='whatsapp' required>
+        <x-message.error name="phone"></x-message.error>
     </div><!-- End .form-group -->
     
     <div class="form-group">
-        <label for="register-email-2">Password *</label>
+        <label for="register-email-2">Gender <span class="text-danger">*</span></label>
+        <select name="gender" class="form-control mb-3" wire:model.blur='gender'>
+            <option value="">Select Your Gander</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        <x-message.error name="gender"></x-message.error>
+    </div><!-- End .form-group -->
+    
+    <div class="form-group">
+        <label for="register-email-2">Address <span class="text-danger">*</span></label>
+        <textarea wire:model.blur='address'  class="form-control"></textarea>
+        <x-message.error name="address"></x-message.error>
+    </div><!-- End .form-group -->
+
+
+    <div class="form-group">
+        <label for="register-email-2">Password <span class="text-danger">*</span></label>
         <input type="password" class="form-control" wire:model.blur='password' required>
         <x-message.error name="password"></x-message.error>
     </div><!-- End .form-group -->
-    
+
     <div class="form-group">
-        <label for="register-password-2">Confirm Password *</label>
+        <label for="register-password-2">Confirm Password <span class="text-danger">*</span></label>
         <input type="password" class="form-control" wire:model.blur='password_confirmation' required>
     </div><!-- End .form-group -->
 

@@ -34,7 +34,11 @@
                                 <img src="{{ asset($subCategory ->images->first()?->main_image) }}"
                                     class="product-image" alt="product">
                             </td>
-                            <td class="text-center">{{ $subCategory->deleted_at }}</td>
+                            <td class="text-center">
+                                <b class="badge bg-label-danger me-1 fw-bold">
+                                {{ $subCategory->deleted_at }}
+                                </b>
+                            </td>
 
                             <td class="text-center">
                                 <div class="d-flex gap-2 justify-content-center">

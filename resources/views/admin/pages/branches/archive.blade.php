@@ -45,7 +45,11 @@
                                 <h5 class="text-danger">No Manager</h5>
                                 @endif
                             </td>
-                            <td class="text-center">{{ $branch->deleted_at }}</td>
+                            <td class="text-center">
+                                <b class="badge bg-label-danger me-1 fw-bold">
+                                {{ $branch->deleted_at }}
+                                </b>
+                            </td>
 
                             <td class="text-center">
                                 <div class="d-flex gap-2 justify-content-center">

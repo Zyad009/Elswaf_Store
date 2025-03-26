@@ -16,11 +16,14 @@ return new class extends Migration
             $table->string('name');
             $table->string("slug");
             $table->string('email')->unique();
+            $table->enum("gender", ["male", "female"]);
+
+            $table->string("phone");
+            $table->string("whatsapp")->nullable();
+            $table->text("address");
             $table->string('password');
-            $table->string("address");
             $table->boolean("is_active")->default(true);
             
-            $table->string("phone");
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

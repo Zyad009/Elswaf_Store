@@ -16,8 +16,15 @@ return new class extends Migration
             $table->string('name');
             $table->string("slug");
             $table->string('email')->unique();
+            $table->enum("gender" , ["male" , "female"]);
+            $table->decimal("salary", 10, 2);
+
+
+            $table->string('phone');
+            $table->string('whatsapp')->nullable();
+            $table->text('address');
             $table->string('password');
-            $table->string("image")->nullable();
+            // $table->string("image")->nullable();
             $table->softDeletes();
 
             $table->boolean("is_active")->default(true);

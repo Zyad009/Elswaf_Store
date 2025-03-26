@@ -28,10 +28,10 @@ class ProductRequest extends FormRequest
             "price" => "required|numeric|min:0",
             "description" => "required|string|min:15|max:500",
             'type_size' => 'required|in:letter,number',
-            "main_image" => "$imageRule|image|mimes:png,jpg,jpeg,gif",
+            "main_image" => "$imageRule|image|mimes:png,jpg,jpeg,gif|max:2048",
             "hover_image" => "required|image|mimes:png,jpg,jpeg,gif",
             "images" => "$imageRule",
-            "images.*" => [$imageRule, "file", "image", "mimes:png,jpg,jpeg,gif"],
+            "images.*" => [$imageRule, "file", "image", "mimes:png,jpg,jpeg,gif" , "max:2048"],
             // Rule::ignore($this->id),
             "category_id" => "required|exists:categories,id",
         ];

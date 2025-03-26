@@ -57,15 +57,18 @@
                                 }}</strong></td>
                         <td class="text-center">
                             @if (isset($product->category))
-                                {{$product->category->name}}
+                            {{$product->category->name}}
                             @else
-                                <b class="badge bg-label-danger me-1">No Category</b>
+                            <b class="badge bg-label-danger me-1">No Category</b>
                             @endif
                         </td>
                         <td class="text-center">
                             <textarea class="form-control" rows="3" style="width: 100%; height: 100px; resize: none;"
                                 readonly>{{ $product->description }}</textarea>
                         </td>
+                        {{-- <td>
+                            {{str()->limit($product->description , 10, '...')}}
+                        </td> --}}
                         <td class="text-center">{{ $product->price }} <span>EGP</span></td>
 
                         <td class="text-center">
@@ -78,7 +81,7 @@
                         </td>
 
                         <td class="text-center">
-                            <img src="{{ asset($product->images->first()?->main_image) }}" class="product-image"
+                            <img src="{{ asset($product->images->first()?->main_image ?? config("default-image.image") ) }}" class="product-image"
                                 alt="product">
                         </td>
                         <td class="text-center">

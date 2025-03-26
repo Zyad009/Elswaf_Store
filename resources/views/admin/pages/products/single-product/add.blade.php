@@ -2,7 +2,7 @@
 @section("admin-title" , "Add Details For Product")
 @section('admin-content')
 
-@push("cdn")
+@push("admin-cdn")
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
@@ -11,20 +11,22 @@
         :sizes="$sizes" />
 </x-form.create>
 
+@push("admin-js")
+    
 <script>
     window.addEventListener("success", () => {
                             Swal.fire({
-                            icon: "success",
-                            title: "Success!",
+                                icon: "success",
+                                title: "Success!",
                             showConfirmButton: false,
                             timer: 1000
                         });
                     });
-
+                    
     window.addEventListener("errorDuplicate", (event) => {
         const productId = event.detail;
         Swal.fire({
-        icon: "error",
+            icon: "error",
         title: "Oops...",
         text: "This product already exists!",
         footer: `<a href="/admin-dashboard/single-product/${productId}/edit">Edit Product</a>`
@@ -33,5 +35,6 @@
     });
 
 </script>
+@endpush
 
 @endsection

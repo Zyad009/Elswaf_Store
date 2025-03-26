@@ -33,17 +33,17 @@ trait UploadImage
 
     $imageName = time() . '_' . Str::random(10) . '.' . $mainImage->getClientOriginalExtension();
     $mainImage->storeAs($path, $imageName);
-    
+
     return "$path/$imageName";
   }
 
   private function saveHoverImage($hoverImage = null, $path)
   {
-    if ($hoverImage){
+    if ($hoverImage) {
       $imageName = time() . '_' . Str::random(10) . '.' . $hoverImage->getClientOriginalExtension();
       $hoverImage->storeAs($path, $imageName);
       return "$path/$imageName";
-    } 
+    }
     return null;
   }
 
@@ -54,12 +54,13 @@ trait UploadImage
     }
     $nameOfImages = [];
     foreach ($images as $image) {
-      $ttt = "$path/" . $image;
-      $nameOfImages[] = $ttt;
-      $image->store($path);
+      $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+      $image->storeAs($path, $imageName);
+      $nameOfImages[] = "$path/$imageName"; 
     }
     return $nameOfImages;
   }
+
 
   public function saveImages(
     string $entityName,
@@ -68,7 +69,7 @@ trait UploadImage
     $mainImage,
     $hoverImage = null,
     array $images = null,
-     $categoryId = null
+    $categoryId = null
   ) {
     //=== Validate Main Image ===//
 
@@ -79,7 +80,7 @@ trait UploadImage
     $path  = str_replace(" ", "-", $path);
     // === Save Main Image === //
     $mainImageName = $this->saveMainImage($mainImage, $path);
-    
+
     // === Save Main Image === //
     // dd($mainImageName);
     $hoverImageName = $this->saveHoverImage($hoverImage, $path);
@@ -90,13 +91,17 @@ trait UploadImage
     // dd($nameImages);
     // === Save Image Data in DB === //
     $modelClass = "App\Models\\$entityName";
-    Image::create([
-      "folder" => $folderName,
-      "main_image" => $mainImageName,
-      "hover_image" => $hoverImageName,
-      "images" => json_encode($nameImages),
-      "imageable_id" => $requestId,
-      "imageable_type" => $modelClass,
-    ]);
+    Image::updateOrCreate(
+      [
+        "imageable_id" => $requestId,
+        "imageable_type" => $modelClass,
+      ],
+      [
+        "folder" => $folderName,
+        "main_image" => $mainImageName,
+        "hover_image" => $hoverImageName,
+        "images" => json_encode($nameImages),
+      ]
+    );
   }
 }

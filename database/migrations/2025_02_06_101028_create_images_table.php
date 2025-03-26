@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string("folder");
-            $table->string("main_image");
+            $table->string("main_image")->nullable();
             $table->string("hover_image")->nullable();
             $table->json("images")->nullable();
 

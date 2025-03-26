@@ -89,7 +89,7 @@
                     {{-- لوجو الموقع --}}
                     <div class="header-center">
                         <a href="{{route("home")}}" class="logo">
-                            <img src="{{ asset('front/assets2') }}/images/demos/demo-6/logo.png" alt="Molla Logo"
+                            <img src="{{ asset('front/assets2') }}/images/logo/my-logo.png" alt="Molla Logo"
                                 width="82" height="20">
                         </a>
                     </div><!-- End .header-left -->

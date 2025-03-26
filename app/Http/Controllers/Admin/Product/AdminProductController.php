@@ -95,18 +95,20 @@ class AdminProductController extends Controller
     public function edit(Product $product)
     {
         $product->load("category");
-        $nameCategory = $product->category->name;
-        unset($product->category);
+        if(isset($product->category)){
+            $nameCategory = $product->category->name;
+            unset($product->category);
+        }
 
         if($product->type_size == "number"){
             $nameSize = "Numeric";
-        }else{
+        }else{  
             $nameSize = "Alphabetic";
         }
 
-        $categories = Category::select("id", "name")
+        $categories = Category::doesntHave("children")->select("id", "name")
             ->get();
-        return view(SELF::DIR_VIEW . '.edit', compact('product', 'categories' , 'nameCategory' , 'nameSize'));
+        return view(SELF::DIR_VIEW . '.edit', compact('product', 'categories' , 'nameSize'));
     }
 
     /**

@@ -21,7 +21,13 @@ class AdminFactory extends Factory
          static $i=1;
         return [
             "name" => fake()->name(),
-            "email" => fake()->email(),
+            "email" => fake()->unique()->email(),
+            'gender' => "male",
+            'salary' => 15000,
+
+            "phone" => fake()->unique()->phoneNumber(),
+            "whatsapp" => fake()->unique()->phoneNumber(),
+            "address" => fake()->address(),
             "branch_id" => $i++,
             "password" => bcrypt($password),
         ];

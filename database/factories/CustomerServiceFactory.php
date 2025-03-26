@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CustomerService>
  */
 class CustomerServiceFactory extends Factory
 {
@@ -20,6 +20,12 @@ class CustomerServiceFactory extends Factory
         return [
             "name"=> fake()->name(),
             "email"=> fake()->email(),
+            'gender' => "male",
+            'salary' => 9750,
+
+            "phone"=> fake()->phoneNumber(),
+            "whatsapp"=> fake()->phoneNumber(),
+            "address"=> fake()->address(),
             "password"=> bcrypt($password),
         ];
     }

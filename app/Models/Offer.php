@@ -22,7 +22,7 @@ public function products(){
 }
 
 public function categories(){
-    return $this->belongsTo(Product::class);
+    return $this->belongsTo(Category::class);
 }
 
 }

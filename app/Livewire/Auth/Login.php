@@ -9,9 +9,9 @@ use Illuminate\Validation\ValidationException;
 
 class Login extends Component
 {
-    public $email , $password;
-    
-    
+    public $email, $password;
+
+
     public function getRules()
     {
         return (new LoginRequest())->rules();
@@ -27,7 +27,8 @@ class Login extends Component
         $this->validateOnly("password");
     }
 
-    public function submit(){
+    public function submit()
+    {
         $data = $this->validate();
         if (Auth::guard('admin')->attempt($data)) {
 
@@ -35,8 +36,16 @@ class Login extends Component
             Auth::login($user);
 
             return to_route('admin-home');
+            
+        } elseif (Auth::guard('customerService')->attempt($data)) {
+            
+            $user = Auth::guard('customerService')->user();
+            Auth::login($user);
 
+            return to_route('admin-home');
         } elseif (Auth::guard('web')->attempt($data)) {
+
+            $user = Auth::guard('web')->user();
 
             return redirect()->route('home');
         } else {
@@ -46,6 +55,11 @@ class Login extends Component
             ]);
         }
     }
+
+
+    
+
+
     public function render()
     {
         return view('livewire.auth.login');

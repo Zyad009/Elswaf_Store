@@ -34,4 +34,9 @@ class Branch extends Model
     {
         return $this->hasOne(Admin::class);
     }
+
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
 }

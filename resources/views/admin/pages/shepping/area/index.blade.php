@@ -10,7 +10,7 @@
         <div class="card-body text-center">
           <h5 class="card-title">Areas for {{ $city->name }}</h5>
           <h4 class="fw-bold">All Areas In {{ $city->name }}</h4>
-          <p class="text-muted small">Edit & Delete & View All</p>
+          <p class="text-muted small">Edit & Delete & View All & Create</p>
           <a href="{{ route('admin-dashboard.area.all', $city) }}" class="btn btn-primary ">
             <i class="bx bx-list-ul fs-4"></i>
           </a>

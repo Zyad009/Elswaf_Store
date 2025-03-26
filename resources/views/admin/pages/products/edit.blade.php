@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section("admin-title" , "Edit Product")
-@push("cdn")
+@push("admin-cdn")
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 @endpush
@@ -57,8 +57,9 @@
 
             <div class="col-md-6">
                 <label class="form-label">Main Image</label>
-                <input type="file" name="main_image" id="main_image" class="form-control"
-                    data-filepond-initial-file="{{ asset($product->images->first()?->main_image) }}">
+                <input type="file" name="main_image" id="main_image" class="form-control">
+                <input type="image" style="display: none" src="{{ asset($product->images->first()?->main_image) }}"
+                    name="imagePreviewMainImage" id="imagePreviewMainImage" class="form-control">
             </div>
 
             <div class="col-md-6">
@@ -66,13 +67,23 @@
 
                 <input type="file" name="hover_image" id="hover_image" class="form-control">
 
-                <input type="image" src="{{ asset($product->images->first()?->hover_image) }}"
+                <input type="image" style="display: none" src="{{ asset($product->images->first()?->hover_image) }}"
                     name="imagePreviewHoverImage" id="imagePreviewHoverImage" class="form-control">
             </div>
 
             <div class="col-12">
                 <label class="form-label">Additional Images</label>
                 <input type="file" name="images[]" id="images" class="form-control" multiple>
+                @php
+                $images = $product->images->first()?->images;
+                $images = json_decode($images);
+                @endphp
+                {{-- @dd($images) --}}
+                @foreach ($images as $image )
+                {{-- @dd($image) --}}
+                <input type="image" style="display: none" src="{{ asset($image) }}" name="imagePreviewImages"
+                    id="imagePreviewImages" class="form-control" multiple>
+                @endforeach
             </div>
         </div>
         <x-button.submit.edit></x-button.submit.edit>
@@ -81,44 +92,30 @@
 
 @endsection
 
-@push('js')
+@push('admin-js')
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 <script>
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // Register FilePond plugins
     FilePond.registerPlugin(FilePondPluginImagePreview);
-
-        FilePond.create(document.querySelector('#main_image'), {
-            allowImagePreview: true,
-            imagePreviewHeight: 200,
-            storeAsFile: true,
-            allowMultiple: false,
-            acceptedFileTypes: ['image/*'],
-            files: [
-                {
-                    source: "{{ asset($product->images->first()?->main_image) }}",
-                    options: {
-                        type: 'local',
-                    }
-                }
-            ]
-        });
-
-        // FilePond.create(document.querySelector('#hover_image'), {
-        //     allowImagePreview: true,
-        //     imagePreviewHeight: 200,
-        //     storeAsFile: true,
-        //     allowMultiple: false,
-        //     acceptedFileTypes: ['image/*'],
-            
-        //     files: [
-        //         {
-        //             source: "{{ asset($product->images->first()?->hover_image) }}",
-        //             options: {
-        //                 type: 'local',
-        //             }
-        //         }
-        //     ]
-        // });
+    
+    var imagePreviewMainImage = document.querySelector('#imagePreviewMainImage').src;
+    // Initialize FilePond
+    const pond = FilePond.create(document.querySelector('#main_image'), {
+    allowImagePreview: true,
+    imagePreviewMaxHeight: 200,
+    storeAsFile: true,
+    allowMultiple: false,
+    acceptedFileTypes: ['image/*'],
+    });
+    if (imagePreviewMainImage != null) {
+    pond.addFile(imagePreviewMainImage);
+      }
+    
+            });
 
         document.addEventListener('DOMContentLoaded', function() {
         // Register FilePond plugins
@@ -139,22 +136,30 @@
         
                 });
 
-        FilePond.create(document.querySelector('#images'), {
-            allowImagePreview: true,
-            imagePreviewHeight: 200,
-            storeAsFile: true,
-            allowMultiple: true,
-            acceptedFileTypes: ['image/*'],
-            files: [
-                @foreach ($product->images as $image)
-                {
-                    source: "{{ asset($image->path) }}",
-                    options: {
-                        type: 'local',
-                    }
-                },
-                @endforeach
-            ]
+        document.addEventListener('DOMContentLoaded', function() { 
+
+        // Register FilePond plugins
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        
+        var imagePreviewImages = document.querySelectorAll('#imagePreviewImages');
+        console.log(imagePreviewImages);
+        // Initialize FilePond
+        const pond = FilePond.create(document.querySelector('#images'), {
+        allowImagePreview: true,
+        imagePreviewMaxHeight: 200,
+        storeAsFile: true,
+        allowMultiple: true,
+        acceptedFileTypes: ['image/*'],
         });
+        if (imagePreviewImages != null) {
+            imagePreviewImages.forEach(function(image){
+
+                pond.addFile(image.src);
+            })
+          }  
+        
+                });
+
+      
 </script>
 @endpush

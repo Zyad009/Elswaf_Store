@@ -21,22 +21,41 @@
                         <th class="text-center">Name</th>
                         <th class="text-center">Email</th>
                         <th class="text-center">Phone</th>
-                        <th class="text-center">Address</th>
+                        <th class="text-center">Whatsapp</th>
+                        <th class="text-center">Gender</th>
+                        <th class="text-center" style="width: 200px;">Address</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                     @foreach ($users as $user)
                     <tr>
-                        <td class="text-center">{{ $user->id }} || </td>
+                        <td class="text-center">
+                            @php
+                            if($user->gender == "male"){
+                            $defaultImage = config("default-image.male-image");
+                            }else{
+                            $defaultImage = config("default-image.female-image");
+                            }
+                            @endphp
+                            <div class="d-flex align-items-center">
+                                {{ $user->id }} ||
+                                <img src="{{ asset($user->images->first()?->main_image ?? $defaultImage ) }}"
+                                    class="rounded-circle ms-2" alt="avatar"
+                                    style="width: 100px; height: 100px; object-fit: cover;">
+                            </div>
+                        </td>
                         <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3 text-center"></i>
                             <strong>{{ $user->name}}</strong>
                         </td>
                         <td class="text-center">{{ $user->email }}</td>
-                        <td class="text-center">{{ $user->address }}</td>
-
+                        <td class="text-center">{{ $user->phone }}</td>
+                        <td class="text-center">{{ $user->whatsapp }}</td>
+                        <td class="text-center">{{ $user->gender }}</td>
                         <td class="text-center">
-                            <textarea class="form-control" rows="3" style="width: 100%; height: 100px; resize: none;"
-                                readonly>{{ $user->address }}</textarea>
+                            <textarea class="form-control" rows="3" style="width: 100%; min-width: 200px; resize: none;"
+                                readonly>
+                                {{ $user->address }}
+                            </textarea>
                         </td>
                     </tr>
                     @endforeach

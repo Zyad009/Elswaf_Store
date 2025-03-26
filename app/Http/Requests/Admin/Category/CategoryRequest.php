@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Category;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryRequest extends FormRequest
@@ -21,11 +22,13 @@ class CategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        $imageRule = $this->isMethod("POST") ? "required" : "nullable";
-        $checkName = $this->isMethod("POST") ? "unique:categories,name" : "";
+        // $imageRule = $this->isMethod("POST") ? "required" : "nullable";
+        // $checkName = $this->isMethod("POST") ? "unique:categories,name" : "";
         return [
-            "name" => "required|string|min:3|max:30|$checkName",
-            "main_image" => "$imageRule|image|mimes:png,jpg,jpeg,gif",
+            "name" => ["required","string","min:3","max:30",
+        Rule::unique("categories" , "name")->ignore(request()->route("category"))
+        ],
+            "main_image" => "nullable|image|mimes:png,jpg,jpeg,gif|max:2048",
         ];
     }
 }
