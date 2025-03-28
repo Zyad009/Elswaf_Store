@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Admin\Category;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Category\CategoryRequest;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Admin\Traits\UploadImage;
+use App\Http\Requests\Admin\Category\CategoryRequest;
 
 class AdminCategoryController extends Controller
 {
@@ -40,7 +41,7 @@ class AdminCategoryController extends Controller
         $parentCategory = Category::create($data);
         $parentCategoryId = $parentCategory->id;
 
-        if(isset($mainImage)){
+        if (isset($mainImage)) {
             $this->saveImages("Category", $parentCategoryId, $nameCategory, $mainImage);
         }
 
@@ -93,8 +94,31 @@ class AdminCategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $data = $request->validated();
+        $mainImage = $request->file("main_image");
         $category->update($data);
-        alert()->success("Success!", "editor updated successfully");
+        
+        if (isset($mainImage)) {
+
+            if($category->images->first()?->main_image){
+                $dirFromAnyImage = dirName($category->images->first()?->main_image);
+                Storage::deleteDirectory($dirFromAnyImage);
+            }
+
+            $categoryId = $category->id;
+            $nameCategory = $request->name;
+            $this->saveImages("Category", $categoryId, $nameCategory, $mainImage);
+        } else {
+
+            if ($category->images->first()?->main_image) {
+                $dirFromAnyImage = dirName($category->images->first()?->main_image);
+                Storage::deleteDirectory($dirFromAnyImage);
+            }
+
+            $category->images()->update(["main_image" => null]);
+        }
+
+
+        alert()->success("Success!", "category updated successfully");
 
         return to_route("admin-dashboard.category.all");
     }
@@ -140,6 +164,11 @@ class AdminCategoryController extends Controller
     {
         $category = Category::withTrashed()
             ->findOrFail($id);
+
+        $dirFromAnyImage = dirName($category->images->first()?->main_image);
+        Storage::deleteDirectory($dirFromAnyImage);
+        $category->images()->delete();
+
         $category->forceDelete();
 
         alert()->success("Success!", "removed has been successfully");

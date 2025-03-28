@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Admin\Traits\UploadImage;
 use App\Http\Requests\Admin\Product\ProductRequest;
 
@@ -37,25 +38,6 @@ class AdminProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-
-    // public function imageUpload(ProductRequest $request){ {
-    //     return response()->json(
-    //         $request
-    //     );
-    //             if ($request->hasFile('image')) {
-    //             $image = $request->file('image');
-    //             $fileName = $image->getClientOriginalName();
-    //             $folder = uniqid('image_', true);
-    //             $image->storeAs('public/admin/products/' . $folder, $fileName);
-    //         Image::create([
-    //             "folder" => $folder,
-    //             "file" => $fileName,
-    //         ]);
-    //             return $folder;
-    //         }
-    //         return response()->json(['error' => 'No image uploaded'], 400);
-    //     }
-    // }
 
     public function store(ProductRequest $request)
     {
@@ -115,25 +97,31 @@ class AdminProductController extends Controller
      * Remove the specified resource from storage.
      */
 
+
     public function update(ProductRequest $request, Product $product)
     {
-
         $data = $request->validated();
-        $oldImage = $product->image;
-
-        if ($request->hasFile('image')) {
-            $newImage = $request->file('image')->store("public/admin/products");
-            File::delete($oldImage);
-            $data['image'] = $newImage;
-        } else {
-            $data['image'] = $oldImage;
-        }
+        $dirFromAnyImage= dirName($product->images->first()?->main_image);
+        Storage::deleteDirectory($dirFromAnyImage);
 
         $product->update($data);
-        alert()->success("Success!", "product updated successfully");
+        
+        $mainImage = $request->file('main_image');
+        $hoverImage = $request->file('hover_image');
+        $images = $request->file('images');
+        $categoryId = $request->category_id;
+        $nameProduct = $request->name;
+        $productId = $product->id;
 
-        return to_route("admin-dashboard.product.all", $product);
+        $this->saveImages("Product", $productId, $nameProduct, $mainImage, $hoverImage, $images, $categoryId);
+        alert()->success("Success!", "Updated has been successfully");
+
+        return to_route('admin-dashboard.product.all');
     }
+
+
+
+
 
     public function destroy(Product $product)
     {
@@ -168,7 +156,12 @@ class AdminProductController extends Controller
     //========= Remove ======== //
     public function archiveRemove($id)
     {
+        
         $product = Product::withTrashed()->findOrFail($id);
+        $dirFromAnyImage = dirName($product->images->first()?->main_image);
+        Storage::deleteDirectory($dirFromAnyImage);
+        $product->images()->delete();
+
         $product->forceDelete();
 
         alert()->success("Success!", "removed has been successfully");

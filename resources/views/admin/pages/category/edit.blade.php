@@ -6,15 +6,14 @@
 @endpush
 @section('admin-content')
 <x-form.edit title="Edit category" :name="$category->name">
-    <form method="post" action="{{route("admin-dashboard.category.update" , $category)}}"
-        class="">
+    <form method="post" action="{{route("admin-dashboard.category.update" , $category)}}" class="" enctype="multipart/form-data">
         <x-error></x-error>
         @csrf
         @method('PUT')
 
         <div class="mb-3">
             <label for="">Name</label>
-            <input type="text" name="name_en" id="" value="{{ $category->name }}" class="form-control">
+            <input type="text" name="name" id="" value="{{ $category->name }}" class="form-control">
         </div>
 
         <div class="col-md-12">
@@ -22,8 +21,11 @@
 
             <input type="file" name="main_image" id="main_image" class="form-control">
 
-            <input style="display: none" type="image" src="{{ asset($category->images->first()?->hover_image) }}"
+            @if($category->images->first()?->main_image)
+            <input style="display: none" type="image" src="{{ asset($category->images->first()?->main_image) }}"
                 name="imagePreviewMainImage" id="imagePreviewMainImage" class="form-control">
+            @endif
+
         </div>
 
         <x-button.submit.edit></x-button.submit.edit>
@@ -35,26 +37,27 @@
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 <script>
-    FilePond.registerPlugin(FilePondPluginImagePreview);
-
     document.addEventListener('DOMContentLoaded', function() {
-    // Register FilePond plugins
-    FilePond.registerPlugin(FilePondPluginImagePreview);
-    
-    var imagePreviewMainImage = document.querySelector('#imagePreviewMainImage').src;
-    // Initialize FilePond
-    const pond = FilePond.create(document.querySelector('#main_image'), {
-    allowImagePreview: true,
-    imagePreviewMaxHeight: 200,
-    storeAsFile: true,
-    allowMultiple: false,
-    acceptedFileTypes: ['image/*'],
-    });
-    if (imagePreviewMainImage != null) {
-    pond.addFile(imagePreviewMainImage);
-      }
-    
-            });
+FilePond.registerPlugin(FilePondPluginImagePreview);
+
+// الحصول على العنصر الخاص بالصورة
+var imagePreviewMainImageElement = document.querySelector('#imagePreviewMainImage');
+var imagePreviewMainImage = imagePreviewMainImageElement?.src || null;
+
+// تهيئة FilePond
+const pond = FilePond.create(document.querySelector('#main_image'), {
+allowImagePreview: true,
+imagePreviewMaxHeight: 200,
+storeAsFile: true,
+allowMultiple: false,
+acceptedFileTypes: ['image/*'],
+});
+
+// إضافة الصورة لو كانت موجودة فقط
+if (imagePreviewMainImage) {
+pond.addFile(imagePreviewMainImage);
+}
+});
 </script>
 @endpush
 

@@ -16,7 +16,7 @@
         <div class="row g-3">
             <div class="col-md-6">
                 <label class="form-label">Name <span class="text-danger">*</span></label>
-                <input type="text" name="name" class="form-control" required>
+                <input type="text" name="name" value="{{old('name')}}" class="form-control" required>
             </div>
 
             <div class="col-md-6">
@@ -40,12 +40,12 @@
 
             <div class="col-md-6">
                 <label class="form-label">Price <span class="text-danger">*</span></label>
-                <input type="number" step="0.01" min="0" name="price" class="form-control" required>
+                <input type="number" step="0.01" min="0" name="price" value="{{old('price')}}" class="form-control" required>
             </div>
 
             <div class="col-12">
                 <label class="form-label">Description <span class="text-danger">*</span></label>
-                <textarea name="description" class="form-control" rows="4"></textarea>
+                <textarea name="description" class="form-control" rows="4">{{old('description')}}</textarea>
             </div>
 
             <div class="col-md-6">

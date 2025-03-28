@@ -30,8 +30,10 @@ class AdminProductSingleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProductColorSize $singleProduct)
+    public function edit($singleProduct)
     {
+        $id = decrypt($singleProduct);
+        $singleProduct = ProductColorSize::findOrFail($id);
         $singleProduct->load("product" , "color" , "size");
         $type_size = $singleProduct->product->type_size;
 

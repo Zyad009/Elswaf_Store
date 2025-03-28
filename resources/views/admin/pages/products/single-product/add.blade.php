@@ -29,7 +29,7 @@
             icon: "error",
         title: "Oops...",
         text: "This product already exists!",
-        footer: `<a href="/admin-dashboard/single-product/${productId}/edit">Edit Product</a>`
+        footer: `<a href="/admin-dashboard/single-product/${productId}/edit">if you want edit for this details click heare</a>`
         // footer: `<a href="{{route("admin-dashboard.single-product.edit" , 'product_id' )}}">Edit Product</a>`.replace('product_id' , productId)
         });
     });

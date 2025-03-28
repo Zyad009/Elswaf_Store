@@ -11,16 +11,14 @@ use Livewire\WithFileUploads;
 
 trait UploadImage
 {
-
-  private function buildStoragePath($entityName, $folderName,  $categoryId = null)
+  private function buildStoragePath($entityName, $folderName, $categoryId = null)
   {
-
     $basePath = "public/admin/$entityName/";
     $startPath = [];
     if ($categoryId) {
       $category = Category::find($categoryId);
       while ($category) {
-        array_unshift($startPath, $category->name);
+        array_unshift($startPath, Str::slug($category->name, '-'));
         $category = Category::find($category->parent_id);
       }
       return $basePath . implode('/', $startPath) . "/$folderName";
@@ -30,17 +28,17 @@ trait UploadImage
 
   private function saveMainImage($mainImage, $path)
   {
-
-    $imageName = time() . '_' . Str::random(10) . '.' . $mainImage->getClientOriginalExtension();
+    $extension = strtolower($mainImage->getClientOriginalExtension());
+    $imageName = 'main_'.time() . '_' . Str::random(10) . '.' . $extension;
     $mainImage->storeAs($path, $imageName);
-
     return "$path/$imageName";
   }
 
   private function saveHoverImage($hoverImage = null, $path)
   {
     if ($hoverImage) {
-      $imageName = time() . '_' . Str::random(10) . '.' . $hoverImage->getClientOriginalExtension();
+      $extension = strtolower($hoverImage->getClientOriginalExtension());
+      $imageName = 'hover_'.time() . '_' . Str::random(10) . '.' . $extension;
       $hoverImage->storeAs($path, $imageName);
       return "$path/$imageName";
     }
@@ -54,42 +52,24 @@ trait UploadImage
     }
     $nameOfImages = [];
     foreach ($images as $image) {
-      $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+      $extension = strtolower($image->getClientOriginalExtension());
+      $imageName = time() . '_' . Str::random(10) . '.' . $extension;
       $image->storeAs($path, $imageName);
-      $nameOfImages[] = "$path/$imageName"; 
+      $nameOfImages[] = "$path/$imageName";
     }
     return $nameOfImages;
   }
 
+  public function saveImages($entityName, $requestId, $requestName, $mainImage, $hoverImage = null, array $images = null, $categoryId = null)
+  {
+    $folderName = Str::slug($requestName, '-') . "_" . Str::uuid();
 
-  public function saveImages(
-    string $entityName,
-    int $requestId,
-    string $requestName,
-    $mainImage,
-    $hoverImage = null,
-    array $images = null,
-    $categoryId = null
-  ) {
-    //=== Validate Main Image ===//
-
-    // === Create Folder Name === //
-    $folderName = Str::slug($requestName) . "_" . Str::uuid();
-    // === Build Storage Path === //
     $path = $this->buildStoragePath($entityName, $folderName, $categoryId);
-    $path  = str_replace(" ", "-", $path);
-    // === Save Main Image === //
+
     $mainImageName = $this->saveMainImage($mainImage, $path);
-
-    // === Save Main Image === //
-    // dd($mainImageName);
     $hoverImageName = $this->saveHoverImage($hoverImage, $path);
-
-
-    // === Save Additional Images === //
     $nameImages = $this->saveFilesImages($images, $path);
-    // dd($nameImages);
-    // === Save Image Data in DB === //
+
     $modelClass = "App\Models\\$entityName";
     Image::updateOrCreate(
       [

@@ -19,7 +19,7 @@
                 <td class="text-center">{{ $singleProduct->color->name }}</td>
                 <td class="text-center">{{ $singleProduct->QTY }}</td>
                 <td class="text-center">
-                        <a href="{{ route('admin-dashboard.single-product.edit', $singleProduct) }}"
+                        <a href="{{ route('admin-dashboard.single-product.edit', encrypt($singleProduct->id)) }}"
                             class="btn btn-warning">
                             <i class="bx bx-pencil"></i>
                         </a>

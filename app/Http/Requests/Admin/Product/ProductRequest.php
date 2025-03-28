@@ -22,17 +22,16 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        $imageRule = $this->isMethod("POST") ? "required" : "nullable";
+        // $imageRule = $this->isMethod("POST") ? "required" : "nullable";
         return [
             "name" => "required|min:3|max:50",
             "price" => "required|numeric|min:0",
             "description" => "required|string|min:15|max:500",
             'type_size' => 'required|in:letter,number',
-            "main_image" => "$imageRule|image|mimes:png,jpg,jpeg,gif|max:2048",
+            "main_image" => "required|image|mimes:png,jpg,jpeg,gif|max:2048",
             "hover_image" => "required|image|mimes:png,jpg,jpeg,gif",
-            "images" => "$imageRule",
-            "images.*" => [$imageRule, "file", "image", "mimes:png,jpg,jpeg,gif" , "max:2048"],
-            // Rule::ignore($this->id),
+            "images" => "required|array|min:1|max:3",
+            "images.*" => ["required", "file", "image", "mimes:png,jpg,jpeg,gif" , "max:2048"],
             "category_id" => "required|exists:categories,id",
         ];
     }

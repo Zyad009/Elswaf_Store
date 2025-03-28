@@ -27,7 +27,8 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="{{ asset($image ?? $defaultImage) }}" alt class="w-px-40 h-auto rounded-circle" />
+                        <img src="{{ asset($image ?? $defaultImage) }}" alt="User Avatar"
+                            class="w-px-40 h-40 rounded-circle object-cover" />
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -37,7 +38,7 @@
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
                                         <img src="{{ asset($image ?? $defaultImage) }}" alt
-                                            class="w-px-40 h-auto rounded-circle" />
+                                            class="w-px-40 h-40 rounded-circle object-cover" />
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
@@ -63,8 +64,7 @@
                         <form action="{{route("logout")}}" method="POST">
                             @csrf
                             <a class="dropdown-item" href="#">
-                                <button type="submit" class="btn navigation-button"
-                                    href="#">
+                                <button type="submit" class="btn navigation-button" href="#">
                                     <i class="bx bx-power-off me-2"></i>
                                     <span class="align-middle">Log Out</span>
                                 </button>

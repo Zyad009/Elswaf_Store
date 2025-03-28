@@ -114,7 +114,9 @@ class Data extends Component
         // $this->validate();
 
         if ($this->image && Storage::exists($this->image)) {
-            Storage::delete($this->image);
+            // Storage::delete($this->image);
+            $dir = dirName($this->image);
+            Storage::deleteDirectory($dir);
         }
         $this->saveImages($this->entityName, $this->id, $this->name, $this->newImage);
         $this->image = $this->data->images->first()?->main_image;
@@ -126,7 +128,9 @@ class Data extends Component
     public function deleteImage()
     {
         if ($this->image && Storage::exists($this->image)) {
-            Storage::delete($this->image);
+            // Storage::delete($this->image);
+            $dir = dirName($this->image);
+            Storage::deleteDirectory($dir);
         }
 
         $this->data->images()->update(['main_image' => null]);

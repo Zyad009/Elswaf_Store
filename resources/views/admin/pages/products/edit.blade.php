@@ -8,7 +8,7 @@
 
 <x-form.edit title="Edit Product" :name="$product->name">
 
-    <form method="post" action="{{ route('admin-dashboard.product.update', $product->id) }}"
+    <form method="post" action="{{ route('admin-dashboard.product.update', $product) }}"
         enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -23,12 +23,13 @@
             <div class="col-md-6">
                 <label class="form-label">Category</label>
                 <select name="category_id" class="form-control" required>
+                    @if (isset($product->category))
+                    <option value="{{$product->category->id}}">{{$product->category->name}}</option>
+                    @else
                     <option value="">Select Category</option>
+                    @endif
                     @foreach ($categories as $category)
-                    <option value="{{ $category->id }}" {{ $category->id == $product->category_id ?
-                        'selected' : '' }}>
-                        {{ $category->name }}
-                    </option>
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -36,7 +37,6 @@
             <div class="col-md-6">
                 <label class="form-label">Type Size</label>
                 <select name="type_size" class="form-control">
-                    <option value="">Select Type Size</option>
                     <option value="letter" {{ $product->type_size == 'letter' ? 'selected' : ''
                         }}>Alphabetic</option>
                     <option value="number" {{ $product->type_size == 'number' ? 'selected' : ''
@@ -71,16 +71,18 @@
                     name="imagePreviewHoverImage" id="imagePreviewHoverImage" class="form-control">
             </div>
 
+            
             <div class="col-12">
                 <label class="form-label">Additional Images</label>
                 <input type="file" name="images[]" id="images" class="form-control" multiple>
+
+
                 @php
                 $images = $product->images->first()?->images;
                 $images = json_decode($images);
                 @endphp
-                {{-- @dd($images) --}}
+
                 @foreach ($images as $image )
-                {{-- @dd($image) --}}
                 <input type="image" style="display: none" src="{{ asset($image) }}" name="imagePreviewImages"
                     id="imagePreviewImages" class="form-control" multiple>
                 @endforeach

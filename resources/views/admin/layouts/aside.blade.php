@@ -113,7 +113,10 @@
       </li>
 
       <!-- Products -->
-      <li class="menu-item {{request()->is('admin-dashboard/product/*') ? " active" : "" }}">
+      <li class="menu-item 
+      {{request()->is('admin-dashboard/product/*') ? " active" : "" }}
+      {{request()->is('admin-dashboard/single-product/*') ? "active" : ""}}
+        ">
         <a href="{{ route('admin-dashboard.product.all') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-box"></i>
           <div>Products</div>
@@ -121,6 +124,7 @@
       </li>
 
 
+      {{-- Offers --}}
       <li class="menu-item {{request()->is('admin-dashboard/offer/*') ? " active open " : "" }}" style="">
         <a href="javascript:void(0)" class="menu-toggle menu-link  ">
           <i class="menu-icon tf-icons bx bx-purchase-tag"></i>

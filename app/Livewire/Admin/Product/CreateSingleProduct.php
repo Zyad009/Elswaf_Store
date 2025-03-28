@@ -37,7 +37,8 @@ class CreateSingleProduct extends Component
 
 
         if($existData){
-            $this->dispatch("errorDuplicate" , $existData->id);
+            $id = encrypt($existData->id);
+            $this->dispatch("errorDuplicate" , $id);
             return;
         }
 

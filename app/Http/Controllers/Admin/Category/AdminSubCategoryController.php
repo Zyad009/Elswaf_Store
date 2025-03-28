@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Category;
 
-use App\Http\Controllers\Admin\Traits\UploadImage;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Category\SubCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Controllers\Admin\Traits\UploadImage;
+use App\Http\Requests\Admin\Category\SubCategoryRequest;
 
 class AdminSubCategoryController extends Controller
 {
@@ -52,7 +53,7 @@ class AdminSubCategoryController extends Controller
         $subCategory = Category::create($data);
         $subCategoryId = $subCategory->id;
         
-        if(isset($mainIage)){
+        if(isset($mainImage)){
             $this->saveImages("Category", $subCategoryId, $nameCategory, $mainImage);
         }
 
@@ -69,8 +70,7 @@ class AdminSubCategoryController extends Controller
         $selected = ['id', 'name', "slug", 'parent_id'];
         $subCategories = Category::select($selected)
             ->whereNotNull("parent_id")
-            ->with("parent")
-            ->with("images")
+            ->with("parent" , "images")
             ->orderBy("id", "desc")
             ->paginate(config("pagination.count"));
 
@@ -89,12 +89,8 @@ class AdminSubCategoryController extends Controller
         if ($subCategory->parent !== null) {
 
             $selected = ['id', 'name', 'slug', 'parent_id'];
-            
-            // تجنب تحميل العلاقة إذا كانت محملة مسبقًا
             $subCategory->loadMissing("parent");
             
-            
-            // تحميل الفئات مع تصفية مباشرة في الاستعلام
             $mainCategories = Category::select($selected)
                 ->whereNull('parent_id')
                 ->get();
@@ -144,10 +140,31 @@ class AdminSubCategoryController extends Controller
     public function update(SubCategoryRequest $request, Category $category)
     {
         $data = $request->validated();
+        $mainImage = $request->file("main_image");
         $category->update($data);
+
+        if (isset($mainImage)) {
+
+            if ($category->images->first()?->main_image) {
+                $dirFromAnyImage = dirName($category->images->first()?->main_image);
+                Storage::deleteDirectory($dirFromAnyImage);
+            }
+            
+            $categoryId = $category->id;
+            $nameCategory = $request->name;
+            $this->saveImages("Category", $categoryId, $nameCategory, $mainImage);
+        } else {
+
+            if ($category->images->first()?->main_image) {
+                $dirFromAnyImage = dirName($category->images->first()?->main_image);
+                Storage::deleteDirectory($dirFromAnyImage);
+            }
+
+            $category->images()->update(["main_image" => null]);
+        }
+
+
         alert()->success("Updated", "sub-category updated successfully");
-
-
         return to_route("admin-dashboard.subcategory.all");
     }
     /**
