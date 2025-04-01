@@ -1,6 +1,6 @@
 <div class="card mx-auto my-4 px-3 py-2 w-100">
     <div class="table-responsive text-nowrap mt-2">
-        @if (!empty($items) && is_countable($items) && count($items) > 0)
+        @if (!empty($items) && count($items) > 0)
 
 {{$slot}}
 @else

@@ -4,17 +4,18 @@ namespace App\Livewire\Admin\Product;
 
 use App\Models\Product;
 use Livewire\Component;
+use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 
 class TableProduct extends Component
 {
     use WithPagination;
 
-    public $searchBy = "name"; 
-    public $search ;
+    public $searchBy = "name";
+    #[Url(except: '')]
+    public $search;
 
-    protected $listeners = ["dataRefresh" => '$refresh'];
-
+    // protected $listeners = ["dataRefresh" => '$refresh'];
 
     public function resetFilters()
     {
@@ -41,13 +42,11 @@ class TableProduct extends Component
 
             "color" => $products->whereHas("productColorsSizes.color", fn($query) =>
             $query->where("name", "LIKE", "%" . $this->search . "%")),
-
-            "price" => $products->where("price", "LIKE", "%" . $this->search . "%"),
         };
 
         return view('livewire.admin.product.table-product', [
             "products" => $products
-                ->with("category", "images")
+                ->with("category", "images" , "offer")
                 ->orderBy("id", "desc")
                 ->paginate(config("pagination.count"))
         ]);

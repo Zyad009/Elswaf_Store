@@ -4,12 +4,14 @@ namespace App\Livewire\User;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 
 class SearchUser extends Component
 {
     use WithPagination;
 
+    #[Url(except: '')]
     public $search;
 
 

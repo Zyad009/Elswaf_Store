@@ -165,9 +165,11 @@ class AdminCategoryController extends Controller
         $category = Category::withTrashed()
             ->findOrFail($id);
 
-        $dirFromAnyImage = dirName($category->images->first()?->main_image);
-        Storage::deleteDirectory($dirFromAnyImage);
-        $category->images()->delete();
+        if ($category->images->first()?->main_image) {
+            $dirFromAnyImage = dirName($category->images->first()?->main_image);
+            Storage::deleteDirectory($dirFromAnyImage);
+            $category->images()->delete();
+        }
 
         $category->forceDelete();
 

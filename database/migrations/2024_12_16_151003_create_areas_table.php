@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedDecimal("delivery_price_super", 8, 2)->default(0);
             $table->softDeletes();
             
+            $table->boolean("is_active")->default(true);
             $table->timestamps();
         });
     }

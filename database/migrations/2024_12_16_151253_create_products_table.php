@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string("name");
             $table->string("slug");
             $table->enum("type_size", ["number", "letter"]);
-            $table->unsignedDecimal("price");
+            $table->unsignedDecimal("price", 8, 2);
             $table->integer("QTY")->default(0);
-            $table->string("description");
-            $table->string("rating")->default(10);
+            $table->text("description");
+            $table->decimal("rating", 3, 1)->default(5.0);
             $table->boolean("is_active")->default(true);
             $table->softDeletes();
 

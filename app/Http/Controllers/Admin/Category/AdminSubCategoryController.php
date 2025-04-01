@@ -207,6 +207,13 @@ class AdminSubCategoryController extends Controller
     public function archiveRemove($id)
     {
         $category = Category::withTrashed()->findOrFail($id);
+
+        if ($category->images->first()?->main_image) {
+            $dirFromAnyImage = dirName($category->images->first()?->main_image);
+            Storage::deleteDirectory($dirFromAnyImage);
+            $category->images()->delete();
+        }
+
         $category->forceDelete();
 
         alert()->success("Success!", "removed has been successfully");

@@ -1,42 +1,92 @@
 @extends('admin.layouts.app')
-@section("admin-title" , "Management Offers")
-@section("admin-content")
-
-<section class="section dashboard">
-  <div class="row g-4">
-<div class="col-lg-4 col-md-6 col-12">
-  <div class="card info-card sales-card shadow-sm standalone-product">
-    <div class="card-body text-center">
-      <h5 class="card-title">All Products</h5>
-      <h4 class="fw-bold">Without the condition of the category</h4>
-      <p class="text-muted small">Edit & Delete & View All & Create</p>
-      {{-- <a href="{{ route('shop') }}" class="btn btn-outline-success"> --}}
-        <i class="bx bx-list-ul fs-4"></i>
-      </a>
-    </div>
-  </div>
-</div>
-    
-    @forelse ($categories as $category)
-    <div class="col-lg-4 col-md-6 col-12">
-      <div class="card info-card sales-card shadow-sm">
-        <div class="card-body text-center">
-          <h5 class="card-title">Products for {{ $category->name }}</h5>
-          <h4 class="fw-bold">All Products In {{ $category->name }}</h4>
-          <p class="text-muted small">Edit & Delete & View All & Create</p>
-          {{-- <a href="{{ route('admin-dashboard.offer.product.all.category-products', $category) }}" class="btn btn-primary "> --}}
-            <i class="bx bx-list-ul fs-4"></i>
+@section("admin-title" , "All Main Offers")
+@section('admin-content')
+<div class="card-body">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold mb-0">All Main Offers</h2>
+        <div class="d-flex gap-2 mb-3">
+          
+          <a href="{{ route('admin-dashboard.offer.category.all') }}" class="btn btn-warning">
+            Set Discount (Categories)
+          </a>
+          
+          <a href="{{ route('admin-dashboard.offer.product.all') }}" class="btn btn-warning">
+            Set Discount (Products)
+          </a>
+          
+          <a href="{{ route('admin-dashboard.offer.new') }}" class="btn btn-primary">
+            <i class='bx bx-plus bx-tada'></i> Create Main Offer
           </a>
         </div>
       </div>
-    </div>
-    @empty
-    <div class="col-12">
-      <div class="alert alert-danger text-center" role="alert">
-        No Category Found
+      <x-error></x-error>
+
+      <x-table.index :items="$offers">
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width: 10px">ID</th>
+              <th class="text-center">Code</th>
+              <th class="text-center">Discount</th>
+              <th class="text-center">QTY Categories</th>
+              <th class="text-center">QTY Product</th>
+              <th class="text-center">Start Date</th>
+              <th class="text-center">End Date</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+            @foreach ($offers as $offer)
+            <tr>
+              <td>{{ $offer->id }} || </td>
+              <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3 text-center"></i>
+                @if ($offer->code == null)
+                <x-special-text.primary-text title="(Special)" />
+                @endif
+                <strong>{{$offer->code}}</strong>
+              </td>
+              <td class="text-center">
+                @if ($offer->discount_type == "percentage")
+                %{{$offer->discount}}
+                @else
+                EGP {{$offer->discount}}
+                @endif
+              </td>
+              <td class="text-center">{{ $offer->categories_count }}</td>
+              <td class="text-center">{{ $offer->products_count }}</td>
+              <td class="text-center">{{$offer->start_date }}</td>
+              <td class="text-center">{{$offer->end_date }}</td>
+
+              <td class="text-center">
+                <div class="d-flex flex-row gap-2 align-items-center">
+                  <a href="{{ route('admin-dashboard.offer.edit', $offer) }}"
+                    class="btn btn-icon btn-outline-warning">
+                    <i class="bx bx-pencil"></i>
+                  </a>
+                  <form action="{{ route('admin-dashboard.offer.delete', $offer) }}" method="post"
+                    data-confirm-delete="true">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-icon btn-outline-danger confirm-delete">
+                      <i class="bx bx-trash"></i>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            @endforeach
+          </tbody>
+          <h5 class="text-center">Total: {{ $offers->total() }}</h5>
+        </table>
+
+      </x-table.index>
+
+      <div class="text-center p-3">
+        {{ $offers->links() }}
       </div>
     </div>
-    @endforelse
   </div>
-</section>
+</div>
 @endsection

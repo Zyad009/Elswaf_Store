@@ -87,32 +87,23 @@ Route::name("admin-dashboard.")->middleware('auth')->prefix("admin-dashboard")->
   });
 
   Route::name("offer.")->prefix("offer")->group(function () {
+    Route::controller(AdminOfferController::class)->group(function () {
+      Route::get("/","index")->name("admin");
+      Route::get("/create", "create")->name("new");
+      Route::post("/", "store")->name("store");
+      Route::get("/{offer}/edit", "edit")->name("edit");
+      Route::put("/{offer}/update", "update")->name("update");
+      Route::delete("/{offer}/delete", "destroy")->name("delete");
+      
+    });
+    Route::get("/product/all", [AdminOfferProductController::class,"show"])->name("product.all");
     
-    Route::get("/",[AdminOfferController::class , "index"])->name("admin");
+    Route::get("/category/all",[AdminOfferCategoryController::class ,"show"])->name( "category.all");
 
-    Route::name("product.")->prefix("product")->group(function () {
-      Route::controller(AdminOfferProductController::class)->group(function () {
-        Route::get("/create", "create")->name("new");
-        Route::post("/", "store")->name("store");
-        Route::get("/all", "show")->name( "all");
-        // Route::get("/{categort}/category-all-products", "showProductsFromCategory")->name("all.category-products");
-        Route::get("/{offerProduct}/edit", "edit")->name("edit");
-        Route::put("/{offerProduct}/update", "update")->name("update");
-        Route::delete("/{offerProduct}/delete", "destroy")->name("delete");
-      });
     });
+
     
-    Route::name("category.")->prefix("category")->group(function () {
-      Route::controller(AdminOfferCategoryController::class)->group(function () {
-        Route::get("/create", "create")->name("new");
-        Route::post("/", "store")->name("store");
-        Route::get("/all", "show")->name(name: "all");
-        Route::get("/{offerCategory}/edit", "edit")->name("edit");
-        Route::put("/{offerCategory}/update", "update")->name("update");
-        Route::delete("/{offerCategory}/delete", "destroy")->name("delete");
-      });
-    });
-  });
+
 
   Route::name("product.")->prefix("product")->middleware('auth:admin')->group(function () {
     Route::controller(AdminProductController::class)->group(function () {

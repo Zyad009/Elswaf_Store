@@ -30,19 +30,24 @@
                             <td class="text-center"><i class="bx bx-building-house text-danger me-3 text-center"></i>
                                 <strong>{{ $subCategory->name }}</strong>
                             </td>
+                            </td>
                             <td class="text-center">
-                                <img src="{{ asset($subCategory ->images->first()?->main_image) }}"
-                                    class="product-image" alt="product">
+                                @if (isset($subCategory->images->first()?->main_image))
+                                <img src="{{ asset($subCategory->images->first()?->main_image) }}" class="product-image"
+                                    alt="product">
+                                @else
+                                <b class="badge bg-label-danger me-1">No Image</b>
+                                @endif
                             </td>
                             <td class="text-center">
                                 <b class="badge bg-label-danger me-1 fw-bold">
-                                {{ $subCategory->deleted_at }}
+                                    {{ $subCategory->deleted_at }}
                                 </b>
                             </td>
 
                             <td class="text-center">
                                 <div class="d-flex gap-2 justify-content-center">
-                                    <form action="{{ route('admin-dashboard.branches.restore', $subCategory->id) }}"
+                                    <form action="{{ route('admin-dashboard.subcategory.restore', $subCategory->id) }}"
                                         method="post">
                                         @csrf
                                         <button type="submit" class="btn btn-success">
@@ -50,7 +55,7 @@
                                         </button>
                                     </form>
 
-                                    <form action="{{ route('admin-dashboard.branches.remove', $subCategory->id) }}"
+                                    <form action="{{ route('admin-dashboard.subcategory.remove', $subCategory->id) }}"
                                         method="post" data-confirm-delete="true">
                                         @csrf
                                         @method('DELETE')

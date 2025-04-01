@@ -42,7 +42,7 @@ class Category extends Model
 
     public function offer()
     {
-        return $this->hasOne(Offer::class);
+        return $this->belongsTo(Offer::class);
     }
 
     public function products()

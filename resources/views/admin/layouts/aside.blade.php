@@ -123,26 +123,32 @@
         </a>
       </li>
 
-
+      
       {{-- Offers --}}
-      <li class="menu-item {{request()->is('admin-dashboard/offer/*') ? " active open " : "" }}" style="">
+      <li class="menu-item {{ request()->is('admin-dashboard/offer*') ? 'active' : '' }}">
+        <a href="{{ route('admin-dashboard.offer.admin') }}" class="menu-link">
+          <i class="menu-icon tf-icons bx bx-purchase-tag"></i>
+          <div>Offers</div>
+        </a>
+      </li>
+      {{-- <li class="menu-item {{request()->is('admin-dashboard/offer/*') ? " active open " : "" }}" style="">
         <a href="javascript:void(0)" class="menu-toggle menu-link  ">
           <i class="menu-icon tf-icons bx bx-purchase-tag"></i>
           <div data-i18n="User interface">Offers</div>
         </a>
         <ul class="menu-sub">
-          <li class="menu-item {{request()->is('admin-dashboard/offer/product/*') ? " active" : "" }}">
-            <a href="{{route('admin-dashboard.offer.product.all')}}" class="menu-link ">
+          <li class="menu-item {{request()->is('admin-dashboard/offer/product*') ? "active" : "" }}">
+            <a href="{{route('admin-dashboard.offer.product.admin')}}" class="menu-link ">
               <div data-i18n="Tooltips &amp; Popovers">Products</div>
             </a>
           </li>
-          <li class="menu-item {{request()->is('admin-dashboard/offer/category/*') ? " active" : "" }}">
-            <a href="{{route('admin-dashboard.offer.category.all')}}" class="menu-link ">
+          <li class="menu-item {{request()->is('admin-dashboard/offer/category*') ? " active" : "" }}">
+            <a href="{{route('admin-dashboard.offer.category.admin')}}" class="menu-link ">
               <div data-i18n="Typography">Categories</div>
             </a>
           </li>
         </ul>
-      </li>
+      </li> --}}
 
       <!-- Color -->
       <li class="menu-item {{ request()->is('admin-dashboard/color/*') ? 'active' : '' }}">

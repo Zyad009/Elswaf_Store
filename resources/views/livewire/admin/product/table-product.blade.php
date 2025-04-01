@@ -10,7 +10,6 @@
                     <option value="size">Size</option>
                     <option value="category">Category</option>
                     <option value="color">Color</option>
-                    <option value="price">Fixed Price Only</option>
                 </select>
             </div>
 
@@ -44,6 +43,9 @@
                         <th class="text-center">Category</th>
                         <th class="text-center">Description</th>
                         <th class="text-center">Price</th>
+                        <th class="text-center">Has Offer</th>
+                        <th class="text-center">Discount</th>
+                        <th class="text-center">After Discount</th>
                         <th class="text-center">QTY</th>
                         <th class="text-center">Image</th>
                         <th class="text-center">Actions</th>
@@ -62,14 +64,67 @@
                             <b class="badge bg-label-danger me-1">No Category</b>
                             @endif
                         </td>
-                        <td class="text-center">
-                            <textarea class="form-control" rows="3" style="width: 100%; height: 100px; resize: none;"
-                                readonly>{{ $product->description }}</textarea>
-                        </td>
-                        {{-- <td>
-                            {{str()->limit($product->description , 10, '...')}}
+                        {{-- <td class="text-center" style="min-width: 200px; max-width: 400px; white-space: normal;">
+                            <textarea class="form-control" rows="3" style="width: 100%; height: auto; resize: vertical;"
+                                readonly>
+        {{ $product->description }}
+    </textarea>
                         </td> --}}
+                        <td class="text-center">
+                            {{ str()->limit($product->description, 20, ' ...') }}
+                            <a class="btn btn-icon btn-outline-secondary"
+                                wire:click="$dispatchTo('show-description', 'showDescription', { description: '{{ $product->description }}' })">
+                                <i class='bx bx-show'></i>
+                            </a>
+                        </td>
                         <td class="text-center">{{ $product->price }} <span>EGP</span></td>
+
+                        <td class="text-center">
+                            @if($product->offer?->code)
+                            <x-special-text.primary-text title="{{ $product->offer->code}}(main) ">
+                            </x-special-text.primary-text>
+
+                            @elseif($product->offer?->code == null && $product->offer?->discount )
+                            <x-special-text.primary-text title="{{ $product->offer->code }}(Special)">
+                            </x-special-text.primary-text>
+                            @else
+                            <x-special-text.dark-text title="No Offer"></x-special-text.dark-text>
+                            @endif
+                        </td>
+
+
+                        <td class="text-center">
+                            @if ($product->offer?->discount_type == "percentage")
+                            %{{$product->offer?->discount}}
+                            @elseif ($product->offer?->discount_type == "value")
+                            EGP {{$product->offer?->discount}}
+                            @else
+                            <x-special-text.dark-text title="No Offer"></x-special-text.dark-text>
+                            @endif
+                        </td>
+
+                        <td class="text-center">
+                            @php
+                            if($product->offer?->discount_type == "percentage"){
+                            $price = $product->price;
+                            $discount = $product->offer?->discount;
+                            $result = $price - (($price*$discount)/100);
+
+                            echo $result ." EGP";
+
+                            }elseif($product->offer?->discount_type == "value"){
+                            $price = $product->price;
+                            $discount = $product->offer?->discount;
+                            $result = $price-$discount;
+
+                            echo $result ." EGP";
+
+                            }else{
+                            echo "NO CHANGE";
+                            }
+                            @endphp
+                        </td>
+
 
                         <td class="text-center">
                             @if($product->QTY == 0)
@@ -81,8 +136,8 @@
                         </td>
 
                         <td class="text-center">
-                            <img src="{{ asset($product->images->first()?->main_image ?? config("default-image.image") ) }}" class="product-image"
-                                alt="product">
+                            <img src="{{ asset($product->images->first()?->main_image ?? config(" default-image.image")
+                                ) }}" class="product-image" alt="product">
                         </td>
                         <td class="text-center">
                             <div class="d-flex flex-row gap-2 align-items-center">

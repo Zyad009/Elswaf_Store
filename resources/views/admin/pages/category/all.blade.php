@@ -46,7 +46,7 @@
                                 <img src="{{ asset($category ->images->first()?->main_image) }}" class="product-image"
                                     alt="product">
                                 @else
-                                    <b class="badge bg-label-danger me-1">No Image</b>
+                                <x-special-text.danger-text title="No Image"></x-special-text.danger-text>
                                 @endif
                             </td>
 

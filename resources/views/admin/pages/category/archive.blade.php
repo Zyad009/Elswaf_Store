@@ -42,13 +42,17 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                <img src="{{ asset($category ->images->first()?->main_image) }}" class="product-image"
+                                @if (isset($category ->images->first()?->main_image))
+                                <img src="{{ asset($category->images->first()?->main_image) }}" class="product-image"
                                     alt="product">
+                                @else
+                                <b class="badge bg-label-danger me-1">No Image</b>
+                                @endif
                             </td>
 
                             <td class="text-center">
                                 <b class="badge bg-label-danger me-1 fw-bold">
-                                {{ $category->deleted_at }}
+                                    {{ $category->deleted_at }}
                                 </b>
                             </td>
                             <td class="text-center">

@@ -46,10 +46,10 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
-
+    
     public function offer()
     {
-        return $this->hasOne(Offer::class);
+        return $this->belongsTo(Offer::class);
     }
 
     // public function productAndColors(){
