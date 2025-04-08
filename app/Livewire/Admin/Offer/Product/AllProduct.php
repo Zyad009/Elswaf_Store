@@ -4,9 +4,10 @@ namespace App\Livewire\Admin\Offer\Product;
 
 use App\Models\Offer;
 use App\Models\Product;
-use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\Attributes\Url;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Cache;
 
 class AllProduct extends Component
 {
@@ -14,11 +15,21 @@ class AllProduct extends Component
 
     #[Url(except: '')]
     public $search;
-    public $data;
+    public $offers;
     public $selectedOffer = [];
     protected $listeners = ["refreshData" => '$refresh'];
 
+    public function mount()
+    {
+        $this->offers = Cache::remember('offers_with_code', now()->addMinutes(10), function () {
+            return Offer::whereNotNull("code")->get();
+        }) ?? collect();
+    }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
 
     public function rules()
     {
@@ -33,34 +44,39 @@ class AllProduct extends Component
             $this->dispatch("errorOffer");
             return;
         }
-        $this->validate();
+        $this->validate([
+            "selectedOffer.$id" => "required|exists:offers,id"
+        ]);
+
         Product::where("id", $id)->update(["offer_id" => $this->selectedOffer[$id] ]);
+        unset($this->selectedOffer[$id]);
         $this->dispatch("successOffer");
 
     }
 
-    public function cancelle($id){
-
+    public function cancelle($id)
+    {
         $product = Product::with("offer")->find($id);
-        
+
+        $offer = $product->offer; 
+
         $product->update(["offer_id" => null]);
-        
-        if ($product->offer->code == null) {
-            $offerId = $product->offer->id;
-            Offer::where("id", $offerId)->delete();
+
+        if ($offer && $offer->code === null) {
+            Offer::where("id", $offer->id)->delete();
         }
+
         $this->dispatch("deletedOffer");
-        return;
     }
+
 
     public function render()
     {
-        $offers = Offer::whereNotNull("code")->get();
         $products = Product::where("name", "LIKE", "%" . $this->search . "%")
             ->orWhereHas("category", fn($query) => $query->where("name", "LIKE", "%" . $this->search . "%"))
             ->with("category" , "offer")
             ->paginate(config("pagination.count"));
 
-        return view('livewire.admin.offer.product.all-product' , compact("products" , "offers"));
+        return view('livewire.admin.offer.product.all-product' , ["products" => $products , "offers" => $this->offers ] ) ;
     }
 }

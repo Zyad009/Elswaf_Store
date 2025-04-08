@@ -13,7 +13,7 @@
 <x-error></x-error>
 <livewire:admin.product.table-product />
 <livewire:admin.product.show-product />
-<livewire:admin.product.show-description>
+<livewire:admin.product.show-description />
 
     @push("admin-js")
         <script>

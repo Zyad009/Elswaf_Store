@@ -10,7 +10,7 @@ class ShowProduct extends Component
 
     public $title;
     public $data ;
-    protected $listeners = ['showProduct'];
+    protected $listeners = ['showProductEvent' => 'showProduct'];
     public function showProduct($id)
     {
         $this->data = Product::with("productColorsSizes.color", "productColorsSizes.size")

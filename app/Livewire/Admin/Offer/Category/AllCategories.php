@@ -15,8 +15,13 @@ class AllCategories extends Component
 
     #[Url(except: '')]
     public $search;
-    public $data;
+    public $offers;
     public $selectedOffer = [];
+
+    public function mount()
+    {
+        $this->offers = Offer::whereNotNull("code")->get();
+    }
 
     public function rules()
     {
@@ -55,12 +60,11 @@ class AllCategories extends Component
 
     public function render()
     {
-        $offers = Offer::whereNotNull("code")->get();
         $categories = Category::where("name", "LIKE", "%" . $this->search . "%")
             ->doesntHave("children")
             ->withCount("products")
             ->with( "offer")
             ->paginate(config("pagination.count"));
-        return view('livewire.admin.offer.category.all-categories' , compact("categories", "offers"));
+        return view('livewire.admin.offer.category.all-categories' , ["categories" => $categories, "offers" => $this->offers]);
     }
 }

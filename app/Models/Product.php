@@ -52,9 +52,10 @@ class Product extends Model
         return $this->belongsTo(Offer::class);
     }
 
-    // public function productAndColors(){
-    //     return $this->belongsToMany(Color::class , "product_color_sizes")->withPivot('size_id' , "QTY");
-    // }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 
     public function productColorsSizes()
     {

@@ -73,7 +73,7 @@
                         <td class="text-center">
                             {{ str()->limit($product->description, 20, ' ...') }}
                             <a class="btn btn-icon btn-outline-secondary"
-                                wire:click="$dispatchTo('show-description', 'showDescription', { description: '{{ $product->description }}' })">
+                                wire:click.prevent="$dispatch('showDescriptionEvent' , {description: '{{$product->description}}'})">
                                 <i class='bx bx-show'></i>
                             </a>
                         </td>
@@ -120,7 +120,7 @@
                             echo $result ." EGP";
 
                             }else{
-                            echo "NO CHANGE";
+                            echo "<b class='badge bg-label-dark me-1 fw-bold'>No Change</b>";
                             }
                             @endphp
                         </td>
@@ -147,7 +147,7 @@
                                 </a>
 
                                 <a class="btn btn-icon btn-outline-secondary"
-                                    wire:click.prevent='$dispatch("showProduct" , {id: {{$product->id}} })'>
+                                    wire:click.prevent='$dispatch("showProductEvent" , {id: {{$product->id}} })'>
                                     <i class='bx bx-show'></i>
                                 </a>
 

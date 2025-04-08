@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string("slug");
             $table->enum("type_size", ["number", "letter"]);
             $table->unsignedDecimal("price", 8, 2);
+            $table->unsignedInteger('sold')->default(0);
             $table->integer("QTY")->default(0);
             $table->text("description");
-            $table->decimal("rating", 3, 1)->default(5.0);
             $table->boolean("is_active")->default(true);
             $table->softDeletes();
 

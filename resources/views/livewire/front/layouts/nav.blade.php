@@ -11,14 +11,14 @@
                         <a href="{{ route('shop') }}" wire:navigate.hover>Shop</a>
                     </li>
 
-                    <li>
+                    {{-- <li>
                         <a class="sf-with-ul">Categories</a>
                         <ul>
                             <li>
                                 <a href="about.html" class="sf-with-ul" wire:navigate.hover>About</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
 
                     <li class="megamenu-container {{request()->routeIs(" about") ? "active" : "" }}">
                         <a href="{{ route('about') }}" wire:navigate.hover>About</a>

@@ -6,13 +6,13 @@ use Livewire\Component;
 
 class ShowDescription extends Component
 {
-    public $text;
-    protected $listeners = ['showDescription'];
+    public $text , $title;
+    protected $listeners = ['showDescriptionEvent' => 'showDescription'];
 
     public function showDescription($description){
-        dd($description);
-        $this->dispatch("showModelToggle");
         $this->text = $description;
+        $this->title = "Description";
+        $this->dispatch("showModelToggle");
     }
 
     public function render()

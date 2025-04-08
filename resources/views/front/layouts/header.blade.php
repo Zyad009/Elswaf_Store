@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Molla - Bootstrap eCommerce Template</title>
+    <title>Zyad Tech - @yield("front-title")</title>
     <meta name="keywords" content="HTML5 Template">
     <meta name="description" content="Molla - Bootstrap eCommerce Template">
     <meta name="author" content="p-themes">
@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="{{ asset('front/assets2') }}/css/plugins/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="{{ asset('front/assets2') }}/css/plugins/magnific-popup/magnific-popup.css">
     <link rel="stylesheet" href="{{ asset('front/assets2') }}/css/plugins/jquery.countdown.css">
+    @stack("front-css")
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{{ asset('front/assets2') }}/css/style.css">
     <link rel="stylesheet" href="{{ asset('front/assets2') }}/css/skins/skin-demo-6.css">
@@ -51,7 +52,7 @@
                                 <ul>
                                     <li>
                                         <i class="icon-phone">
-                                        </i>Call: +0123 456 789
+                                        </i>Call: +01114656758 / +01555131167
                                     </li>
                                 </ul>
 
@@ -63,8 +64,8 @@
                         <div class="social-icons social-icons-color">
                             <a href="#" class="social-icon social-facebook" title="Facebook" target="_blank"><i
                                     class="icon-facebook-f"></i></a>
-                            <a href="#" class="social-icon social-instagram" title="Pinterest" target="_blank"><i
-                                    class="icon-instagram"></i></a>
+                            <a href="#" class="social-icon social-linkedin" title="linkedin" target="_blank"><i
+                                    class="icon-linkedin"></i></a>
                         </div><!-- End .soial-icons -->
 
                     </div><!-- End .header-right -->
@@ -72,20 +73,7 @@
             </div>
             <div class="header-middle">
                 <div class="container">
-                    <div class="header-left">
-                        {{--  البحث باسم المنتج --}}
-                        <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
-                            <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
-                            <form action="#" method="get">
-                                <div class="header-search-wrapper search-wrapper-wide">
-                                    <label for="q" class="sr-only">Search</label>
-                                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
-                                    <input type="search" class="form-control" name="q" id="q"
-                                        placeholder="Search product ..." required>
-                                </div><!-- End .header-search-wrapper -->
-                            </form>
-                        </div><!-- End .header-search -->
-                    </div>
+
                     {{-- لوجو الموقع --}}
                     <div class="header-center">
                         <a href="{{route("home")}}" class="logo">

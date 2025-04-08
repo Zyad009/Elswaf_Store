@@ -9,16 +9,8 @@ use Illuminate\Http\Request;
 
 class SingleProductController extends Controller
 {
-    public function index()
+    public function index(Product $product)
     {
-        return view("front.pages.shop.singl-product");
+        return view("front.pages.shop.singl-product" , compact("product"));
     }
-
-    // public function index()
-    // {
-    //     $categories = Category::all();
-    //     $products = Product::with("category")->get();
-        
-    //     return view("products.product", compact("products", "categories"));
-    // }
 }

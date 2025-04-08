@@ -105,7 +105,7 @@ class AdminProductController extends Controller
         Storage::deleteDirectory($dirFromAnyImage);
 
         $product->update($data);
-        
+
         $mainImage = $request->file('main_image');
         $hoverImage = $request->file('hover_image');
         $images = $request->file('images');

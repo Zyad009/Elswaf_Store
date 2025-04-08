@@ -87,7 +87,7 @@
                             $result = $price-$discount;
                             echo $result ." EGP";
                             }else{
-                            echo "NO CHANGE";
+                            echo "<b class='badge bg-label-dark me-1 fw-bold'>No Change</b>";
                             }
                             @endphp
                         </td>
@@ -110,7 +110,6 @@
                                 <option value="{{$offer->id}}" wire.key="offer-{{$offer->id}}">{{$offer->code}}</option>
                                 @endforeach
                             </select>
-
                         </td>
 
                         <td class="text-center">

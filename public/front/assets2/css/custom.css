@@ -1,0 +1,26 @@
+/* حجم ثابت للصور */
+.product-image {
+  width: 280px !important;
+  height: 280px !important;
+  object-fit: cover;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* لو فيه قيود على figure (حامل الصورة) */
+.product-media {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* لتنسيق الصور الصغيرة */
+.product-nav-thumbs img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+

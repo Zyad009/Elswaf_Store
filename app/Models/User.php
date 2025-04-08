@@ -37,10 +37,11 @@ class User extends Authenticatable
         return $this->hasMany(Payment::class);
     }
 
-    public function comments()
+    public function reviews()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Review::class);
     }
+
 
     public function orders()
     {
