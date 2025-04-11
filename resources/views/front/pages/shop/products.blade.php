@@ -5,6 +5,6 @@
 @endpush
 @section("content.front")
 
-<livewire:front.shop.shop-product :categoryId="$categoryId" :categoryName="$categoryName"/>
+<livewire:front.shop.shop-product />
 
 @endsection

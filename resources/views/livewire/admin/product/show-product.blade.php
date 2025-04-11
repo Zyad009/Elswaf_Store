@@ -1,5 +1,12 @@
 <x-models.show title="{{ $title }} :-">
     @if ($data && $data->productColorsSizes->isNotEmpty())
+    <div class="mb-3">
+
+        <a href="{{ route('admin-dashboard.single-product.add', ["singleProduct"=> $data->slug]) }}" class="btn rounded-pill
+                        btn-danger btn-sm">
+                        Add Details
+                    </a>
+    </div>
     <table class="table table-hover">
         <thead>
             <tr>

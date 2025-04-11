@@ -27,6 +27,10 @@ class TableProduct extends Component
         $this->resetPage();
     }
 
+    public function send($description){
+        $this->dispatch("showDescriptionEvent", $description)->to(showDescription::class);
+    }
+
     public function render()
     {
         $products = Product::query();

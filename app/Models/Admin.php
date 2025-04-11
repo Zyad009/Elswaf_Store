@@ -31,7 +31,6 @@ class Admin extends Authenticatable
         'gender',
         'address',
         'phone',
-        'salary',
         'whatsapp',
         'email',
         'password',
@@ -42,16 +41,12 @@ class Admin extends Authenticatable
     {
         return $this->hasMany(Product::class);
     }
-
-    public function branch()
-    {
-        return $this->belongsTo(Branch::class);
-    }
     
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+    
 
     /**
      * The attributes that should be hidden for serialization.

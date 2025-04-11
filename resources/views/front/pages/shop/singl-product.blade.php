@@ -1,6 +1,10 @@
 @extends('front.layouts.app')
 @section('front-title', $product->name)
+@push("front-css")
+<link rel="stylesheet" href="{{ asset('front/assets2/css/custom.css') }}">
+@endpush
 @section('content.front')
+{{-- @dd($sizes) --}}
 <div class="mb-2"></div><!-- End .mb-2 -->
 <main class="main">
     <div class="page-content">
@@ -25,6 +29,12 @@
                                     $images = $product->images->first()?->images;
                                     $images = json_decode($images);
                                     @endphp
+                                    <a class="product-gallery-item active" href="#"
+                                        data-image="{{asset($product->images->first()?->main_image)}}"
+                                        data-zoom-image="{{asset($product->images->first()?->main_image)}}">
+                                        <img src="{{asset($product->images->first()?->main_image)}}"
+                                            alt="product cross">
+                                    </a>
                                     <a class="product-gallery-item" href="#"
                                         data-image="{{asset($product->images->first()?->hover_image)}}"
                                         data-zoom-image="{{asset($product->images->first()?->hover_image)}}">
@@ -32,11 +42,9 @@
                                             alt="product cross">
                                     </a>
                                     @foreach ($images as $image)
-                                    <a class="product-gallery-item" href="#"
-                                        data-image="{{ asset($image) }}"
+                                    <a class="product-gallery-item" href="#" data-image="{{ asset($image) }}"
                                         data-zoom-image="{{ asset($image) }}">
-                                        <img src="{{ asset($image) }}"
-                                            alt="product cross">
+                                        <img src="{{ asset($image) }}" alt="product cross">
                                     </a>
                                     @endforeach
                                 </div><!-- End .product-image-gallery -->
@@ -50,35 +58,48 @@
                             <!-- End .product-title -->
 
                             <div class="product-price">
-                                $84.00
+                                @if (isset($product->offer))
+                                @php
+                                if($product->offer?->discount_type == "percentage"){
+                                $price = $product->price;
+                                $discount = $product->offer?->discount;
+                                $result = $price - (($price*$discount)/100);
+                                }else{
+                                $price = $product->price;
+                                $discount = $product->offer?->discount;
+                                $result = $price-$discount;
+                                }
+                                echo $result ." EGP";
+                                @endphp
+                                @else
+                                {{$product->price}} EGP
+                                @endif
                             </div><!-- End .product-price -->
 
                             <div class="product-content">
-                                <p>{{$product->description}}</p>
+                                <p>{{str($product->description)->limit(100)}}</p>
                             </div><!-- End .product-content -->
 
                             <div class="details-filter-row details-row-size">
-                                <label for="size">Size:</label>
+                                <label>Size:</label>
                                 <div class="select-custom">
-                                    <select name="size" id="size" class="form-control">
+                                    <select name="size" class="form-control">
                                         <option value="#" selected="selected">Select a size</option>
-                                        <option value="s">Small</option>
-                                        <option value="m">Medium</option>
-                                        <option value="l">Large</option>
-                                        <option value="xl">Extra Large</option>
+                                        @foreach ($sizes as $size)
+                                        <option value="{{$size['id']}}">{{$size['name']}}</option>
+                                        @endforeach
                                     </select>
                                 </div><!-- End .select-custom -->
                             </div><!-- End .details-filter-row -->
 
                             <div class="details-filter-row details-row-size">
-                                <label for="size">Colour</label>
+                                <label>Colour</label>
                                 <div class="select-custom">
-                                    <select name="size" id="size" class="form-control">
+                                    <select name="color" class="form-control">
                                         <option value="#" selected="selected">Select a size</option>
-                                        <option value="s">Small</option>
-                                        <option value="m">Medium</option>
-                                        <option value="l">Large</option>
-                                        <option value="xl">Extra Large</option>
+                                        @foreach ($colors as $color)
+                                        <option value="{{$color['id']}}">{{$color['name']}}</option>
+                                        @endforeach
                                     </select>
                                 </div><!-- End .select-custom -->
                             </div>
@@ -293,4 +314,10 @@
         </div><!-- End .container -->
     </div><!-- End .page-content -->
 </main><!-- End .main -->
+
+{{-- @push("script-zoom") --}}
+@push("front-js")
+<script src="{{ asset('front/assets2') }}/js/jquery.elevateZoom.min.js"></script>
+@endpush
+
 @endsection

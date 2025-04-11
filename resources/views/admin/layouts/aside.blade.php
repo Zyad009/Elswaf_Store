@@ -131,24 +131,6 @@
           <div>Offers</div>
         </a>
       </li>
-      {{-- <li class="menu-item {{request()->is('admin-dashboard/offer/*') ? " active open " : "" }}" style="">
-        <a href="javascript:void(0)" class="menu-toggle menu-link  ">
-          <i class="menu-icon tf-icons bx bx-purchase-tag"></i>
-          <div data-i18n="User interface">Offers</div>
-        </a>
-        <ul class="menu-sub">
-          <li class="menu-item {{request()->is('admin-dashboard/offer/product*') ? "active" : "" }}">
-            <a href="{{route('admin-dashboard.offer.product.admin')}}" class="menu-link ">
-              <div data-i18n="Tooltips &amp; Popovers">Products</div>
-            </a>
-          </li>
-          <li class="menu-item {{request()->is('admin-dashboard/offer/category*') ? " active" : "" }}">
-            <a href="{{route('admin-dashboard.offer.category.admin')}}" class="menu-link ">
-              <div data-i18n="Typography">Categories</div>
-            </a>
-          </li>
-        </ul>
-      </li> --}}
 
       <!-- Color -->
       <li class="menu-item {{ request()->is('admin-dashboard/color/*') ? 'active' : '' }}">
@@ -177,10 +159,10 @@
       </li>
 
       <!-- Branches -->
-      <li class="menu-item {{request()->is('admin-dashboard/branches/*') ? " active" : "" }}">
-        <a href="{{ route('admin-dashboard.branches.all') }}" class="menu-link">
+      <li class="menu-item {{request()->is('admin-dashboard/pickup_point/*') ? " active" : "" }}">
+        <a href="{{ route('admin-dashboard.pickup_point.all') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-building"></i>
-          <div>Branches</div>
+          <div>Pickup Points</div>
         </a>
       </li>
 
@@ -192,11 +174,11 @@
         </a>
       </li>
 
-      <!-- Employees -->
-      <li class="menu-item {{ request()->is('admin-dashboard/employee/*') ? 'active' : '' }} ">
-        <a href="{{ route('admin-dashboard.employee.all') }}" class="menu-link">
+      <!-- Sale Officer -->
+      <li class="menu-item {{ request()->is('admin-dashboard/sale_officer/*') ? 'active' : '' }} ">
+        <a href="{{ route('admin-dashboard.sale_officer.all') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-id-card"></i>
-          <div>Employees</div>
+          <div>Sale Officer</div>
         </a>
       </li>
 

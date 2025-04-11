@@ -7,6 +7,7 @@ use App\Models\Product;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
+use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Cache;
 
 class AllProduct extends Component
@@ -15,15 +16,19 @@ class AllProduct extends Component
 
     #[Url(except: '')]
     public $search;
-    public $offers;
+    // public $offers;
     public $selectedOffer = [];
     protected $listeners = ["refreshData" => '$refresh'];
 
-    public function mount()
-    {
-        $this->offers = Cache::remember('offers_with_code', now()->addMinutes(10), function () {
-            return Offer::whereNotNull("code")->get();
-        }) ?? collect();
+    // public function mount()
+    // {
+    //     // $this->offers = Cache::remember('offers_with_code', now()->addMinutes(10), function () {
+    //     //     return Offer::whereNotNull("name")->get();
+    //     // }) ?? collect();
+    // }
+    #[Computed]
+    public function offers(){
+            return Offer::whereNotNull("name")->get();
     }
 
     public function updatedSearch()
@@ -44,11 +49,28 @@ class AllProduct extends Component
             $this->dispatch("errorOffer");
             return;
         }
+
         $this->validate([
             "selectedOffer.$id" => "required|exists:offers,id"
         ]);
 
-        Product::where("id", $id)->update(["offer_id" => $this->selectedOffer[$id] ]);
+        $product = Product::find($id);
+
+        $offer = Offer::find($this->selectedOffer[$id]);
+        if($offer->discount_type == 'value'){
+            if($offer->discount >= $product->price){
+                $this->dispatch("errorOfferPrice");
+                return;
+            }
+        }
+
+
+        $offer = $product->offer;
+        if ($offer && $offer->name === null) {
+            Offer::where("id", $offer->id)->delete();
+        }
+
+        $product->update(["offer_id" => $this->selectedOffer[$id] ]);
         unset($this->selectedOffer[$id]);
         $this->dispatch("successOffer");
 
@@ -62,7 +84,7 @@ class AllProduct extends Component
 
         $product->update(["offer_id" => null]);
 
-        if ($offer && $offer->code === null) {
+        if ($offer && $offer->name === null) {
             Offer::where("id", $offer->id)->delete();
         }
 
@@ -77,6 +99,8 @@ class AllProduct extends Component
             ->with("category" , "offer")
             ->paginate(config("pagination.count"));
 
-        return view('livewire.admin.offer.product.all-product' , ["products" => $products , "offers" => $this->offers ] ) ;
+    
+        // return view('livewire.admin.offer.product.all-product' , ["products" => $products , "offers" => $this->offers ] ) ;
+        return view('livewire.admin.offer.product.all-product' , ["products" => $products ] ) ;
     }
 }

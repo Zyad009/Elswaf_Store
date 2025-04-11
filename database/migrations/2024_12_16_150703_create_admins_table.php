@@ -14,23 +14,22 @@ return new class extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string("slug");
-            
+            $table->string('slug');
+            $table->index("slug");
+
             $table->string('email')->unique();
             $table->enum("gender", ["male", "female"]);
             $table->text('address');
-            $table->decimal("salary", 10, 2);
 
 
             $table->string('phone');
             $table->string('whatsapp')->nullable();
             $table->string('password');
             // $table->string("image")->nullable();
-            $table->foreignId("branch_id")->nullable()->constrained()->onDelete("set null");
             $table->softDeletes();
 
             $table->boolean("is_active")->default(true);
-            $table->enum("role" ,["editor_admin" , "super_admin"])->default("editor_admin");
+            $table->enum("role", ["editor_admin", "super_admin"])->default("editor_admin");
             $table->timestamps();
         });
     }

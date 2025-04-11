@@ -15,21 +15,29 @@ class ShopProduct extends Component
     #[Url(except: '')]
     public $search;
 
-    public $categoryId, $title , $categoryName;
+    #[Url(except: '')]
+    public $category;
+
+    public $title , $categoryName;
 
     public function mount()
     {
-        $this->title = "All Products";
+        if (isset($this->category) && $this->category != null) {
+            $category = Category::where("slug", $this->category)->first();
+            $this->title = $category->name;
+        }else{
+            $this->title = "All Products";
+        }
     }
-    
+
     public function updatedSearch()
     {
         $this->resetPage();
     }
-    public function selectCategory($id , $name)
+    public function selectCategory($slug , $name)
     {
         $this->resetPage();
-        $this->categoryId = $id;
+        $this->category = $slug;
         $this->categoryName = Null;
         $this->title = $name;
     }
@@ -37,22 +45,23 @@ class ShopProduct extends Component
     public function resetFilters()
     {
         $this->title = "All Products";
-        $this->categoryId = null;
+        $this->category = null;
         $this->categoryName = null;
         $this->search = '';
     }
 
 
-
-
     public function render()
     {
         $products = Product::with("offer", "category", "images", "reviews")
-            ->when($this->categoryId, function ($query) {
-                $query->where("category_id", $this->categoryId);
+            ->when($this->category, function ($query) {
+                $query->whereHas('category', function ($q) {
+                    $q->where('slug', $this->category);
+                });
             })
             ->where("name", "LIKE", "%" . $this->search . "%")
             ->paginate(config("pagination.count"));
+            
         $categories = Category::withCount(relations: "products")
             ->doesntHave("children")
             ->get();

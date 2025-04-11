@@ -34,7 +34,6 @@ class EditorRequest extends FormRequest
                 Rule::unique("admins", "email")->ignore($this->route("editor"))
             ],
             "address" => "required|string|min:15|max:255",
-            "salary" => "required|numeric|min:1000|max:100000",
 
             "phone" => ["required", "string", "regex:/^\+?[0-9\s\-\(\)]{10,20}$/",
             Rule::unique("admins", "phone")->ignore($this->route("editor"))],
@@ -46,7 +45,6 @@ class EditorRequest extends FormRequest
             "main_image" => "nullable|image|mimes:png,jpg,jpeg,gif|max:2048",
 
             "password" => "required|string|min:6|confirmed",
-            "branch_id" => "required|exists:branches,id",
         ];
     }
 

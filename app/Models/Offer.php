@@ -15,7 +15,7 @@ class Offer extends Model
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom("code")
+            ->generateSlugsFrom("name")
             ->saveSlugsTo("slug");
     }
 
@@ -25,7 +25,7 @@ class Offer extends Model
     }
     
     protected $fillable = [
-        "code" ,
+        "name" ,
         "discount_type",
         "discount",
         "start_date",

@@ -32,7 +32,6 @@ class CustomerServiceRequest extends FormRequest
             ],
             "address" => "required|string|min:15|max:255",
 
-            "salary" => "required|numeric|min:1000|max:100000",
             "phone" => [
                 "required",
                 "string",

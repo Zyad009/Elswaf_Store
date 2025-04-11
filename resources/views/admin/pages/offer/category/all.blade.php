@@ -35,6 +35,18 @@ window.addEventListener("successOffer", () => {
     });
     });
 
+window.addEventListener("warningOffer", (event) => {
+    const countError = event.detail;
+    Swal.fire({
+    icon: "warning",
+    title: "Warning!",
+    text: `The offer was added successfully! Number of products that do not contain an offer: ${countError} "because the product price is higher
+    than the offer price"`,
+    showConfirmButton: true,
+    timer: 20000
+});
+});
+
 window.addEventListener("deletedOffer", () => {
     Swal.fire({
     icon: "success",

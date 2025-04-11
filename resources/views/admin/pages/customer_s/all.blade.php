@@ -21,7 +21,6 @@
                             <th style="width: 10px">ID</th>
                             <th class="text-center">Name</th>
                             <th class="text-center">Email</th>
-                            <th class="text-center">Salary</th>
                             <th class="text-center">Phone</th>
                             <th class="text-center">Whatsapp</th>
                             <th class="text-center">Gender</th>
@@ -54,13 +53,6 @@
                             </td>
 
                             <td class="text-center">{{ $customerService->email }}</td>
-                            <td class="text-center">
-                                <div>
-                                    <b class="badge bg-success me-1 fw-bold text-white">
-                                        {{$customerService->salary}} EGP
-                                    </b>
-                                </div>
-                            </td>
                             <td class="text-center">{{ $customerService->phone }}</td>
                             <td class="text-center">{{ $customerService->whatsapp }}</td>
                             <td class="text-center">{{ $customerService->gender }}</td>

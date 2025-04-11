@@ -12,3 +12,4 @@
     <!-- Main JS File -->
     <script src="{{ asset('front/assets2') }}/js/main.js"></script>
     <script src="{{ asset('front/assets2') }}/js/demos/demo-6.js"></script>
+    @stack('front-js')

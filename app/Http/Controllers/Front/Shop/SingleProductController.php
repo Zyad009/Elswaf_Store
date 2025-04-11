@@ -11,6 +11,8 @@ class SingleProductController extends Controller
 {
     public function index(Product $product)
     {
-        return view("front.pages.shop.singl-product" , compact("product"));
+        $sizes = $product->getSizes();
+        $colors = $product->getColors();
+        return view("front.pages.shop.singl-product" , compact("product" , "sizes" , "colors"));
     }
 }

@@ -32,9 +32,9 @@
         </a>
 
         <!-- Branches -->
-        <a href="{{ route('admin-dashboard.branches.archive') }}"
+        <a href="{{ route('admin-dashboard.pickup_point.archive') }}"
           class="list-group-item list-group-item-action d-flex align-items-center">
-          <i class="bx bx-building me-2"></i> Branches
+          <i class="bx bx-building me-2"></i> Pickup Points
         </a>
 
         <!-- Customer Service -->
@@ -43,10 +43,10 @@
           <i class="bx bx-headphone me-2"></i> Customer Service
         </a>
 
-        <!-- Employee -->
-        <a href="{{ route('admin-dashboard.employee.archive') }}"
+        <!-- Sale Officer -->
+        <a href="{{ route('admin-dashboard.sale_officer.archive') }}"
           class="list-group-item list-group-item-action d-flex align-items-center">
-          <i class="bx bx-id-card"></i> Employee
+          <i class="bx bx-id-card"></i> Sale Officer
         </a>
 
         <br>

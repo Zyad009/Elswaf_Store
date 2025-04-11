@@ -3,13 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\User\AdminUserController;
-use App\Http\Controllers\Admin\Branch\AdminBranchController;
+use App\Http\Controllers\Admin\Offer\AdminOfferController;
 use App\Http\Controllers\Admin\Account\AdminAccountController;
 use App\Http\Controllers\Admin\Message\AdminMessageController;
 use App\Http\Controllers\Admin\Product\AdminProductController;
 use App\Http\Controllers\Admin\Archives\AdminArchiveController;
 use App\Http\Controllers\Admin\Category\AdminCategoryController;
-use App\Http\Controllers\Admin\Employee\AdminEmployeeController;
 use App\Http\Controllers\Admin\EditorAdmin\AdminEditorController;
 use App\Http\Controllers\Admin\Offer\AdminOfferProductController;
 use App\Http\Controllers\Admin\Offer\AdminOfferCategoryController;
@@ -18,10 +17,11 @@ use App\Http\Controllers\Admin\Category\AdminSubCategoryController;
 use App\Http\Controllers\Admin\Product\AdminProductColorController;
 use App\Http\Controllers\Admin\Product\AdminProductSingleController;
 use App\Http\Controllers\Admin\Shepping\Home\AdminSheppingController;
+use App\Http\Controllers\Admin\PickupPoint\AdminPickupPointController;
+use App\Http\Controllers\Admin\SaleOfficer\AdminSaleOfficerController;
 use App\Http\Controllers\Admin\Shepping\Area\AdminSheppingAreaController;
 use App\Http\Controllers\Admin\Shepping\City\AdminSheppingCityController;
 use App\Http\Controllers\Admin\CustomerService\AdminCustomerServiceController;
-use App\Http\Controllers\Admin\Offer\AdminOfferController;
 
 // Route::get("/admin-home",[AdminHomeController::class,"index"])->name('admin-home');
 
@@ -167,15 +167,15 @@ Route::name("admin-dashboard.")->middleware('auth')->prefix("admin-dashboard")->
     });
   });
 
-  Route::name("branches.")->prefix("branches")->group(function () {
-    Route::controller(AdminBranchController::class)->group(function () {
+  Route::name("pickup_point.")->prefix("pickup_point")->group(function () {
+    Route::controller(AdminPickupPointController::class)->group(function () {
       Route::get("/", "index")->name("admin");
       Route::get("/create", "create")->name("new");
       Route::post("/", "store")->name("store");
       Route::get("/all", "show")->name("all");
-      Route::get("/{branch}/edit", "edit")->name("edit");
-      Route::put("/{branch}", "update")->name("update");
-      Route::delete("/{branch}", "destroy")->name("delete");
+      Route::get("/{pickupPoint}/edit", "edit")->name("edit");
+      Route::put("/{pickupPoint}", "update")->name("update");
+      Route::delete("/{pickupPoint}", "destroy")->name("delete");
       //soft delete
       Route::get("/archive", "archiveBranch")->name("archive");
       Route::post("/{id}/restore", "archiveRestore")->name("restore");
@@ -199,15 +199,15 @@ Route::name("admin-dashboard.")->middleware('auth')->prefix("admin-dashboard")->
     });
   });
 
-  Route::name("employee.")->prefix("employee")->group(function () {
-    Route::controller(AdminEmployeeController::class)->group(function () {
+  Route::name("sale_officer.")->prefix("sale_officer")->group(function () {
+    Route::controller(AdminSaleOfficerController::class)->group(function () {
       Route::get("/", "index")->name("admin");
       Route::get("/create", "create")->name("new");
       Route::post("/", "store")->name("store");
       Route::get("/all", "show")->name("all");
-      Route::get("/{employee}/edit", "edit")->name("edit");
-      Route::put("/{employee}", "update")->name("update");
-      Route::delete("/{employee}", "destroy")->name("delete");
+      Route::get("/{saleOfficer}/edit", "edit")->name("edit");
+      Route::put("/{saleOfficer}", "update")->name("update");
+      Route::delete("/{saleOfficer}", "destroy")->name("delete");
       //soft delete
       Route::get("/archive", "archiveEmployee")->name("archive");
       Route::post("/{id}/restore", "archiveRestore")->name("restore");

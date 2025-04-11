@@ -21,7 +21,6 @@ class CustomerServiceFactory extends Factory
             "name"=> fake()->name(),
             "email"=> fake()->email(),
             'gender' => "male",
-            'salary' => 9750,
 
             "phone"=> fake()->phoneNumber(),
             "whatsapp"=> fake()->phoneNumber(),

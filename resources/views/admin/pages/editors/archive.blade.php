@@ -21,8 +21,7 @@
                             <th style="width: 10px">ID</th>
                             <th class="text-center">Name</th>
                             <th class="text-center">Email</th>
-                            <th class="text-center">salary</th>
-                            <th class="text-center">Branch</th>
+                            {{-- <th class="text-center">Branch</th> --}}
                             <th class="text-center">Phone</th>
                             <th class="text-center">Whatsapp</th>
                             <th class="text-center">Gender</th>
@@ -56,14 +55,7 @@
                                     }}</strong>
                             </td>
                             <td class="text-center">{{ $editor->email }}</td>
-                            <td class="text-center">
-                                <div>
-                                    <b class="badge bg-success me-1 fw-bold text-white">
-                                        {{$editor->salary}} EGP
-                                    </b>
-                                </div>
-                            </td>
-                            <td class="text-center">
+                            {{-- <td class="text-center">
                                 @if ($editor->branch)
                                 <b class="badge bg-label-primary me-1 fw-bold">
                                     {{ $editor->branch->name }}
@@ -71,7 +63,7 @@
                                 @else
                                 <b class="badge bg-label-danger me-1">No Branch</b>
                                 @endif
-                            </td>
+                            </td> --}}
                             <td class="text-center">{{ $editor->phone }}</td>
                             <td class="text-center">{{ $editor->whatsapp }}</td>
                             <td class="text-center">{{ $editor->gender }}</td>

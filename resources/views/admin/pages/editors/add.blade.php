@@ -43,7 +43,7 @@
                     <option value="female">Female</option>
                 </select>
             </div>
-
+{{-- 
             <div class="col-md-6">
                 <label for="">Branch <span class="text-danger">*</span></label>
                 <select name="branch_id" id="branch_id" class="form-control">
@@ -52,16 +52,11 @@
                     <option value="{{ $branch->id }}">{{ $branch->name }}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> --}}
         </div>
         
         <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="">Salary <span class="text-danger">*</span></label>
-                <input type="number" min="1000" name="salary" value="{{old("salary")}}"class="form-control">
-            </div>
-
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <label for="">Role <span class="text-danger">*</span></label>
                 <select name="role" class="form-control mb-3">
                     <option value="editor_admin">Editor Admin</option>
@@ -93,7 +88,6 @@
             <input type="password" name="password_confirmation" id="" class="form-control">
         </div>
     </div>
-
         <x-button.submit.create></x-button.submit.create>
     </form>
 </x-form.create>

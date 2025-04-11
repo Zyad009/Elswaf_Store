@@ -26,7 +26,7 @@
     window.addEventListener("errorDuplicate", (event) => {
         const productId = event.detail;
         Swal.fire({
-            icon: "error",
+        icon: "error",
         title: "Oops...",
         text: "This product already exists!",
         footer: `<a href="/admin-dashboard/single-product/${productId}/edit">if you want edit for this details click heare</a>`

@@ -31,12 +31,12 @@ class Data extends Component
             $this->id = auth()->id();
             $this->table = "admins";
             $this->entityName = "Admin";
-            $this->data = Admin::with(['branch', 'images'])->find($this->id);
+            $this->data = Admin::with('images')->find($this->id);
         } elseif (auth()->guard("customerService")->check()) {
             $this->id = auth()->id();
             $this->table = "customer_services";
             $this->entityName = "CustomerService";
-            $this->data = CustomerService::with(['images'])->find($this->id);
+            $this->data = CustomerService::with('images')->find($this->id);
         }
         $this->fill($this->data->only(['name', 'email', 'gender', 'phone', 'whatsapp', 'address']));
         $this->image = $this->data->images->first()?->main_image;

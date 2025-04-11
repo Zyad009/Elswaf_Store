@@ -32,7 +32,6 @@ class CustomerService extends Authenticatable
         'name',
         'email',
         'gender',
-        'salary',
         'address',
         'phone',
         'whatsapp',

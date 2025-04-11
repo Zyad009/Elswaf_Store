@@ -51,12 +51,12 @@
                         <td class="text-center">{{ $product->price }} <span>EGP</span></td>
 
                         <td class="text-center">
-                            @if($product->offer?->code)
-                            <x-special-text.primary-text title="{{ $product->offer->code}}(main) ">
+                            @if($product->offer?->name)
+                            <x-special-text.primary-text title="{{ $product->offer->name}}(main) ">
                             </x-special-text.primary-text>
 
-                            @elseif($product->offer?->code == null && $product->offer?->discount )
-                            <x-special-text.primary-text title="{{ $product->offer->code }}(Special)">
+                            @elseif($product->offer?->name == null && $product->offer?->discount )
+                            <x-special-text.primary-text title="{{ $product->offer->name }}(Special)">
                             </x-special-text.primary-text>
                             @else
                             <x-special-text.dark-text title="No Offer"></x-special-text.dark-text>
@@ -66,9 +66,11 @@
 
                         <td class="text-center">
                             @if ($product->offer?->discount_type == "percentage")
-                            %{{$product->offer?->discount}}
+                            {{$product->offer?->discount}}
+                            <x-special-text.success-text title="%"/>
                             @elseif ($product->offer?->discount_type == "value")
-                            EGP {{$product->offer?->discount}}
+                            {{$product->offer?->discount}}
+                            <x-special-text.warning-text title="EGP"/>
                             @else
                             <x-special-text.dark-text title="No Offer"></x-special-text.dark-text>
                             @endif
@@ -106,8 +108,8 @@
                         <td class="text-center">
                             <select wire:model="selectedOffer.{{$product->id}}" class="form-control">
                                 <option value="">Main Offer</option>
-                                @foreach ($offers as $offer)
-                                <option value="{{$offer->id}}" wire.key="offer-{{$offer->id}}">{{$offer->code}}</option>
+                                @foreach ($this->offers as $offer)
+                                <option value="{{$offer->id}}" wire.key="offer-{{$offer->id}}">{{$offer->name}}</option>
                                 @endforeach
                             </select>
                         </td>

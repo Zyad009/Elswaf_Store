@@ -62,6 +62,8 @@
 </div><!-- End .page-wrapper -->
 
 @include('front.layouts.scripts')
+
+@stack("script-zoom")
 </body>
 
 

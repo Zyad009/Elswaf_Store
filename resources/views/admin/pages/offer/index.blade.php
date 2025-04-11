@@ -28,7 +28,7 @@
           <thead>
             <tr>
               <th style="width: 10px">ID</th>
-              <th class="text-center">Code</th>
+              <th class="text-center">Name</th>
               <th class="text-center">Discount</th>
               <th class="text-center">QTY Categories</th>
               <th class="text-center">QTY Product</th>
@@ -42,10 +42,10 @@
             <tr>
               <td>{{ $offer->id }} || </td>
               <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3 text-center"></i>
-                @if ($offer->code == null)
+                @if ($offer->name == null)
                 <x-special-text.primary-text title="(Special)" />
                 @endif
-                <strong>{{$offer->code}}</strong>
+                <strong>{{$offer->name}}</strong>
               </td>
               <td class="text-center">
                 @if ($offer->discount_type == "percentage")

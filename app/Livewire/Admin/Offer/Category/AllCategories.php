@@ -6,6 +6,7 @@ use App\Models\Offer;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\Category;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 
@@ -15,12 +16,18 @@ class AllCategories extends Component
 
     #[Url(except: '')]
     public $search;
-    public $offers;
+    // public $offers;
     public $selectedOffer = [];
 
-    public function mount()
+    // public function mount()
+    // {
+    //     $this->offers = Offer::whereNotNull("name")->get();
+    // }
+
+    #[Computed]
+    public function offers()
     {
-        $this->offers = Offer::whereNotNull("code")->get();
+        return Offer::whereNotNull("name")->get();
     }
 
     public function rules()
@@ -39,10 +46,31 @@ class AllCategories extends Component
 
         $this->validate();
 
-        Category::where("id", $id)->update(["offer_id" => $this->selectedOffer[$id]]);
-        Product::where("category_id", $id)->update(["offer_id" => $this->selectedOffer[$id]]);
+        $offerId = $this->selectedOffer[$id];
+        $offer = Offer::find($offerId);
 
-        $this->dispatch("successOffer");
+        Category::where("id", $id)->update(["offer_id" => $offerId]);
+
+        if ($offer->discount_type == "value") {
+            $products = Product::where("category_id", $id)->get();
+
+            $successProducts = $products->where("price", ">", $offer->discount);
+            $countErrorProducts = $products->where("price", "<=", $offer->discount)->count();
+
+            Product::whereIn('id', $successProducts->pluck('id'))
+            ->update(["offer_id" => $offerId]);
+            
+            if($countErrorProducts > 0){
+                $this->dispatch("warningOffer" ,$countErrorProducts); 
+            }else{
+                 $this->dispatch("successOffer");
+            }
+
+        }else{
+            Product::where("category_id", $id)->update(["offer_id" => $this->selectedOffer[$id]]);
+            $this->dispatch("successOffer");
+        }
+
     }
 
 
@@ -63,8 +91,8 @@ class AllCategories extends Component
         $categories = Category::where("name", "LIKE", "%" . $this->search . "%")
             ->doesntHave("children")
             ->withCount("products")
-            ->with( "offer")
+            ->with("offer")
             ->paginate(config("pagination.count"));
-        return view('livewire.admin.offer.category.all-categories' , ["categories" => $categories, "offers" => $this->offers]);
+        return view('livewire.admin.offer.category.all-categories', ["categories" => $categories, "offers" => $this->offers]);
     }
 }

@@ -1,3 +1,4 @@
-<x-models.show title="Description">
+<x-models.description title="Description">
+    {{$text}}
+</x-models.description>
 
-</x-models.show>

@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string("slug");
+            $table->string('slug');
+            $table->index("slug");
             $table->string('email')->unique();
             $table->string('subject');
             $table->string('phone');
             $table->text('message');
 
-            
+
             $table->timestamps();
         });
     }

@@ -132,8 +132,10 @@
                             </a>
 
                             <div class="product-action-vertical">
-                                <a href="{{route('singel.product' , $item)}}" class="btn-product-icon btn-quickview btn-expandable"><span>Quick
-                                        view</span></a>
+                                <a href="{{route('singel.product' , $item)}}"
+                                    class="btn-product-icon btn-expandable"><span>View Details</span>
+                                    <i class="la la-search"></i>
+                                </a>
                             </div><!-- End .product-action-vertical -->
 
                             <div class="product-action">
@@ -143,9 +145,17 @@
 
                         <div class="product-body">
                             <div class="product-cat">
-                                <a href="{{route('shop' , $item->category->slug)}}">{{$item->category->name}}</a>
+                                {{-- <a href="{{route('shop' , $item->category->slug)}}">{{$item->category->name}}</a>
+                                --}}
+                                <a href="{{route('shop' , [" category"=>
+                                    $item->category->slug])}}">{{$item->category->name}}</a>
+                                {{--
+                                <livewire:front.home.select-category-component :categorySlug="$item->category->slug"
+                                    :categoryName="$item->category->name" /> --}}
+
                             </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="{{ route('singel.product', $item) }}">{{$item->name}}</a></h3>
+                            <h3 class="product-title"><a href="{{ route('singel.product', $item) }}">{{$item->name}}</a>
+                            </h3>
                             <!-- End .product-title -->
                             <div class="product-price">
                                 @if (isset($item->offer))
@@ -248,7 +258,8 @@
                             </a>
 
                             <div class="product-action-vertical">
-                                <a href="{{route('singel.product' , $item)}}" class="btn-product-icon btn-quickview btn-expandable"><span>Quick
+                                <a href="{{route('singel.product' , $item)}}"
+                                    class="btn-product-icon btn-quickview btn-expandable"><span>Quick
                                         view</span></a>
                             </div><!-- End .product-action-vertical -->
 
@@ -259,9 +270,16 @@
 
                         <div class="product-body">
                             <div class="product-cat">
-                                <a href="{{route('shop' , $item->category->slug)}}">{{$item->category->name}}</a>
+                                <a href="{{route('shop' , [" category"=>
+                                    $item->category->slug])}}">{{$item->category->name}}</a>
+                                {{-- <a href="{{route('shop' , $item->category->slug)}}">{{$item->category->name}}</a>
+                                --}}
+                                {{--
+                                <livewire:front.home.select-category-component :categorySlug="$item->category->slug"
+                                    :categoryName="$item->category->name" />--}}
                             </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="{{ route('singel.product', $item) }}">{{$item->name}}</a></h3>
+                            <h3 class="product-title"><a href="{{ route('singel.product', $item) }}">{{$item->name}}</a>
+                            </h3>
                             <!-- End .product-title -->
                             <div class="product-price">
                                 @if (isset($item->offer))

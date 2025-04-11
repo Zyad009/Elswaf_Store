@@ -23,10 +23,10 @@ class OfferRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => ["required","string","max:255",
-            Rule::unique("offers" , "code")->ignore(request()->route("offer"))],
+            'name' => ["required","string","max:255",
+            Rule::unique("offers" , "name")->ignore(request()->route("offer"))],
             'discount_type' => 'required|in:percentage,value',
-            'start_date' => 'required|date',
+            'start_date' => 'required|date|after_or_equal:now',
             'end_date' => 'required|date|after:start_date',
             'discount' => [
                 'required',

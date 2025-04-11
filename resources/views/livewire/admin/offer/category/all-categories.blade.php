@@ -46,8 +46,8 @@
 
                         <td class="text-center">
 
-                            @if($category->offer?->code)
-                            <x-special-text.primary-text title="{{ $category->offer->code}} ">
+                            @if($category->offer?->name)
+                            <x-special-text.primary-text title="{{ $category->offer->name}} ">
                             </x-special-text.primary-text>
                             @else
                             <x-special-text.dark-text title="No Offer"></x-special-text.dark-text>
@@ -68,8 +68,8 @@
                         <td class="text-center">
                             <select wire:model="selectedOffer.{{$category->id}}" class="form-control">
                                 <option value="">Main Offer</option>
-                                @foreach ($offers as $offer)
-                                <option value="{{$offer->id}}" wire.key="offer-{{$offer->id}}">{{$offer->code}}</option>
+                                @foreach ($this->offers as $offer)
+                                <option value="{{$offer->id}}" wire.key="offer-{{$offer->id}}">{{$offer->name}}</option>
                                 @endforeach
                             </select>
 

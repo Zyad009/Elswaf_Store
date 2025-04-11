@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('customer_services', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string("slug");
+            $table->string('slug');
+            $table->index("slug");
             $table->string('email')->unique();
-            $table->enum("gender" , ["male" , "female"]);
-            $table->decimal("salary", 10, 2);
+            $table->enum("gender", ["male", "female"]);
 
 
             $table->string('phone');

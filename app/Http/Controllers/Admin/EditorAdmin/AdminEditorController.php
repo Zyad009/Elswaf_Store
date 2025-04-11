@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin\EditorAdmin;
 
-use App\Http\Controllers\Admin\Traits\UploadImage;
 use App\Models\Admin;
-use App\Models\Branch;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Admin\Editor\EditorRequest;
+use App\Http\Controllers\Admin\Traits\UploadImage;
+use App\Http\Requests\Admin\CustomerService\CustomerServiceRequest;
 use App\Http\Requests\Admin\Editor\UpdateEditorRequest;
 
 class AdminEditorController extends Controller
@@ -25,9 +26,7 @@ class AdminEditorController extends Controller
     // Show the form for creating a new admin.
     public function create()
     {
-        $branches = Branch::select("id", "name")
-            ->get();
-        return view(SELF::DIR_VIEW . ".add", compact("branches"));
+        return view(SELF::DIR_VIEW . ".add", );
     }
 
     // Store a newly created admin in DB.
@@ -52,7 +51,7 @@ class AdminEditorController extends Controller
     // Display the specified or all admin.
     public function show()
     {
-        $editors = Admin::with("branch" , "images")
+        $editors = Admin::with("images")
             ->orderBy("id", "desc")
             ->paginate(config("pagination.count"));
 
@@ -66,21 +65,37 @@ class AdminEditorController extends Controller
     // Show the form for editing the specified admin.
     public function edit(Admin $editor)
     {
-        $branches = Branch::select("id", "name")
-            ->get();
-        return view(SELF::DIR_VIEW . ".edit", compact("editor", "branches"));
+        return view(SELF::DIR_VIEW . ".edit", compact("editor"));
     }
 
     // Update the specified admin in DB.
     public function update(EditorRequest $request, Admin $editor)
     {
         $data = $request->validated();
+        $mainImage = $request->file("main_image");
         $editor->update($data);
 
+        if (isset($mainImage)) {
+
+            if ($editor->images->first()?->main_image) {
+                $dirFromAnyImage = dirName($editor->images->first()?->main_image);
+                Storage::deleteDirectory($dirFromAnyImage);
+            }
+
+            $editorId = $editor->id;
+            $nameEditor = $request->name;
+            $this->saveImages("Admin", $editorId, $nameEditor, $mainImage);
+        } else {
+
+            if ($editor->images->first()?->main_image) {
+                $dirFromAnyImage = dirName($editor->images->first()?->main_image);
+                Storage::deleteDirectory($dirFromAnyImage);
+            }
+
+            $editor->images()->update(["main_image" => null]);
+        }
         alert()->success("Updated", "editor updated successfully");
         return to_route("admin-dashboard.editors.all");
-
-        // return back()->with("success" , "editor updated successfully");
     }
 
     // Remove the specified admin from DB.
@@ -94,7 +109,7 @@ class AdminEditorController extends Controller
     public function archiveEditor()
     {
         $editors = Admin::onlyTrashed()
-            ->with("branch" , "images")
+            ->with( "images")
             ->paginate(config("pagination.count"));
 
         $title = 'Delete This Admin!';
@@ -118,6 +133,13 @@ class AdminEditorController extends Controller
     public function archiveRemove($id)
     {
         $editor = Admin::withTrashed()->findOrFail($id);
+
+        if ($editor->images->first()?->main_image) {
+            $dirFromAnyImage = dirName($editor->images->first()?->main_image);
+            Storage::deleteDirectory($dirFromAnyImage);
+            $editor->images()->delete();
+        }
+
         $editor->forceDelete();
 
         alert()->success("Success!", "removed has been successfully");

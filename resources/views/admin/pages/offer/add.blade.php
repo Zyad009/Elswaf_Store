@@ -9,9 +9,9 @@
 
         <div class="row mb-3">
             <div class="col-md-6">
-                <label for="">Code <span class="text-danger">*</label>
-                <input type="text" name="code" id="" value="{{old('code')}}" class="form-control">
-                <x-message.error name="code"></x-message.error>
+                <label for="">Name <span class="text-danger">*</label>
+                <input type="text" name="name" id="" value="{{old('name')}}" class="form-control">
+                <x-message.error name="name"></x-message.error>
             </div>
             
             <div class="col-md-6">

@@ -18,17 +18,15 @@ class AdminFactory extends Factory
     {
 
         $password="admin123";
-         static $i=1;
         return [
             "name" => fake()->name(),
-            "email" => fake()->unique()->email(),
+            "email" => "zz@zz.com",
             'gender' => "male",
-            'salary' => 15000,
+            'role' => "super_admin",
 
             "phone" => fake()->unique()->phoneNumber(),
             "whatsapp" => fake()->unique()->phoneNumber(),
             "address" => fake()->address(),
-            "branch_id" => $i++,
             "password" => bcrypt($password),
         ];
     }

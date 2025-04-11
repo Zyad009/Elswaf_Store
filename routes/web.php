@@ -41,7 +41,8 @@ Route::get('/about',[AboutController::class,"index"])->name("about");
 Route::get('/cart',[CartController::class,"index"])->name("cart");
 Route::get('/checkout',[CheckoutController::class,"index"])->name("checkout");
 Route::get('/single-product/{product}',[SingleProductController::class,"index"])->name("singel.product");
-Route::get('/shop/{item?}',[ShopController::class,"index"])->name("shop");
+// Route::get('/shop/{item?}',[ShopController::class,"index"])->name("shop");
+Route::get('/shop',[ShopController::class,"index"])->name("shop");
 Route::get('/profile',[ProfileController::class,"index"]);
 
 Route::prefix("contact")->group(function(){

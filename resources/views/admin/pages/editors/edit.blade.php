@@ -1,10 +1,14 @@
 @extends('admin.layouts.app')
 @section("admin-title" , "Edit Editor")
+@push("admin-cdn")
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
+@endpush
 @section('admin-content')
 
 <x-form.edit title="Edit Editor" :name="$editor->name">
 
-    <form method="post" action="{{route("admin-dashboard.editors.update", $editor)}}" class=""
+    <form method="post" action="{{route('admin-dashboard.editors.update', $editor)}}" class=""
         enctype="multipart/form-data">
         <x-error></x-error>
         @csrf
@@ -45,28 +49,6 @@
                     @endif
                 </select>
             </div>
-
-            <div class="col-md-6">
-                <label for="">Branch <span class="text-danger">*</span></label>
-                <select name="branch_id" class="form-control">
-                    @if (isset($editor->branch))
-                    <option value="{{$editor->branch->id}}">{{$editor->branch->name}}</option>
-                    @else
-                    <option value="">Select Branch</option>
-                    @endif
-                    @foreach($branches as $branch)
-                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="">Salary <span class="text-danger">*</span></label>
-                <input type="number" min="1000" name="salary" value="{{$editor->salary}}" class="form-control">
-            </div>
-
             <div class="col-md-6">
                 <label for="">Role <span class="text-danger">*</span></label>
                 <select name="role" class="form-control mb-3">
@@ -80,6 +62,7 @@
             </div>
         </div>
 
+
         <div class="row mb-3">
             <div class="col-md-6">
                 <label for="">Address <span class="text-danger">*</span></label>
@@ -87,8 +70,15 @@
             </div>
 
             <div class="col-md-6">
+
                 <label class="form-label">Main Image</label>
                 <input type="file" name="main_image" id="main_image" class="form-control">
+                @if($editor->images->first()?->main_image)
+                <input style="display: none" type="image"
+                    src="{{ asset($editor->images->first()?->main_image) }}" name="imagePreviewMainImage"
+                    id="imagePreviewMainImage" class="form-control">
+                @endif
+
             </div>
         </div>
 
@@ -107,5 +97,29 @@
     </form>
 </x-form.edit>
 
+@push('admin-js')
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+FilePond.registerPlugin(FilePondPluginImagePreview);
+
+var imagePreviewMainImageElement = document.querySelector('#imagePreviewMainImage');
+var imagePreviewMainImage = imagePreviewMainImageElement?.src || null;
+
+const pond = FilePond.create(document.querySelector('#main_image'), {
+allowImagePreview: true,
+imagePreviewMaxHeight: 200,
+storeAsFile: true,
+allowMultiple: false,
+acceptedFileTypes: ['image/*'],
+});
+
+if (imagePreviewMainImage) {
+pond.addFile(imagePreviewMainImage);
+}
+});
+</script>
+@endpush
 
 @endsection

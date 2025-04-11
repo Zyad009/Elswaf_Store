@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("slug");
+            $table->string('slug');
+            $table->index("slug");
             $table->enum("type_size", ["number", "letter"]);
             $table->unsignedDecimal("price", 8, 2);
             $table->unsignedInteger('sold')->default(0);
@@ -24,7 +25,7 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreignId("category_id")->constrained()->onDelete("cascade");
-            $table->foreignId("offer_id")->nullable()->constrained()->onDelete("cascade");
+            $table->foreignId("offer_id")->nullable()->constrained()->onDelete("set null");
 
             $table->timestamps();
         });

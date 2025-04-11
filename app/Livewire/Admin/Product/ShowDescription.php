@@ -3,16 +3,17 @@
 namespace App\Livewire\Admin\Product;
 
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class ShowDescription extends Component
 {
     public $text , $title;
-    protected $listeners = ['showDescriptionEvent' => 'showDescription'];
+    protected $listeners = ['showDescriptionEvent' ];
 
-    public function showDescription($description){
+    public function showDescriptionEvent($description){
         $this->text = $description;
         $this->title = "Description";
-        $this->dispatch("showModelToggle");
+        $this->dispatch("showDescriptionModal");
     }
 
     public function render()

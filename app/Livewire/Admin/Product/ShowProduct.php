@@ -4,14 +4,16 @@ namespace App\Livewire\Admin\Product;
 
 use App\Models\Product;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class ShowProduct extends Component
 {
 
     public $title;
     public $data ;
-    protected $listeners = ['showProductEvent' => 'showProduct'];
-    public function showProduct($id)
+    protected $listeners = ['showProductEvent'];
+
+    public function showProductEvent($id)
     {
         $this->data = Product::with("productColorsSizes.color", "productColorsSizes.size")
             ->where("id", $id)

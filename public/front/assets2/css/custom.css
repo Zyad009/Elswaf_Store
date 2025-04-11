@@ -22,5 +22,51 @@
   height: 60px;
   object-fit: cover;
   border-radius: 4px;
+
 }
+  /* الصورة الرئيسية */
+    .product-main-image img {
+    width: 458px;
+      height: 539px;
+      object-fit: cover;
+    }
+  
+    /* الصور الجانبية */
+    .product-image-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 539px;
+      overflow-y: auto;
+    }
+  
+    .product-gallery-item img { 
+      width: 100px;
+      height: 127px;
+      object-fit: cover;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: border 0.3s;
+    }
+  
+    .product-gallery-item.active img,
+    .product-gallery-item:hover img {
+      border-color: #ba7127;
+    }
+
+
+    .product-gallery-item.active {
+      width: 100px;
+      height: 131px;
+      object-fit: cover;
+      border: 2px solid transparent;
+      /* خلي البوردر هنا مش على الأب */
+      border-radius: 4px;
+      display: block;
+    }
+  
+
+    
+
+
 

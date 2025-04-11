@@ -26,6 +26,16 @@ window.addEventListener("errorOffer", () => {
     });
     });
 
+window.addEventListener("errorOfferPrice", () => {
+    Swal.fire({
+    icon: "error",
+    title: "Error!",
+    text: "The offer price must be less than the product price",
+    showConfirmButton: false,
+    timer: 5000
+    });
+    });
+
 window.addEventListener("successOffer", () => {
     Swal.fire({
     icon: "success",

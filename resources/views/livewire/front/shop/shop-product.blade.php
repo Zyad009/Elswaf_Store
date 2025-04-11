@@ -27,7 +27,13 @@
                                 <div class="product product-7 text-center">
                                     <figure class="product-media">
                                         @if (isset($product->offer))
-                                        <span class="product-label label-sale">sale</span>
+                                        <span class="product-label label-sale">sale :
+                                            @if ($product->offer?->discount_type == "percentage")
+                                            {{$product->offer?->discount}}%
+                                            @else
+                                            {{$product->offer?->discount}}EGP
+                                            @endif
+                                        </span>
                                         @endif
 
                                         <a href="{{route('singel.product' , $product)}}">
@@ -36,8 +42,8 @@
                                         </a>
 
                                         <div class="product-action-vertical">
-                                            <a href="{{ route('singel.product', $product) }}" class="btn-product-icon"
-                                                title="view">
+                                            <a href="{{ route('singel.product', $product) }}"
+                                                class="btn-product-icon btn-expandable"><span>View Details</span>
                                                 <i class="la la-search"></i>
                                             </a>
                                         </div>
@@ -50,9 +56,11 @@
                                     <div class="product-body">
                                         <div class="product-cat">
                                             <a href="#"
-                                                wire:click.prevent="selectCategory({{$product->category_id}} , '{{$product->category->name}}')">{{$product->category->name}}</a>
+                                                wire:click.prevent="selectCategory('{{$product->category->slug}}' , '{{$product->category->name}}')">{{$product->category->name}}</a>
                                         </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="{{ route('singel.product', $product) }}">{{$product->name}}</a></h3>
+                                        <h3 class="product-title"><a
+                                                href="{{ route('singel.product', $product) }}">{{$product->name}}</a>
+                                        </h3>
                                         <!-- End .product-title -->
                                         <div class="product-price">
                                             @if (isset($product->offer))
@@ -146,7 +154,7 @@
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
                                                 <a href="#"
-                                                    wire:click.prevent="selectCategory({{$category->id}} , '{{$category->name}}')">{{$category->name}}</a>
+                                                    wire:click.prevent="selectCategory('{{$category->slug}}' , '{{$category->name}}')">{{$category->name}}</a>
                                             </div>
                                             <span class="item-count">{{$category->products_count}}</span>
                                         </div>

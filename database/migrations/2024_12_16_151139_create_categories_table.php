@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("slug");
+            $table->string('slug');
+            $table->index("slug");
             $table->softDeletes();
-            
+
             $table->foreignId("parent_id")->nullable()->constrained("categories")->onDelete("cascade");
-            $table->foreignId("offer_id")->nullable()->constrained("categories")->onDelete("cascade");
+            $table->foreignId("offer_id")->nullable()->constrained()->onDelete("cascade");
             $table->timestamps();
         });
     }

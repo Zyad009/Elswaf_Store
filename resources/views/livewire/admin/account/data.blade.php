@@ -73,22 +73,6 @@
                                     </div>
                                 </div>
 
-                                @if (isset($data->role))
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Your Branch</label>
-                                    <div>
-                                        @if($data->branch->name)
-                                        <b class="badge bg-label-primary me-1">
-                                            {{ $data->branch->name }}
-                                        </b>
-                                        @else
-                                        <b class="badge bg-label-danger me-1">
-                                            No Branch
-                                        </b>
-                                        @endif
-                                    </div>
-                                </div>
-                                @endif
 
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Name <span class="text-danger">*</label>
@@ -134,7 +118,7 @@
                                 </div>
 
 
-                                <div class="mb-3 col-md-6">
+                                <div class="mb-3 col-md-12">
                                     <label class="form-label">Address <span class="text-danger">*</label>
                                     <textarea class="form-control" wire:model.blur="address">
                                             {{$data->address}}

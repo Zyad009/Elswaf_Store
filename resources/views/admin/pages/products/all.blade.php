@@ -11,15 +11,22 @@
 </div>
 
 <x-error></x-error>
-<livewire:admin.product.table-product />
-<livewire:admin.product.show-product />
-<livewire:admin.product.show-description />
 
-    @push("admin-js")
-        <script>
-            window.addEventListener("showModelToggle" , event =>{
+    <livewire:admin.product.table-product />
+    <livewire:admin.product.show-product />
+    <livewire:admin.product.show-description  />
+
+
+@endsection
+
+@push("admin-js")
+<script>
+window.addEventListener("showDescriptionModal", () => {
+    $("#descriptionModal").modal("toggle");
+    });
+
+    window.addEventListener("showModelToggle" , event =>{
                 $("#showModel").modal("toggle");
                 })
-        </script>
-    @endpush
-@endsection
+</script>
+@endpush

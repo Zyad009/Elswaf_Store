@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin\CustomerService;
 
-use App\Http\Controllers\Admin\Traits\UploadImage;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CustomerService\CustomerServiceRequest;
-use App\Models\CustomerService;
 use Illuminate\Http\Request;
+use App\Models\CustomerService;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Admin\Traits\UploadImage;
+use App\Http\Requests\Admin\CustomerService\CustomerServiceRequest;
 
 class AdminCustomerServiceController extends Controller
 {
@@ -77,7 +78,29 @@ class AdminCustomerServiceController extends Controller
     public function update(CustomerServiceRequest $request, CustomerService $customerService)
     {
         $data = $request->validated();
+        $mainImage = $request->file("main_image");
         $customerService->update($data);
+
+        if (isset($mainImage)) {
+
+            if ($customerService->images->first()?->main_image) {
+                $dirFromAnyImage = dirName($customerService->images->first()?->main_image);
+                Storage::deleteDirectory($dirFromAnyImage);
+            }
+
+            $customerServiceId = $customerService->id;
+            $nameCustomerService = $request->name;
+            $this->saveImages("customerService", $customerServiceId, $nameCustomerService, $mainImage);
+        } else {
+
+            if ($customerService->images->first()?->main_image) {
+                $dirFromAnyImage = dirName($customerService->images->first()?->main_image);
+                Storage::deleteDirectory($dirFromAnyImage);
+            }
+
+            $customerService->images()->update(["main_image" => null]);
+        }
+
         alert()->success("Updated", "Customer Service updated successfully");
 
         return to_route("admin-dashboard.customer_s.all");
@@ -122,6 +145,13 @@ class AdminCustomerServiceController extends Controller
     public function archiveRemove($id)
     {
         $customerService = CustomerService::withTrashed()->findOrFail($id);
+
+        if ($customerService->images->first()?->main_image) {
+            $dirFromAnyImage = dirName($customerService->images->first()?->main_image);
+            Storage::deleteDirectory($dirFromAnyImage);
+            $customerService->images()->delete();
+        }
+
         $customerService->forceDelete();
 
         alert()->success("Success!", "removed has been successfully");

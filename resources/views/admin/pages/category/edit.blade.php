@@ -40,11 +40,9 @@
     document.addEventListener('DOMContentLoaded', function() {
 FilePond.registerPlugin(FilePondPluginImagePreview);
 
-// الحصول على العنصر الخاص بالصورة
 var imagePreviewMainImageElement = document.querySelector('#imagePreviewMainImage');
 var imagePreviewMainImage = imagePreviewMainImageElement?.src || null;
 
-// تهيئة FilePond
 const pond = FilePond.create(document.querySelector('#main_image'), {
 allowImagePreview: true,
 imagePreviewMaxHeight: 200,
@@ -53,7 +51,6 @@ allowMultiple: false,
 acceptedFileTypes: ['image/*'],
 });
 
-// إضافة الصورة لو كانت موجودة فقط
 if (imagePreviewMainImage) {
 pond.addFile(imagePreviewMainImage);
 }
