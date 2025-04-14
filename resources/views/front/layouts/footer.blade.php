@@ -64,9 +64,5 @@
 @include('front.layouts.scripts')
 
 @stack("script-zoom")
-</body>
-
-
 <!-- Zyad Tech/index-6.html  22 Nov 2019 09:56:39 GMT -->
 
-</html>

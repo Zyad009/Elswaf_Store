@@ -71,26 +71,36 @@ class Product extends Model
         // 'sizes' => 'array', 
     ];
 
-    public function getSizes()  {
-        $sizes = ProductColorSize::where('product_id', $this->id)->with('size')->get();
-        return $sizes->map(function ($item) {
-            return [
-                'id' => $item->size->id,
-                'name' => $item->size->name,
-                'QTY' => $item->QTY,
-            ];
-        });
-    }
 
-    public function getColors()  {
-        $colors = ProductColorSize::where('product_id', $this->id)->with('color')->get();
-        return $colors->map(function ($item) {
-            return [
-                'id' => $item->color->id,
-                'name' => $item->color->name,
-                'QTY' => $item->QTY,
-            ];
-        });
+    public function getDetails()
+    {
+        $details = ProductColorSize::where('product_id', $this->id)
+        ->with('size', 'color')
+        ->get();
+
+        $array = [];
+        foreach ($details as $item) {
+            $size = $item->size;
+            $color = $item->color;
+
+            if (!isset($array[$size->id])) {
+                $array[$size->id] = [
+                    'id' => $size->id,
+                    'name' => $size->name,
+                    'colors' => [],
+                ];
+            }
+            $array[$size->id]['colors'][] =
+                [
+                    'id' => $color->id,
+                    'name' => $color->name,
+                    'QTY' => $item->QTY,
+                ];
+        }
+
+            $collection = collect($array)->sortKeys();
+
+        return ($collection);
     }
 
 }

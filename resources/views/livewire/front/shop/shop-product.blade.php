@@ -1,3 +1,6 @@
+@push('front-css')
+<link rel="stylesheet" href="{{asset('front/assets2')}}/css/style.css">
+@endpush
 <main class="main">
     <div class="page-header text-center"
         style="background-image: url('{{asset('front/assets2')}}/images/page-header-bg.jpg')">
@@ -22,8 +25,7 @@
                         <div class="row justify-content-center">
                             @if ($products->count() > 0)
                             @foreach ($products as $product)
-                            <div class="col-6 col-md-4 col-lg-4">
-                                <!-- كل منتج داخل نفس الـ row -->
+                            <div class="col-6">
                                 <div class="product product-7 text-center">
                                     <figure class="product-media">
                                         @if (isset($product->offer))
@@ -36,9 +38,10 @@
                                         </span>
                                         @endif
 
-                                        <a href="{{route('singel.product' , $product)}}">
-                                            <img src="{{ asset($product->images->first()?->main_image) }}"
-                                                alt="Product image" class="product-image">
+                                        <a href="#">
+                                            <img id="current-image-{{$product->id}}"
+                                                src="{{ asset($product->images->first()?->main_image) }}"
+                                                alt="Product image" class="product-shop-image">
                                         </a>
 
                                         <div class="product-action-vertical">
@@ -47,10 +50,9 @@
                                                 <i class="la la-search"></i>
                                             </a>
                                         </div>
-
                                         <div class="product-action">
-                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                                        </div><!-- End .product-action -->
+                                            <livewire:front.cart.add-cart-button :productId="$product->id" />
+                                        </div>
                                     </figure><!-- End .product-media -->
 
                                     <div class="product-body">
@@ -98,12 +100,19 @@
                                             $images = $product->images->first()?->images;
                                             $images = json_decode($images);
                                             @endphp
-                                            <a href="{{ route('singel.product', $product) }}" class="active">
+                                            <a href="#" class="thumb-image"
+                                                onclick="changeImage({{$product->id}},'{{ asset($product->images->first()?->main_image) }}'); return false;">
+                                                <img src="{{ asset($product->images->first()?->main_image) }}"
+                                                    alt="product desc">
+                                            </a>
+                                            <a href="#" class="thumb-image-l"
+                                                onclick="changeImage({{$product->id}},'{{ asset($product->images->first()?->hover_image) }}'); return false;">
                                                 <img src="{{ asset($product->images->first()?->hover_image) }}"
                                                     alt="product desc">
                                             </a>
                                             @foreach ($images as $image)
-                                            <a href="{{ route('singel.product', $product) }}" class="active">
+                                            <a href="#" class="thumb-image"
+                                                onclick="changeImage({{$product->id}},'{{ asset($image) }}'); return false;">
                                                 <img src="{{ asset($image) }}" alt="product desc">
                                             </a>
                                             @endforeach
@@ -113,11 +122,7 @@
                             </div><!-- End .col-6 col-md-4 col-lg-4 -->
                             @endforeach
                             @else
-                            <div class="text-center">
-                                <div class="alert alert-danger text-center" role="alert"> Sorry, there are no products
-                                    currently available.
-                                </div>
-                            </div>
+                            <x-alert.fixed-alert.no-product />
                             @endif
                         </div><!-- End .row -->
 
@@ -170,3 +175,11 @@
         </div><!-- End .container -->
     </div><!-- End .page-content -->
 </main><!-- End .main -->
+@push('front-js')
+<script>
+    function changeImage( itemId ,imageSrc) {
+            const currentImage = document.getElementById('current-image-' + itemId);
+            currentImage.src = imageSrc;
+        }
+</script>
+@endpush

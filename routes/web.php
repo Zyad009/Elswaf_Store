@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\ProfileController;
-use App\Http\Controllers\Front\HomeControler;
+use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\AboutController;
 use App\Http\Controllers\Front\ContactController;
@@ -36,7 +36,7 @@ use App\Http\Controllers\Front\Shop\SingleProductController;
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-Route::get('/',[HomeControler::class,"index"])->name("home");
+Route::get('/',[HomeController::class,"index"])->name("home");
 Route::get('/about',[AboutController::class,"index"])->name("about");
 Route::get('/cart',[CartController::class,"index"])->name("cart");
 Route::get('/checkout',[CheckoutController::class,"index"])->name("checkout");

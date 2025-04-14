@@ -1,0 +1,1 @@
+<a href="#" wire:click.prevent='addCart({{$productId }})' class="btn-product btn-cart"><span>add to cart</span></a>

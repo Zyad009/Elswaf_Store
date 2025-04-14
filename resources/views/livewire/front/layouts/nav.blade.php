@@ -64,4 +64,3 @@
 
     </div><!-- End .container -->
 </div><!-- End .header-bottom -->
-</header><!-- End .header -->

@@ -23,8 +23,8 @@ class ShopController extends Controller
     public function index(CategoryRequest $request)
     {
         $request->validated();
-        $categor = $request->query('category');
+        $request->query('category');
 
-        return view("front.pages.shop.products" );
+        return view("front.pages.shop.products");
     }
 }

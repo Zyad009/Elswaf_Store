@@ -94,12 +94,33 @@ class AllProduct extends Component
 
     public function render()
     {
-        $products = Product::where("name", "LIKE", "%" . $this->search . "%")
-            ->orWhereHas("category", fn($query) => $query->where("name", "LIKE", "%" . $this->search . "%"))
-            ->with("category" , "offer")
+        // $products = Product::where("name", "LIKE", "%" . $this->search . "%")
+        //     ->orWhereHas("category", fn($query) => $query->where("name", "LIKE", "%" . $this->search . "%"))
+        //     ->with("category" , "offer")
+        //     ->paginate(config("pagination.count"));
+
+        $products = Product::with('category', 'offer')
+            ->withCount(['category as has_offer_in_category' => function ($query) {
+                $query->whereHas('products', function ($q) {
+                    $q->whereNotNull('offer_id');
+                });
+            }]) // Count products with offers in the category
+            ->where(function ($query) {
+                $query->where("name", "LIKE", "%" . $this->search . "%")
+                    ->orWhereHas("category", function ($q) {
+                        $q->where("name", "LIKE", "%" . $this->search . "%");
+                    });
+            }) //search by name and category
+            ->orderByRaw('
+                            CASE 
+                                WHEN offer_id IS NULL AND has_offer_in_category > 0 THEN 0 
+                                ELSE 1 
+                            END
+                        ') // Order by products with dosenot have offers in the category first
             ->paginate(config("pagination.count"));
 
-    
+
+
         // return view('livewire.admin.offer.product.all-product' , ["products" => $products , "offers" => $this->offers ] ) ;
         return view('livewire.admin.offer.product.all-product' , ["products" => $products ] ) ;
     }

@@ -47,11 +47,13 @@ class ProductFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Product $product) {
-             $image = config("default-image.image");
+            $mainImage = config("default-image.main-image");
+            $hoverImage = config("default-image.hover-image");
+            $image = config("default-image.image");
             Image::create([
                 "folder" => "public/admin/products",
-                "main_image" => $image ,
-                "hover_image" => $image,
+                "main_image" => $mainImage ,
+                "hover_image" => $hoverImage,
                 "images" => json_encode([$image]) ,
                 "imageable_id" => $product->id,
                 "imageable_type" => Product::class,

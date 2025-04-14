@@ -127,7 +127,8 @@
                             <a href="{{route('singel.product' , $item)}}">
                                 <img src="{{ asset($item->images->first()?->main_image) }}" alt="Product image"
                                     class="product-image">
-                                <img src="{{ asset($item->images->first()?->hover_image) }}" alt="Product image"
+                                <img id="current-image-bes-{{$item->id}}"
+                                    src="{{ asset($item->images->first()?->hover_image) }}" alt="Product image"
                                     class="product-image product-image-hover">
                             </a>
 
@@ -137,18 +138,17 @@
                                     <i class="la la-search"></i>
                                 </a>
                             </div><!-- End .product-action-vertical -->
-
                             <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
+                                <livewire:front.cart.add-cart-button :productId="$item->id" />
+                            </div>
                         </figure><!-- End .product-media -->
 
                         <div class="product-body">
                             <div class="product-cat">
                                 {{-- <a href="{{route('shop' , $item->category->slug)}}">{{$item->category->name}}</a>
                                 --}}
-                                <a href="{{route('shop' , [" category"=>
-                                    $item->category->slug])}}">{{$item->category->name}}</a>
+                                <a
+                                    href="{{route('shop' , ['category'=>$item->category->slug])}}">{{$item->category->name}}</a>
                                 {{--
                                 <livewire:front.home.select-category-component :categorySlug="$item->category->slug"
                                     :categoryName="$item->category->name" /> --}}
@@ -186,10 +186,16 @@
                                 $images = json_decode($images);
                                 @endphp
                                 <a href="{{route('singel.product' , $item)}}" class="active">
+                                    <img src="{{ asset($item->images->first()?->main_image) }}" alt="product desc">
+                                </a>
+
+                                <a href="#" class="thumb-image"
+                                    onclick="changeImageBest({{$item->id}} ,'{{ asset($item->images->first()?->hover_image) }}'); return false;">
                                     <img src="{{ asset($item->images->first()?->hover_image) }}" alt="product desc">
                                 </a>
                                 @foreach ($images as $image)
-                                <a href="{{route('singel.product' , $item)}}" class="active">
+                                <a href="#" class="thumb-image"
+                                    onclick="changeImageBest({{$item->id}} ,'{{ asset($image) }}'); return false;">
                                     <img src="{{ asset($image) }}" alt="product desc">
                                 </a>
                                 @endforeach
@@ -197,15 +203,16 @@
                         </div><!-- End .product-body -->
                     </div><!-- End .product -->
                     @empty
-                    <div class="text-center">
+                    {{-- <div class="text-center">
                         <div class="alert alert-danger text-center" role="alert"> Sorry, there are no products
                             currently available.
                         </div>
-                    </div>
+                    </div> --}}
                     @endforelse
-
-
                 </div><!-- End .owl-carousel -->
+                @if($productsBest->isEmpty())
+                <x-alert.fixed-alert.no-product />
+                @endif
             </div><!-- .End .tab-pane -->
 
         </div><!-- End .tab-content -->
@@ -253,8 +260,11 @@
                             <a href="{{route('singel.product' , $item)}}">
                                 <img src="{{ asset($item->images->first()?->main_image) }}" alt="Product image"
                                     class="product-image">
-                                <img src="{{ asset($item->images->first()?->hover_image) }}" alt="Product image"
-                                    class="product-image product-image-hover">
+                                <div id="main-image">
+                                    <img id="current-image-new-{{$item->id}}"
+                                        src="{{ asset($item->images->first()?->hover_image) }}" alt="Product image"
+                                        class="product-image product-image-hover">
+                                </div>
                             </a>
 
                             <div class="product-action-vertical">
@@ -262,16 +272,15 @@
                                     class="btn-product-icon btn-quickview btn-expandable"><span>Quick
                                         view</span></a>
                             </div><!-- End .product-action-vertical -->
-
                             <div class="product-action">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
+                                <livewire:front.cart.add-cart-button :productId="$item->id" />
+                            </div>
                         </figure><!-- End .product-media -->
 
                         <div class="product-body">
                             <div class="product-cat">
-                                <a href="{{route('shop' , [" category"=>
-                                    $item->category->slug])}}">{{$item->category->name}}</a>
+                                <a
+                                    href="{{route('shop' , ['category'=>$item->category->slug])}}">{{$item->category->name}}</a>
                                 {{-- <a href="{{route('shop' , $item->category->slug)}}">{{$item->category->name}}</a>
                                 --}}
                                 {{--
@@ -309,11 +318,16 @@
                                 $images = $item->images->first()?->images;
                                 $images = json_decode($images);
                                 @endphp
-                                <a href="{{route('singel.product' , $item)}}" class="active">
+                                <a class="thumb-image active">
+                                    <img src="{{ asset($item->images->first()?->main_image) }}" alt="product desc">
+                                </a>
+                                <a href="#" class="thumb-image"
+                                    onclick="changeImageNew({{$item->id}} ,'{{ asset($item->images->first()?->hover_image) }}'); return false;">
                                     <img src="{{ asset($item->images->first()?->hover_image) }}" alt="product desc">
                                 </a>
                                 @foreach ($images as $image)
-                                <a href="{{route('singel.product' , $item)}}" class="active">
+                                <a href="#" class="thumb-image"
+                                    onclick="changeImageNew({{$item->id}} ,'{{ asset($image) }}'); return false;">
                                     <img src="{{ asset($image) }}" alt="product desc">
                                 </a>
                                 @endforeach
@@ -322,11 +336,9 @@
                     </div><!-- End .product -->
                 </div>
                 @empty
-                <div class="text-center">
-                    <div class="alert alert-danger text-center" role="alert"> Sorry, there are no products
-                        currently available.
-                    </div>
-                </div>
+
+                <x-alert.fixed-alert.no-product />
+
                 @endforelse
                 <!-- End .col-sm-6 col-md-4 col-lg-3 -->
 
@@ -339,4 +351,18 @@
     </div><!-- End .container -->
 
 </main><!-- End .main -->
+
+@push('front-js')
+<script>
+    function changeImageNew( itemId ,imageSrc) {
+            const currentImage = document.getElementById('current-image-new-' + itemId);
+            currentImage.src = imageSrc;
+        }
+
+        function changeImageBest( itemId ,imageSrc) {
+            const currentImage = document.getElementById('current-image-best-' + itemId);
+            currentImage.src = imageSrc;
+        }
+</script>
+@endpush
 @endsection

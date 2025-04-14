@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{ asset('front/assets2/css/custom.css') }}">
 @endpush
 @section('content.front')
-{{-- @dd($sizes) --}}
 <div class="mb-2"></div><!-- End .mb-2 -->
 <main class="main">
     <div class="page-content">
@@ -59,20 +58,24 @@
 
                             <div class="product-price">
                                 @if (isset($product->offer))
-                                @php
-                                if($product->offer?->discount_type == "percentage"){
-                                $price = $product->price;
-                                $discount = $product->offer?->discount;
-                                $result = $price - (($price*$discount)/100);
-                                }else{
-                                $price = $product->price;
-                                $discount = $product->offer?->discount;
-                                $result = $price-$discount;
-                                }
-                                echo $result ." EGP";
-                                @endphp
+                                <span class="new-price">
+                                    @php
+                                    if($product->offer?->discount_type == "percentage"){
+                                    $price = $product->price;
+                                    $discount = $product->offer?->discount;
+                                    $result = $price - (($price*$discount)/100);
+                                    echo "Now " . $result ." EGP";
+                                    }else{
+                                    $price = $product->price;
+                                    $discount = $product->offer?->discount;
+                                    $result = $price-$discount;
+                                    echo "Now " . $result ." EGP";
+                                    }
+                                    @endphp
+                                </span>
+                                <span class="old-price"><s>{{$product->price}} EGP </s></span>
                                 @else
-                                {{$product->price}} EGP
+                                <div class="product-price">{{$product->price}} EGP</div>
                                 @endif
                             </div><!-- End .product-price -->
 
@@ -80,29 +83,7 @@
                                 <p>{{str($product->description)->limit(100)}}</p>
                             </div><!-- End .product-content -->
 
-                            <div class="details-filter-row details-row-size">
-                                <label>Size:</label>
-                                <div class="select-custom">
-                                    <select name="size" class="form-control">
-                                        <option value="#" selected="selected">Select a size</option>
-                                        @foreach ($sizes as $size)
-                                        <option value="{{$size['id']}}">{{$size['name']}}</option>
-                                        @endforeach
-                                    </select>
-                                </div><!-- End .select-custom -->
-                            </div><!-- End .details-filter-row -->
-
-                            <div class="details-filter-row details-row-size">
-                                <label>Colour</label>
-                                <div class="select-custom">
-                                    <select name="color" class="form-control">
-                                        <option value="#" selected="selected">Select a size</option>
-                                        @foreach ($colors as $color)
-                                        <option value="{{$color['id']}}">{{$color['name']}}</option>
-                                        @endforeach
-                                    </select>
-                                </div><!-- End .select-custom -->
-                            </div>
+                            <livewire:front.shop.single-product :details="$details" />
 
                             <div class="details-filter-row details-row-size">
                                 <label for="qty">Qty:</label>
@@ -131,7 +112,7 @@
 
                     <li class="nav-item">
                         <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab"
-                            role="tab" aria-controls="product-review-tab" aria-selected="false">Reviews (2)</a>
+                            role="tab" aria-controls="product-review-tab" aria-selected="false">Reviews (1)</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -139,31 +120,14 @@
                         aria-labelledby="product-desc-link">
                         <div class="product-desc-content">
                             <h3>Product Information</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat
-                                mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra non, semper
-                                suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum. Aliquam
-                                porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Phasellus ultrices
-                                nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
-                                cursus. </p>
-                            <ul>
-                                <li>Nunc nec porttitor turpis. In eu risus enim. In vitae mollis elit. </li>
-                                <li>Vivamus finibus vel mauris ut vehicula.</li>
-                                <li>Nullam a magna porttitor, dictum risus nec, faucibus sapien.</li>
-                            </ul>
-
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat
-                                mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra non, semper
-                                suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum. Aliquam
-                                porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Phasellus ultrices
-                                nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
-                                cursus. </p>
+                            <p>{{$product->description}}</p>
                         </div><!-- End .product-desc-content -->
                     </div><!-- .End .tab-pane -->
 
                     <div class="tab-pane fade" id="product-review-tab" role="tabpanel"
                         aria-labelledby="product-review-link">
                         <div class="reviews">
-                            <h3>Reviews (2)</h3>
+                            <h3>Reviews (1)</h3>
                             <div class="review">
                                 <div class="row no-gutters">
                                     <div class="col-auto">
@@ -193,40 +157,11 @@
                                     </div><!-- End .col-auto -->
                                 </div><!-- End .row -->
                             </div><!-- End .review -->
-
-                            <div class="review">
-                                <div class="row no-gutters">
-                                    <div class="col-auto">
-                                        <h4><a href="#">John Doe</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 100%;"></div>
-                                                <!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                        </div><!-- End .rating-container -->
-                                        <span class="review-date">5 days ago</span>
-                                    </div><!-- End .col -->
-                                    <div class="col">
-                                        <h4>Very good</h4>
-
-                                        <div class="review-content">
-                                            <p>Sed, molestias, tempore? Ex dolor esse iure hic veniam laborum blanditiis
-                                                laudantium iste amet. Cum non voluptate eos enim, ab cumque nam, modi,
-                                                quas iure illum repellendus, blanditiis perspiciatis beatae!</p>
-                                        </div><!-- End .review-content -->
-
-                                        <div class="review-action">
-                                            <a href="#"><i class="icon-thumbs-up"></i>Helpful (0)</a>
-                                            <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
-                                        </div><!-- End .review-action -->
-                                    </div><!-- End .col-auto -->
-                                </div><!-- End .row -->
-                            </div><!-- End .review -->
                         </div><!-- End .reviews -->
                     </div><!-- .End .tab-pane -->
                 </div><!-- End .tab-content -->
             </div><!-- End .product-details-tab -->
-
+            @if(count($productsBest) > 0 )
             <h2 class="title text-center mb-4">You May Also Like</h2><!-- End .title text-center -->
 
             <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl"
@@ -255,20 +190,28 @@
                                 }
                             }
                         }'>
+
+                @foreach ( $productsBest as $item)
+
                 <div class="product product-7 text-center">
                     <figure class="product-media">
-                        <span class="product-label label-new">New</span>
-                        <a href="product.html">
-                            <img src="{{ asset('front/assets2') }}/images/products/product-4.jpg" alt="Product image"
+                        @if (isset($item->offer))
+                        <span class="product-label label-sale">sale</span>
+                        @endif
+                        <a href="{{route('singel.product' , $item)}}">
+                            <img src="{{ asset($item->images->first()?->main_image) }}" alt="Product image"
                                 class="product-image">
+                            <img id="current-image-best-{{$item->id}}"
+                                src="{{ asset($item->images->first()?->hover_image) }}" alt="Product image"
+                                class="product-image product-image-hover">
                         </a>
 
                         <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
-                                    wishlist</span></a>
-                            <a href="popup/quickView.html" class="btn-product-icon btn-quickview"
-                                title="Quick view"><span>Quick view</span></a>
-                            <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
+                            <a href="{{route('singel.product' , $item)}}"
+                                class="btn-product-icon btn-expandable"><span>View
+                                    Details</span>
+                                <i class="la la-search"></i>
+                            </a>
                         </div><!-- End .product-action-vertical -->
 
                         <div class="product-action">
@@ -278,46 +221,83 @@
 
                     <div class="product-body">
                         <div class="product-cat">
-                            <a href="#">Women</a>
+                            {{-- <a href="{{route('shop' , $item->category->slug)}}">{{$item->category->name}}</a>
+                            --}}
+                            <a
+                                href="{{route('shop' , ['category'=>$item->category->slug])}}">{{$item->category->name}}</a>
+                            {{--
+                            <livewire:front.home.select-category-component :categorySlug="$item->category->slug"
+                                :categoryName="$item->category->name" /> --}}
+
                         </div><!-- End .product-cat -->
-                        <h3 class="product-title"><a href="product.html">Brown paperbag waist <br>pencil skirt</a>
-                        </h3><!-- End .product-title -->
+                        <h3 class="product-title"><a href="{{ route('singel.product', $item) }}">{{$item->name}}</a>
+                        </h3>
+                        <!-- End .product-title -->
                         <div class="product-price">
-                            $60.00
+                            @if (isset($item->offer))
+                            <span class="new-price">
+                                @php
+                                if($item->offer?->discount_type == "percentage"){
+                                $price = $item->price;
+                                $discount = $item->offer?->discount;
+                                $result = $price - (($price*$discount)/100);
+                                echo "Now " . $result ." EGP";
+                                }else{
+                                $price = $item->price;
+                                $discount = $item->offer?->discount;
+                                $result = $price-$discount;
+                                echo "Now " . $result ." EGP";
+                                }
+                                @endphp
+                            </span>
+                            <span class="old-price"><s>{{$item->price}} EGP </s></span>
+                            @else
+                            <div class="product-price">{{$item->price}} EGP</div>
+                            @endif
                         </div><!-- End .product-price -->
-                        <div class="ratings-container">
-                            <div class="ratings">
-                                <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
-                            </div><!-- End .ratings -->
-                            <span class="ratings-text">( 2 Reviews )</span>
-                        </div><!-- End .rating-container -->
 
                         <div class="product-nav product-nav-thumbs">
-                            <a href="#" class="active">
-                                <img src="{{ asset('front/assets2') }}/images/products/product-4-thumb.jpg"
-                                    alt="product desc">
-                            </a>
-                            <a href="#">
-                                <img src="{{ asset('front/assets2') }}/images/products/product-4-2-thumb.jpg"
-                                    alt="product desc">
+                            @php
+                            $images = $item->images->first()?->images;
+                            $images = json_decode($images);
+                            @endphp
+                            <a href="{{route('singel.product' , $item)}}" class="active">
+                                <img src="{{ asset($item->images->first()?->main_image) }}" alt="product desc">
                             </a>
 
-                            <a href="#">
-                                <img src="{{ asset('front/assets2') }}/images/products/product-4-3-thumb.jpg"
-                                    alt="product desc">
+                            <a href="#" class="thumb-image"
+                                onclick="changeImageBest({{$item->id}} ,'{{ asset($item->images->first()?->hover_image) }}'); return false;">
+                                <img src="{{ asset($item->images->first()?->hover_image) }}" alt="product desc">
                             </a>
+                            @foreach ($images as $image)
+                            <a href="#" class="thumb-image"
+                                onclick="changeImageBest({{$item->id}} ,'{{ asset($image) }}'); return false;">
+                                <img src="{{ asset($image) }}" alt="product desc">
+                            </a>
+                            @endforeach
                         </div><!-- End .product-nav -->
                     </div><!-- End .product-body -->
                 </div><!-- End .product -->
-
+                @endforeach
             </div><!-- End .owl-carousel -->
-        </div><!-- End .container -->
+            @endif
+        </div><!-- End .owl-carousel -->
+    </div><!-- End .container -->
     </div><!-- End .page-content -->
 </main><!-- End .main -->
-
-{{-- @push("script-zoom") --}}
 @push("front-js")
 <script src="{{ asset('front/assets2') }}/js/jquery.elevateZoom.min.js"></script>
+<script>
+    function changeImageNew( itemId ,imageSrc) {
+            const currentImage = document.getElementById('current-image-new-' + itemId);
+            currentImage.src = imageSrc;
+        }
+
+        function changeImageBest( itemId ,imageSrc) {
+            const currentImage = document.getElementById('current-image-best-' + itemId);
+            currentImage.src = imageSrc;
+        }
+</script>
 @endpush
 
 @endsection
