@@ -42,8 +42,9 @@
 
     <div class="header-right">
       {{-- السله --}}
-      
+      @unless (request()->is('cart'))
       <livewire:front.cart.view-cart-component />
+      @endunless
       {{-- البحث --}}
     </div>
   </div><!-- End .container -->

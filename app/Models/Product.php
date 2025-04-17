@@ -90,7 +90,7 @@ class Product extends Model
                     'colors' => [],
                 ];
             }
-            $array[$size->id]['colors'][] =
+            $array[$size->id]['colors'][$color->id] =
                 [
                     'id' => $color->id,
                     'name' => $color->name,

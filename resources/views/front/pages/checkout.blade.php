@@ -1,8 +1,9 @@
 @extends("front.layouts.app")
+@section('front-title', 'Checkout')
 @section("content.front")
 
         <main class="main">
-        	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        	<div class="page-header text-center" style="background-image: url('{{ asset('front/assets2/images/page-header-bg.jpg') }}')">
         		<div class="container">
         			<h1 class="page-title">Checkout<span>page</span></h1>
         		</div><!-- End .container -->
@@ -27,9 +28,6 @@
 
 
 		                				</div><!-- End .row -->
-
-	            						<label>Company Name (Optional)</label>
-	            						<input type="text" class="form-control">
 
 	            						<label>City</label>
 	            						<input type="text" class="form-control" required>

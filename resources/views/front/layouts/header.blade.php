@@ -38,4 +38,6 @@
     <link rel="stylesheet" href="{{ asset('front/assets2') }}/css/style.css">
     <link rel="stylesheet" href="{{ asset('front/assets2') }}/css/skins/skin-demo-6.css">
     <link rel="stylesheet" href="{{ asset('front/assets2') }}/css/demos/demo-6.css">
+
+    @stack("front-cdn")
 </head>

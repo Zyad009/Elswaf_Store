@@ -3,63 +3,92 @@
         data-display="static">
         <i class="icon-shopping-cart"></i>
         {{-- عدد اللي في السلة --}}
-        <span class="cart-count">2</span>
-        <span class="cart-txt">$ 164,00</span>
+        <span class="cart-count">{{$count}}</span>
+        <span class="cart-txt">{{$totalPrice}} EGP</span>
     </a>
     <div class="dropdown-menu dropdown-menu-right">
         <div class="dropdown-cart-products">
+            @foreach ($data as $item )
+            {{-- @dd($item) --}}
             <div class="product">
                 <div class="product-cart-details">
                     <h4 class="product-title">
-                        <a href="product.html">Beige knitted elastic runner shoes</a>
+                        <a href="{{route('singel.product' , $item["slug"])}}">{{$item["name"]}}</a>
                     </h4>
 
                     <span class="cart-product-info">
-                        <span class="cart-product-qty">1</span>
-                        x $84.00
+                        <span class="cart-product-qty">{{$item["quantity"]}}</span>
+                        x {{$item["price"]}} = {{$item["quantity"] * $item["price"]}} EGP
                     </span>
                 </div><!-- End .product-cart-details -->
 
                 <figure class="product-image-container">
-                    <a href="product.html" class="product-image">
-                        <img src="{{asset('front/assets2')}}/images/products/cart/product-1.jpg" alt="product">
+                    <a href="{{route('singel.product' , $item["slug"])}}" class="product-image">
+                        <img src="{{asset($item["image"])}}" alt="product">
                     </a>
                 </figure>
-                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                {{-- <livewire:front.cart.remove-cart-button :productSlug="$item->slug" /> --}}
+                    <a href="#" wire:click.prevent='removeProduct("{{$item["key"]}}")' class="btn-remove" title="Remove Product"><i
+                            class="icon-close"></i></a>
             </div><!-- End .product -->
-
-            <div class="product">
-                <div class="product-cart-details">
-                    <h4 class="product-title">
-                        <a href="product.html">Blue utility pinafore denim dress</a>
-                    </h4>
-
-                    <span class="cart-product-info">
-                        <span class="cart-product-qty">1</span>
-                        x $76.00
-                    </span>
-                </div><!-- End .product-cart-details -->
-
-                <figure class="product-image-container">
-                    <a href="product.html" class="product-image">
-                        <img src="{{asset('front/assets2')}}/images/products/cart/product-2.jpg" alt="product">
-                    </a>
-                </figure>
-                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-            </div><!-- End .product -->
+            @endforeach
         </div><!-- End .cart-product -->
 
         <div class="dropdown-cart-total">
             <span>Total</span>
 
-            <span class="cart-total-price">$160.00</span>
+            <span class="cart-total-price">{{$totalPrice}} EGP</span>
         </div><!-- End .dropdown-cart-total -->
 
         <div class="dropdown-cart-action">
-            <a href="cart.html" class="btn btn-primary">View Cart</a>
-            <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i
+            <a href="{{route('cart.view')}}" class="btn btn-outline-primary-2">View Cart</a>
+            <a href="{{route('checkout')}}" class="btn btn-outline-primary-2"><span>Checkout</span><i
                     class="icon-long-arrow-right"></i></a>
         </div><!-- End .dropdown-cart-total -->
     </div>
     <!-- End .dropdown-menu -->
 </div><!-- End .cart-dropdown -->
+
+@push("front-js")
+<script>
+    window.addEventListener("errorIdCart", () => {
+            Swal.fire({
+            icon: "error",
+            title: "Error!",
+            text: "Don't play, Khalbous",
+            showConfirmButton: false,
+            timer: 3000
+            });
+            });
+            
+            window.addEventListener("successCart", () => {
+            Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: "add successfully",
+            showConfirmButton: false,
+            timer: 1500
+            });
+            });
+            
+            // window.addEventListener("removeProduct", () => {
+            // Swal.fire({
+            // icon: "success",
+            // title: "Success!",
+            // text: "Product Removed Successfully",
+            // showConfirmButton: false,
+            // timer: 1500
+            // });
+            // });
+            
+            window.addEventListener("productAlreadyInCart", () => {
+            Swal.fire({
+            icon: "warning",
+            title: "Warning!",
+            text: "The Product Already In Your Cart",
+            showConfirmButton: false,
+            timer: 4000
+            });
+            });
+</script>
+@endpush

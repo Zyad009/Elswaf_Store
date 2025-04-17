@@ -1,8 +1,14 @@
 @extends('front.layouts.app')
 @section("front-title" , "Home" )
+
 @push('front-css')
-<link rel="stylesheet" href="{{ asset('front/assets2/css/custom.css') }}">
+<link rel="stylesheet" href="{{ asset(path: 'front/assets2/css/custom.css') }}">
 @endpush
+
+@push("front-cdn")
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@endpush
+
 @section('content.front')
 {{-- @dd(auth()->guard('web')->check())
 
@@ -120,14 +126,27 @@
                     @forelse ( $productsBest as $item)
 
                     <div class="product product-7 text-center">
+                        @php
+                        if($item->offer?->discount_type == "percentage"){
+                        $price = $item->price;
+                        $discount = $item->offer?->discount;
+                        $mark = "%";
+                        $finalPrice = $price - (($price*$discount)/100);
+                        }else{
+                        $price = $item->price;
+                        $discount = $item->offer?->discount;
+                        $mark = "EGP";
+                        $finalPrice = $price-$discount;
+                        }
+                        @endphp
                         <figure class="product-media">
                             @if (isset($item->offer))
-                            <span class="product-label label-sale">sale</span>
+                            <span class="product-label label-sale">-{{$item->offer->discount ." ". $mark}}</span>
                             @endif
                             <a href="{{route('singel.product' , $item)}}">
                                 <img src="{{ asset($item->images->first()?->main_image) }}" alt="Product image"
                                     class="product-image">
-                                <img id="current-image-bes-{{$item->id}}"
+                                <img id="current-image-best-{{$item->id}}"
                                     src="{{ asset($item->images->first()?->hover_image) }}" alt="Product image"
                                     class="product-image product-image-hover">
                             </a>
@@ -139,7 +158,8 @@
                                 </a>
                             </div><!-- End .product-action-vertical -->
                             <div class="product-action">
-                                <livewire:front.cart.add-cart-button :productId="$item->id" />
+                                <livewire:front.cart.add-cart-button :productSlug="$item->slug"
+                                    :finalPrice="$finalPrice ?? $item->price" />
                             </div>
                         </figure><!-- End .product-media -->
 
@@ -160,19 +180,7 @@
                             <div class="product-price">
                                 @if (isset($item->offer))
                                 <span class="new-price">
-                                    @php
-                                    if($item->offer?->discount_type == "percentage"){
-                                    $price = $item->price;
-                                    $discount = $item->offer?->discount;
-                                    $result = $price - (($price*$discount)/100);
-                                    echo "Now " . $result ." EGP";
-                                    }else{
-                                    $price = $item->price;
-                                    $discount = $item->offer?->discount;
-                                    $result = $price-$discount;
-                                    echo "Now " . $result ." EGP";
-                                    }
-                                    @endphp
+                                    Now {{$finalPrice}} EGP
                                 </span>
                                 <span class="old-price"><s>{{$item->price}} EGP </s></span>
                                 @else
@@ -251,11 +259,24 @@
 
                 @forelse ( $productsNew as $item)
                 <div class="col-6 col-md-4 col-lg-3">
+                    @php
+                    if($item->offer?->discount_type == "percentage"){
+                    $price = $item->price;
+                    $discount = $item->offer?->discount;
+                    $mark = "%";
+                    $finalPrice = $price - (($price*$discount)/100);
+                    }else{
+                    $price = $item->price;
+                    $discount = $item->offer?->discount;
+                    $mark = "EGP";
+                    $finalPrice = $price-$discount;
+                    }
+                    @endphp
 
                     <div class="product product-7 text-center">
                         <figure class="product-media">
                             @if (isset($item->offer))
-                            <span class="product-label label-sale">sale</span>
+                            <span class="product-label label-sale">-{{$item->offer->discount ." ". $mark}}</span>
                             @endif
                             <a href="{{route('singel.product' , $item)}}">
                                 <img src="{{ asset($item->images->first()?->main_image) }}" alt="Product image"
@@ -269,11 +290,12 @@
 
                             <div class="product-action-vertical">
                                 <a href="{{route('singel.product' , $item)}}"
-                                    class="btn-product-icon btn-quickview btn-expandable"><span>Quick
-                                        view</span></a>
+                                    class="btn-product-icon btn-expandable"><span>View Details</span>
+                                    <i class="la la-search"></i>
+                                </a>
                             </div><!-- End .product-action-vertical -->
                             <div class="product-action">
-                                <livewire:front.cart.add-cart-button :productId="$item->id" />
+                                <livewire:front.cart.add-cart-button :productSlug="$item->slug" :finalPrice="$finalPrice ?? $item->price" />
                             </div>
                         </figure><!-- End .product-media -->
 
@@ -293,19 +315,7 @@
                             <div class="product-price">
                                 @if (isset($item->offer))
                                 <span class="new-price">
-                                    @php
-                                    if($item->offer?->discount_type == "percentage"){
-                                    $price = $item->price;
-                                    $discount = $item->offer?->discount;
-                                    $result = $price - (($price*$discount)/100);
-                                    echo "Now " . $result ." EGP";
-                                    }else{
-                                    $price = $item->price;
-                                    $discount = $item->offer?->discount;
-                                    $result = $price-$discount;
-                                    echo "Now " . $result ." EGP";
-                                    }
-                                    @endphp
+                                    Now {{$finalPrice}} EGP
                                 </span>
                                 <span class="old-price"><s>{{$item->price}} EGP </s></span>
                                 @else

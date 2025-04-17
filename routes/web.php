@@ -38,7 +38,15 @@ use App\Http\Controllers\Front\Shop\SingleProductController;
 
 Route::get('/',[HomeController::class,"index"])->name("home");
 Route::get('/about',[AboutController::class,"index"])->name("about");
-Route::get('/cart',[CartController::class,"index"])->name("cart");
+
+Route::name("cart.")->prefix("cart")->group(function(){
+    Route::controller(CartController::class)->group(function(){
+        Route::get('/',"index")->name("view");
+        Route::put('/update',"update")->name("update");
+        Route::delete('/delete',"destroy")->name("delete");
+    });
+});
+
 Route::get('/checkout',[CheckoutController::class,"index"])->name("checkout");
 Route::get('/single-product/{product}',[SingleProductController::class,"index"])->name("singel.product");
 // Route::get('/shop/{item?}',[ShopController::class,"index"])->name("shop");

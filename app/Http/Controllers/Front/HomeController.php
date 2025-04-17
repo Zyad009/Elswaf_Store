@@ -10,13 +10,13 @@ class HomeController extends Controller
     public function index()
     {
         $bestSellingIds = Product::orderByDesc('sold')
-            ->take(4)
+            ->take(8)
             ->whereNull('deleted_at')
             // ->whereNull('QTY')
             ->pluck('id');
 
         $newestIds = Product::orderByDesc('created_at')
-            ->take(4)
+            ->take(8)
             ->whereNull('deleted_at')
             // ->whereNull('QTY')
             ->pluck('id');
@@ -30,6 +30,8 @@ class HomeController extends Controller
 
         $productsNew = $products->whereIn('id', $newestIds)
             ->sortByDesc('created_at');
+
+            
 
         return view("front.pages.home", compact("productsBest", "productsNew"));
     }

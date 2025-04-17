@@ -25,20 +25,27 @@
                         <div class="row justify-content-center">
                             @if ($products->count() > 0)
                             @foreach ($products as $product)
-                            <div class="col-6">
+                            <div class="col-6 col-md-4 col-lg-5">
                                 <div class="product product-7 text-center">
                                     <figure class="product-media">
                                         @if (isset($product->offer))
-                                        <span class="product-label label-sale">sale :
-                                            @if ($product->offer?->discount_type == "percentage")
-                                            {{$product->offer?->discount}}%
-                                            @else
-                                            {{$product->offer?->discount}}EGP
-                                            @endif
-                                        </span>
+                                        @php
+                                        if($product->offer?->discount_type == "percentage"){
+                                        $price = $product->price;
+                                        $discount = $product->offer?->discount;
+                                        $mark = "%";
+                                        $finalPrice = $price - (($price*$discount)/100);
+                                        }else{
+                                        $price = $product->price;
+                                        $discount = $product->offer?->discount;
+                                        $mark = "EGP";
+                                        $finalPrice = $price-$discount;
+                                        }
+                                        @endphp
+                                        <span class="product-label label-sale">-{{$product->offer->discount ." ". $mark}} </span>
                                         @endif
 
-                                        <a href="#">
+                                        <a href="{{ route('singel.product', $product) }}">
                                             <img id="current-image-{{$product->id}}"
                                                 src="{{ asset($product->images->first()?->main_image) }}"
                                                 alt="Product image" class="product-shop-image">
@@ -51,7 +58,8 @@
                                             </a>
                                         </div>
                                         <div class="product-action">
-                                            <livewire:front.cart.add-cart-button :productId="$product->id" />
+                                            <livewire:front.cart.add-cart-button :productSlug="$product->slug"
+                                                :finalPrice="$finalPrice ?? $product->price" />
                                         </div>
                                     </figure><!-- End .product-media -->
 
@@ -67,19 +75,7 @@
                                         <div class="product-price">
                                             @if (isset($product->offer))
                                             <span class="new-price">
-                                                @php
-                                                if($product->offer?->discount_type == "percentage"){
-                                                $price = $product->price;
-                                                $discount = $product->offer?->discount;
-                                                $result = $price - (($price*$discount)/100);
-                                                echo "Now " . $result ." EGP";
-                                                }else{
-                                                $price = $product->price;
-                                                $discount = $product->offer?->discount;
-                                                $result = $price-$discount;
-                                                echo "Now " . $result ." EGP";
-                                                }
-                                                @endphp
+                                                Now {{$finalPrice}} EGP;
                                             </span>
                                             <span class="old-price"><s>{{$product->price}} EGP </s></span>
                                             @else

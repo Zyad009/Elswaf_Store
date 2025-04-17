@@ -36,7 +36,7 @@
 
                         <ul class="widget-list">
                             <li><a href="{{route("login.index")}}">Sign In</a></li>
-                            <li><a href="{{route("cart")}}">View Cart</a></li>
+                            <li><a href="{{route("cart.view")}}">View Cart</a></li>
                             <li><a href="{{route("checkout")}}">Track My Order</a></li>
                             <li><a href="{{route("contact")}}">Help</a></li>
                         </ul><!-- End .widget-list -->
