@@ -47,7 +47,7 @@ Route::name("cart.")->prefix("cart")->group(function(){
     });
 });
 
-Route::get('/checkout',[CheckoutController::class,"index"])->name("checkout");
+Route::get('/checkout',[CheckoutController::class,"index"])->name("checkout")->middleware("auth");
 Route::get('/single-product/{product}',[SingleProductController::class,"index"])->name("singel.product");
 // Route::get('/shop/{item?}',[ShopController::class,"index"])->name("shop");
 Route::get('/shop',[ShopController::class,"index"])->name("shop");

@@ -15,6 +15,5 @@
             <span>LOG IN</span>
             <i class="icon-long-arrow-right"></i>
         </button>
-
     </div><!-- End .form-footer -->
 </form>

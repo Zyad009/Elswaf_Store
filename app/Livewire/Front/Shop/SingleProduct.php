@@ -155,11 +155,12 @@ class SingleProduct extends Component
                 "key" => $key, // Store the key internally
             ];
         }
-
+        
         // Update the cart session
         session()->put('cart', $cart);
         $this->dispatch("successCart");
         $this->dispatch("viewCart", $key);
+        $this->reset("selectedSize", "selectedColor", "QTY");
     }
 
     public function render()

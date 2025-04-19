@@ -25,6 +25,7 @@
 		</div>
 	</nav>
 
+
 	@if (session('cart') !=null && count(session('cart')) > 0)
 	@php $cartItems = session('cart'); @endphp
 
@@ -47,6 +48,8 @@
 								</tr>
 							</thead>
 							<tbody>
+								{{-- @dd($cartItems) --}}
+								
 								@foreach ($cartItems as $item)
 								<tr data-key="{{ $item['key'] }}">
 									<td class="product-col">
@@ -79,11 +82,7 @@
 									<td class="price-col book-price">{{ $item['price'] }} EGP</td>
 									<td class="quantity-col">
 										<div class="cart-product-quantity">
-										@if (isset($item['max_quantity']))
-											<input type="number" class="form-control quantity-input" value="{{ $item['quantity'] }}" min="1" max="{{$item['max_quantity']}}">
-											@else
-											<a href="{{route('singel.product' , $item['slug'])}}" class="text-danger">You Must Selected Size And Color</a>
-										@endif
+										<input type="number" class="form-control quantity-input" value="{{ $item['quantity'] }}" min="1" max="{{$item['max_quantity'] ?? 1}}">
 										</div>
 									</td>
 									<td class="total-col total-price">{{ $item['price'] * $item['quantity'] }} EGP</td>
