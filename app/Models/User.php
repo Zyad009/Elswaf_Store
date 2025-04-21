@@ -51,6 +51,11 @@ class User extends Authenticatable
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    public function otp()
+    {
+        return $this->hasMany(OtpUser::class);
+    }
     
     /**
      * The attributes that are mass assignable.

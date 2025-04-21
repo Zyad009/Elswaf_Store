@@ -26,7 +26,7 @@
 							<livewire:auth.login>
 								<a href="{{route('forgot.password.index')}}" class="forgot-link">Forgot Your Password?</a>
 								{{-- forgate password --}}
-								{{-- التسجيل ب جوجل او الفيس --}}
+
 								<div class="form-choice">
 									<p class="text-center">or sign in with</p>
 									<div class="row">
@@ -37,7 +37,7 @@
 											</a>
 										</div><!-- End .col-6 -->
 										<div class="col-sm-6">
-											<a href="#" class="btn btn-login btn-f">
+											<a href="{{route('auth.facebook.redirect')}}" class="btn btn-login btn-f">
 												<i class="icon-facebook-f"></i>
 												Login With Facebook
 											</a>

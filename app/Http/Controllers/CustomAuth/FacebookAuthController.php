@@ -10,22 +10,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
-class GoogleAuthController extends Controller
+class FacebookAuthController extends Controller
 {
     public function redirect()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('facebook')->redirect();
     }
 
     public function callback()
     {
-        $googleUser = Socialite::driver('google')->user();
+        $facebookUser = Socialite::driver('facebook')->stateless()->user();
+        // $facebookUser = Socialite::driver('facebook')->user();
         // dd($googleUser);
         $user = User::firstOrCreate([
-            "email" => $googleUser->getEmail(),
+            "email" => $facebookUser->getEmail(),
         ], [
-            "name" => $googleUser->getName(),
-            "slug" => Str::slug($googleUser->getName()),
+            "name" => $facebookUser->getName(),
+            "slug" => Str::slug($facebookUser->getName()),
             "password" => Hash::make(Str::random(16)),
             "phone" => null,
             "whatsapp" => null,
@@ -36,6 +37,6 @@ class GoogleAuthController extends Controller
 
         Auth::guard('web')->login($user, true);
         alert()->success('Login successful!')->flash();
-        return to_route('home'); 
+        return to_route('home');
     }
 }
