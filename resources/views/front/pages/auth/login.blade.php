@@ -1,4 +1,5 @@
 @extends("front.layouts.app")
+@section("front-title" , "Login")
 @section("content.front")
 
 <main class="main">
@@ -31,13 +32,13 @@
 									<p class="text-center">or sign in with</p>
 									<div class="row">
 										<div class="col-sm-6">
-											<a href="{{route('auth.google.redirect')}}" class="btn btn-login btn-g">
+											<a href="{{route('auth.social.redirect' , "google")}}" class="btn btn-login btn-g">
 												<i class="icon-google"></i>
 												Login With Google
 											</a>
 										</div><!-- End .col-6 -->
 										<div class="col-sm-6">
-											<a href="{{route('auth.facebook.redirect')}}" class="btn btn-login btn-f">
+											<a href="{{route('auth.social.redirect' , "facebook")}}" class="btn btn-login btn-f">
 												<i class="icon-facebook-f"></i>
 												Login With Facebook
 											</a>
@@ -46,10 +47,6 @@
 								</div><!-- End .form-choice -->
 								<br>
 								<div class="text-center">
-									<p>
-									<h5>
-										Shopping Now ...
-									</h5>
 									</p>
 								</div>
 						</div><!-- .End .tab-pane -->
@@ -61,32 +58,25 @@
 
 						<div class="tab-pane fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
 							<livewire:auth.register>
-								{{-- بالفيس اوجوجل --}}
-								{{-- <div class="form-choice">
+
+								<div class="form-choice">
 									<p class="text-center">or sign in with</p>
 									<div class="row">
 										<div class="col-sm-6">
-											<a href="#" class="btn btn-login btn-g">
+											<a href="{{route('auth.social.redirect' , "google")}}" class="btn btn-login btn-g">
 												<i class="icon-google"></i>
 												Login With Google
 											</a>
 										</div><!-- End .col-6 -->
 										<div class="col-sm-6">
-											<a href="#" class="btn btn-login  btn-f">
+											<a href="{{route('auth.social.redirect' , "facebook")}}" class="btn btn-login btn-f">
 												<i class="icon-facebook-f"></i>
 												Login With Facebook
 											</a>
 										</div><!-- End .col-6 -->
 									</div><!-- End .row -->
-								</div><!-- End .form-choice --> --}}
+								</div><!-- End .form-choice -->
 
-								<div class="text-center">
-									<p>
-									<h5>
-										<i>Welcome In Your Store...</i>
-									</h5>
-									</p>
-								</div>
 						</div><!-- .End .tab-pane -->
 					</div><!-- End .tab-content -->
 				</div><!-- End .form-tab -->

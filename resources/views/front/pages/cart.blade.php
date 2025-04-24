@@ -79,13 +79,13 @@
 										@endif
 									</td>
 									{{-- @dd($item) --}}
-									<td class="price-col book-price">{{ $item['price'] }} EGP</td>
+									<td class="price-col book-price">{{ $item['final_price'] }} EGP</td>
 									<td class="quantity-col">
 										<div class="cart-product-quantity">
 										<input type="number" class="form-control quantity-input" value="{{ $item['quantity'] }}" min="1" max="{{$item['max_quantity'] ?? 1}}">
 										</div>
 									</td>
-									<td class="total-col total-price">{{ $item['price'] * $item['quantity'] }} EGP</td>
+									<td class="total-col total-price">{{ $item['final_price'] * $item['quantity'] }} EGP</td>
 									<td class="remove-col">
 										<button class="btn-remove"><i class="icon-close"></i></button>
 									</td>

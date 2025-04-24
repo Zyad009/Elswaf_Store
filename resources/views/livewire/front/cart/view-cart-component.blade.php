@@ -18,7 +18,7 @@
 
                     <span class="cart-product-info">
                         <span class="cart-product-qty">{{$item["quantity"]}}</span>
-                        x {{$item["price"]}} = {{$item["quantity"] * $item["price"]}} EGP
+                        x {{$item["final_price"]}} = {{$item["quantity"] * $item["final_price"]}} EGP
                     </span>
                 </div><!-- End .product-cart-details -->
 

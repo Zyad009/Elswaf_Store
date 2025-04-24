@@ -22,7 +22,7 @@ class ViewCartComponent extends Component
         $cart = session()->get('cart' , []);
         $this->data = $cart;
 
-        $this->totalPrice += $cart[$productKey]['price'] * $cart[$productKey]['quantity'];
+        $this->totalPrice += $cart[$productKey]['final_price'] * $cart[$productKey]['quantity'];
         $this->count = count($cart);
         
         $this->updateCart();
@@ -43,7 +43,7 @@ class ViewCartComponent extends Component
         $this->data = $cart;
         $this->totalPrice = 0;
         foreach ($cart as $item) {
-            $this->totalPrice += ($item['price'] * $item['quantity']);
+            $this->totalPrice += ($item['final_price'] * $item['quantity']);
         }
         $this->count = count($cart);
     }

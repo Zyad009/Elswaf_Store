@@ -34,15 +34,19 @@ class AddCartButton extends Component
                     $this->dispatch("productAlreadyInCart");
                     return;
             }else{
+                $priceDetails = $dataProduct->getFinalPriceDetails();
                 $cart[$key] = [
                     "quantity" => $this->quantity,
                     "max_quantity" => null,
                     "color" => null,
                     "size" =>  null ,
-                    "price" => $this->finalPrice ,
+                    "price" => $priceDetails['original'],
                     "name" => $dataProduct->name,
                     "slug" => $dataProduct->slug,
                     "image" => $dataProduct->images->first()?->main_image,
+                    "discount" => $priceDetails['discount'] ?? null,
+                    "discount_type" => $priceDetails['discountType'] ?? null,
+                    "final_price" => $priceDetails['final'],
                     "key" => $key,
                 ];
             }

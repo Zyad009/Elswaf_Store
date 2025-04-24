@@ -2,9 +2,15 @@
     {{-- <x-error></x-error> --}}
 
     <div class="form-group">
-        <label for="register-email-2">Name <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" wire:model.blur='name' required>
-        <x-message.error name="name"></x-message.error>
+        <label for="register-email-2">First Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" wire:model.blur='first_name' required>
+        <x-message.error name="first_name"></x-message.error>
+    </div><!-- End .form-group -->
+
+    <div class="form-group">
+        <label for="register-email-2">Last Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" wire:model.blur='last_name' required>
+        <x-message.error name="last_name"></x-message.error>
     </div><!-- End .form-group -->
 
     <div class="form-group">

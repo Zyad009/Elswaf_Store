@@ -75,6 +75,7 @@ class Product extends Model
     public function getDetails()
     {
         $details = ProductColorSize::where('product_id', $this->id)
+        ->where("QTY" , ">", 0 )
         ->with('size', 'color')
         ->get();
 
@@ -103,5 +104,38 @@ class Product extends Model
         return ($collection);
     }
 
+    public function getFinalPriceDetails()
+    {
+        $price = $this->price;
+
+        if ($this->offer) {
+            $discount = $this->offer->discount;
+            $discountType = $this->offer->discount_type;
+
+            if ($this->offer->discount_type == 'percentage') {
+                $final = $price - ($price * $discount / 100);
+                $mark = '%';
+            } else {
+                $final = $price - $discount;
+                $mark = 'EGP';
+            }
+
+            return [
+                'original' => $price,
+                'final' => round($final, 2),
+                'discountType' => $discountType,
+                'discount' => $discount,
+                'mark' => $mark,
+            ];
+        }
+
+        return [
+            'original' => $price,
+            'final' => $price,
+            'discountType' => null,
+            'discount' => 0,
+            'mark' => '',
+        ];
+    }
 }
 

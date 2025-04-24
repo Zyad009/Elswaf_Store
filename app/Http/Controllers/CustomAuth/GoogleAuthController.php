@@ -19,8 +19,14 @@ class GoogleAuthController extends Controller
 
     public function callback()
     {
+        try {
+            $googleUser = Socialite::driver('google')->stateless()->user();
+        } catch (\Throwable $th) {
+            alert()->error('Login failed!')->flash();
+            return to_route('login.index');
+        }
         $googleUser = Socialite::driver('google')->user();
-        // dd($googleUser);
+
         $user = User::firstOrCreate([
             "email" => $googleUser->getEmail(),
         ], [

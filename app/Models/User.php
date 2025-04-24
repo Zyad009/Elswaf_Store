@@ -17,7 +17,9 @@ class User extends Authenticatable
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom("name")
+            ->generateSlugsFrom(function () {
+                return "{$this->first_name} {$this->last_name}";
+            })
             ->saveSlugsTo("slug");
     }
 
@@ -63,7 +65,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
         'gender',

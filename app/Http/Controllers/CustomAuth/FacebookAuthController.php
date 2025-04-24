@@ -19,9 +19,12 @@ class FacebookAuthController extends Controller
 
     public function callback()
     {
-        $facebookUser = Socialite::driver('facebook')->stateless()->user();
-        // $facebookUser = Socialite::driver('facebook')->user();
-        // dd($googleUser);
+        try {
+            $facebookUser = Socialite::driver('facebook')->stateless()->user();
+        } catch (\Throwable $th) {
+            alert()->error('Login failed!')->flash();
+            return to_route('login.index');
+        }
         $user = User::firstOrCreate([
             "email" => $facebookUser->getEmail(),
         ], [

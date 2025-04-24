@@ -35,4 +35,8 @@ class PickupPoint extends Model
         return $this->hasOne(SaleOfficer::class);
     }
 
+    public function Order(){
+        return $this->hasMany(Order::class);
+    }
+
 }

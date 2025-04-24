@@ -128,16 +128,20 @@ class SingleProduct extends Component
         $key = $dataProduct->slug . "&$nameColor&$nameSize";
         $oldKey = $this->productSlug . "&&";
         // Check if the product already exists in the cart
+        $priceDetails = $dataProduct->getFinalPriceDetails();
         if (isset($cart[$oldKey])) {
             $cart[$key] = [
                 "quantity" => $this->QTY,
                 "max_quantity" => $maxQuantity,
                 "color" => $nameColor ?? null,
                 "size" => $nameSize ?? null,
-                "price" => $this->finalPrice,
+                "price" => $priceDetails['original'],
                 "name" => $dataProduct->name,
                 "slug" => $dataProduct->slug,
                 "image" => $dataProduct->images->first()?->main_image,
+                "discount" => $priceDetails['discount'] ?? null,
+                "discount_type" => $priceDetails['discountType'] ?? null,
+                "final_price" => $priceDetails['final'],
                 "key" => $key, // Store the key internally
             ];
             unset($cart[$oldKey]);
@@ -148,10 +152,13 @@ class SingleProduct extends Component
                 "max_quantity" => $maxQuantity,
                 "color" => $nameColor ?? null,
                 "size" => $nameSize ?? null,
-                "price" => $this->finalPrice,
+                "price" => $priceDetails['original'],
                 "name" => $dataProduct->name,
                 "slug" => $dataProduct->slug,
                 "image" => $dataProduct->images->first()?->main_image,
+                "discount" => $priceDetails['discount'] ?? null,
+                "discount_type" => $priceDetails['discountType'] ?? null,
+                "final_price" => $priceDetails['final'],
                 "key" => $key, // Store the key internally
             ];
         }

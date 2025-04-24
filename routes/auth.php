@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\CustomAuth\LoginController;
 use App\Http\Controllers\CustomAuth\LogoutController;
 use App\Http\Controllers\CustomAuth\RegisterController;
 use App\Http\Controllers\CustomAuth\GoogleAuthController;
 use App\Http\Controllers\CustomAuth\FacebookAuthController;
 use App\Http\Controllers\CustomAuth\ResetPasswordController;
+use App\Http\Controllers\CustomAuth\SocialiteAuthController;
 use App\Http\Controllers\CustomAuth\VerfiyAccountController;
 
 Route::name("login.")->prefix("login")->group(function(){
@@ -16,19 +18,26 @@ Route::name("login.")->prefix("login")->group(function(){
   });
 });
 
-Route::name("auth.google.")->prefix("auth/google")->group(function(){
-  Route::controller(GoogleAuthController::class)->group(function(){
-    Route::get('/redirect',"redirect")->name("redirect");
-    Route::get('/callback',"callback")->name("callback");
-    // Route::post('/',"store")->name("store");
-  });
-});
+// Route::name("auth.google.")->prefix("auth/google")->group(function(){
+//   Route::controller(GoogleAuthController::class)->group(function(){
+//     Route::get('/redirect',"redirect")->name("redirect");
+//     Route::get('/callback',"callback")->name("callback");
+//     // Route::post('/',"store")->name("store");
+//   });
+// });
 
-Route::name("auth.facebook.")->prefix("auth/facebook")->group(function(){
-  Route::controller(FacebookAuthController::class)->group(function(){
-    Route::get('/redirect',"redirect")->name("redirect");
-    Route::get('/callback',"callback")->name("callback");
-    // Route::post('/',"store")->name("store");
+// Route::name("auth.facebook.")->prefix("auth/facebook")->group(function(){
+//   Route::controller(FacebookAuthController::class)->group(function(){
+//     Route::get('/redirect',"redirect")->name("redirect");
+//     Route::get('/callback',"callback")->name("callback");
+//     // Route::post('/',"store")->name("store");
+//   });
+// });
+
+Route::name("auth.social.")->prefix("auth")->group(function(){
+  Route::controller(SocialiteAuthController::class)->group(function(){
+    Route::get('/{driver}/redirect',"redirect")->name("redirect");
+    Route::get('/{driver}/callback',"callback")->name("callback");
   });
 });
 

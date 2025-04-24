@@ -61,24 +61,25 @@
                             <!-- End .product-title -->
 
                             <div class="product-price">
+                                    @php
+                                    // if($product->offer?->discount_type == "percentage"){
+                                    // $price = $product->price;
+                                    // $discount = $product->offer?->discount;
+                                    // $finalPrice = $price - (($price*$discount)/100);
+                                    // }else{
+                                    // $price = $product->price;
+                                    // $discount = $product->offer?->discount;
+                                    // $finalPrice = $price-$discount;
+                                    // }
+                                    $mainDetailsPrice = $product->getFinalPriceDetails();
+                                    @endphp
                                 @if (isset($product->offer))
                                 <span class="new-price">
-                                    @php
-                                    if($product->offer?->discount_type == "percentage"){
-                                    $price = $product->price;
-                                    $discount = $product->offer?->discount;
-                                    $finalPrice = $price - (($price*$discount)/100);
-                                    }else{
-                                    $price = $product->price;
-                                    $discount = $product->offer?->discount;
-                                    $finalPrice = $price-$discount;
-                                    }
-                                    @endphp
-                                    Now {{$finalPrice}} EGP
+                                    Now {{$mainDetailsPrice['final']}} EGP
                                 </span>
-                                <span class="old-price"><s>{{$product->price}} EGP </s></span>
+                                <span class="old-price"><s>{{$mainDetailsPrice['original']}} EGP </s></span>
                                 @else
-                                <div class="product-price">{{$product->price}} EGP</div>
+                                <div class="product-price">{{$mainDetailsPrice['final']}} EGP</div>
                                 @endif
                             </div><!-- End .product-price -->
 
@@ -86,8 +87,7 @@
                                 <p>{{str($product->description)->limit(100)}}</p>
                             </div><!-- End .product-content -->
 
-                            <livewire:front.shop.single-product :details="$details" :productSlug="$product->slug"
-                                :finalPrice="$finalPrice ?? $product->price" />
+                            <livewire:front.shop.single-product :details="$details" :productSlug="$product->slug"/>
 
                         </div><!-- End .product-details -->
                     </div><!-- End .col-md-6 -->
@@ -186,22 +186,25 @@
 
                 <div class="product product-7 text-center">
                     <figure class="product-media">
-                        @if (isset($item->offer))
+
                         @php
-                        if($item->offer?->discount_type == "percentage"){
-                        $price = $item->price;
-                        $discount = $item->offer?->discount;
-                        $mark = "%";
-                        $finalBestPrice = $price - (($price*$discount)/100);
-                        }else{
-                        $price = $item->price;
-                        $discount = $item->offer?->discount;
-                        $mark = "EGP";
-                        $finalBestPrice = $price-$discount;
-                        }
+                        // if($item->offer?->discount_type == "percentage"){
+                        // $price = $item->price;
+                        // $discount = $item->offer?->discount;
+                        // $mark = "%";
+                        // $finalBestPrice = $price - (($price*$discount)/100);
+                        // }else{
+                        // $price = $item->price;
+                        // $discount = $item->offer?->discount;
+                        // $mark = "EGP";
+                        // $finalBestPrice = $price-$discount;
+                        // }
+                        $detailsPrice = $item->getFinalPriceDetails();
                         @endphp
-                        <span class="product-label label-sale">{{-$item->offer->discount ." ".$mark}}</span>
+                        @if (isset($item->offer))
+                        <span class="product-label label-sale">-{{$detailsPrice['discount'] . $detailsPrice['mark']}}</span>
                         @endif
+                        
                         <a href="{{route('singel.product' , $item)}}">
                             <img src="{{ asset($item->images->first()?->main_image) }}" alt="Product image"
                                 class="product-image">
@@ -218,8 +221,7 @@
                             </a>
                         </div><!-- End .product-action-vertical -->
                         <div class="product-action">
-                            <livewire:front.cart.add-cart-button :productSlug="$item->slug"
-                                :finalPrice="$finalBestPrice ?? $item->price" />
+                            <livewire:front.cart.add-cart-button :productSlug="$item->slug"/>
                         </div>
                     </figure><!-- End .product-media -->
 
@@ -234,11 +236,11 @@
                         <div class="product-price">
                             @if (isset($item->offer))
                             <span class="new-price">
-                                Now {{$finalBestPrice}} EGP
+                                Now {{$detailsPrice['final']}} EGP
                             </span>
-                            <span class="old-price"><s>{{$item->price}} EGP </s></span>
+                            <span class="old-price"><s>{{$detailsPrice['original']}} EGP </s></span>
                             @else
-                            <div class="product-price">{{$item->price}} EGP</div>
+                            <div class="product-price">{{$detailsPrice['final']}} EGP</div>
                             @endif
                         </div><!-- End .product-price -->
 

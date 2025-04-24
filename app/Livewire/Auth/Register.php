@@ -12,7 +12,7 @@ use App\Http\Requests\CustomAuth\RegisterRequest;
 
 class Register extends Component
 {
-    public $name, $email, $phone, $address, $gender , $whatsapp,$oldPassword, $password , $password_confirmation;
+    public $first_name, $last_name, $email, $phone, $address, $gender , $whatsapp , $password , $password_confirmation;
 
     public function getRules()
     {

@@ -30,19 +30,20 @@
                                     <figure class="product-media">
                                         @if (isset($product->offer))
                                         @php
-                                        if($product->offer?->discount_type == "percentage"){
-                                        $price = $product->price;
-                                        $discount = $product->offer?->discount;
-                                        $mark = "%";
-                                        $finalPrice = $price - (($price*$discount)/100);
-                                        }else{
-                                        $price = $product->price;
-                                        $discount = $product->offer?->discount;
-                                        $mark = "EGP";
-                                        $finalPrice = $price-$discount;
-                                        }
+                                        // if($product->offer?->discount_type == "percentage"){
+                                        // $price = $product->price;
+                                        // $discount = $product->offer?->discount;
+                                        // $mark = "%";
+                                        // $finalPrice = $price - (($price*$discount)/100);
+                                        // }else{
+                                        // $price = $product->price;
+                                        // $discount = $product->offer?->discount;
+                                        // $mark = "EGP";
+                                        // $finalPrice = $price-$discount;
+                                        // }
+                                        $details = $item->getFinalPriceDetails();
                                         @endphp
-                                        <span class="product-label label-sale">-{{$product->offer->discount ." ". $mark}} </span>
+                                        <span class="product-label label-sale">-{{$details['discount'] . $details['mark']}}</span>
                                         @endif
 
                                         <a href="{{ route('singel.product', $product) }}">
@@ -58,8 +59,7 @@
                                             </a>
                                         </div>
                                         <div class="product-action">
-                                            <livewire:front.cart.add-cart-button :productSlug="$product->slug"
-                                                :finalPrice="$finalPrice ?? $product->price" />
+                                            <livewire:front.cart.add-cart-button :productSlug="$product->slug"/>
                                         </div>
                                     </figure><!-- End .product-media -->
 
@@ -75,11 +75,11 @@
                                         <div class="product-price">
                                             @if (isset($product->offer))
                                             <span class="new-price">
-                                                Now {{$finalPrice}} EGP;
+                                                Now {{$$details['final']}} EGP;
                                             </span>
-                                            <span class="old-price"><s>{{$product->price}} EGP </s></span>
+                                            <span class="old-price"><s>{{$details['original']}} EGP </s></span>
                                             @else
-                                            <div class="product-price">{{$product->price}} EGP</div>
+                                            <div class="product-price">{{$details['final']}} EGP</div>
                                             @endif
                                         </div>
 
