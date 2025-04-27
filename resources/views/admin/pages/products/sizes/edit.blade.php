@@ -1,9 +1,9 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section("admin-title" , "Edit Size")
 @section('admin-content')
 
 <x-form.edit title="Edit Size" :name="$size->name">
-    <form method="post" action="{{route("admin-dashboard.size.update" , $size)}}" class="">
+    <form method="post" action="{{route(" admin-dashboard.size.update" , $size)}}" class="">
         <x-error></x-error>
         <x-success></x-success>
         @csrf

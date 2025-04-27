@@ -18,12 +18,13 @@ class SearchUser extends Component
     public function updatingSearch()
     {
         $this->resetPage();
-    }
+    }   
 
     public function render()
     {
-        return view('livewire.user.search-user', ["users" => User::with("images")->where("phone", "LIKE", "%" . $this->search . "%")
-            ->orWhere("name", "LIKE", "%" . $this->search . "%")
-            ->orderBy("id", "desc")->paginate(config("pagination.count"))]);
+        return view('livewire.user.search-user', ["users" => User::with("images")
+        ->where("phone", "LIKE", "%" . $this->search . "%")
+        ->orWhere("first_name", "LIKE", "%" . $this->search . "%")
+        ->orderBy("id", "desc")->paginate(config("pagination.count"))]);
     }
 }

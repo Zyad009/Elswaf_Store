@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section('admin-title', 'Archive Customer Services')
 @section('admin-content')
 <div class="card-body">

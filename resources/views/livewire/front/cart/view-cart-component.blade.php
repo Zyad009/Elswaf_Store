@@ -28,8 +28,15 @@
                     </a>
                 </figure>
                 {{-- <livewire:front.cart.remove-cart-button :productSlug="$item->slug" /> --}}
-                    <a href="#" wire:click.prevent='removeProduct("{{$item["key"]}}")' class="btn-remove" title="Remove Product"><i
-                            class="icon-close"></i></a>
+                    <div>
+                        <a href="#" wire:click.prevent='removeProduct("{{$item["key"]}}")' wire:loading.remove class="btn-remove" title="Remove Product"><i
+                                class="icon-close"></i>
+                            </a>
+                            
+                            <div class="spinner-border spinner-border-sm text-primary" wire:loading wire:target='removeProduct("{{$item["key"]}}")' role="status">
+                                <span class="visually-hidden"></span>
+                            </div>
+                    </div>
             </div><!-- End .product -->
             @endforeach
         </div><!-- End .cart-product -->

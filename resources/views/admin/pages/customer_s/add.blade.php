@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section('admin-title', 'Add New Customer Service')
 @push("admin-cdn")
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css"rel="stylesheet"/>
@@ -30,19 +30,19 @@
                 <label for="">Phone <span class="text-danger">*</span></label>
                 <input type="tel"name="phone"value="{{old("phone")}}"class="form-control">
             </div>
-            
+
             <div class="col-md-6">
                 <label for="">Whatsapp <span class="text-danger">*</span></label>
                 <input type="tel"name="whatsapp"value="{{old("whatsapp")}}"class="form-control"
-                pattern="^\+?[0-9-]+$">
+                    pattern="^\+?[0-9-]+$">
             </div>
-            
+
         </div>
-        
+ 
         <div class="row mb-3">
             <div class="col-md-6">
                 <label for="">Salary <span class="text-danger">*</span></label>
-                <input type="number" min="1000" name="salary" value="{{old("salary")}}"class="form-control">
+                <input type="number"min="1000"name="salary"value="{{old("salary")}}"class="form-control">
             </div>
             <div class="col-md-6">
                 <label for="">Gender <span class="text-danger">*</span></label>
@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="row mb-3">
-            
+
             <div class="col-md-6">
                 <label for="">Address <span class="text-danger">*</span></label>
                 <textarea name="address"class="form-control"> {{old("address")}}</textarea>
@@ -65,20 +65,20 @@
                 <input type="file"name="main_image"id="main_image"class="form-control">
             </div>
         </div>
-        
+
         <div class="row mb-3">
-        <div class="col-md-6">
-            <label for="">Password<span class="text-danger">*</span></label>
-            <input type="password"name="password"id=""class="form-control">
+            <div class="col-md-6">
+                <label for="">Password<span class="text-danger">*</span></label>
+                <input type="password"name="password"id=""class="form-control">
+            </div>
+
+            <div class="col-md-6">
+                <label for="">Confirm Password<span class="text-danger">*</span></label>
+                <input type="password"name="password_confirmation"id=""class="form-control">
+            </div>
         </div>
 
-        <div class="col-md-6">
-            <label for="">Confirm Password<span class="text-danger">*</span></label>
-            <input type="password"name="password_confirmation"id=""class="form-control">
-        </div>
-        </div>
-
-            <x-button.submit.create></x-button.submit.create>
+        <x-button.submit.create></x-button.submit.create>
     </form>
 </x-form.create>
 

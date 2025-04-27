@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @push("admin-cdn")
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
@@ -54,8 +54,9 @@
                 <label class="form-label">Main Image</label>
                 <input type="file" name="main_image" id="main_image" class="form-control">
                 @if($customerService->images->first()?->main_image)
-                <input style="display: none" type="image" src="{{ asset($customerService->images->first()?->main_image) }}"
-                    name="imagePreviewMainImage" id="imagePreviewMainImage" class="form-control">
+                <input style="display: none" type="image"
+                    src="{{ asset($customerService->images->first()?->main_image) }}" name="imagePreviewMainImage"
+                    id="imagePreviewMainImage" class="form-control">
                 @endif
             </div>
         </div>

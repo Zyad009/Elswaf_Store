@@ -45,7 +45,7 @@
                             </div>
                         </td>
                         <td class="text-center"><i class="fab fa-angular fa-lg text-danger me-3 text-center"></i>
-                            <strong>{{ $user->name}}</strong>
+                            <strong>{{ $user->first_name ." ". $user->last_name}}</strong>
                         </td>
                         <td class="text-center">{{ $user->email }}</td>
                         <td class="text-center">{{ $user->phone }}</td>

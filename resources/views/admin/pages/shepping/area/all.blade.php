@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section('admin-title', 'All Areas')
 @section('admin-content')
 <div class="card-body">
@@ -6,7 +6,7 @@
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="fw-bold mb-0">All Areas ({{ $city->name }})</h2>
-                <a href="{{ route('admin-dashboard.area.new') }}" class="btn btn-primary">
+                <a href="{{ route('admin-dashboard.area.new' , $city) }}" class="btn btn-primary">
                     <i class='bx bx-plus bx-tada'></i> Create
                 </a>
             </div>
@@ -40,8 +40,8 @@
                                         class="btn btn-icon btn-outline-warning">
                                         <i class="bx bx-pencil"></i>
                                     </a>
-                                    <form action="{{ route('admin-dashboard.area.delete', $area) }}"
-                                        method="post" data-confirm-delete="true">
+                                    <form action="{{ route('admin-dashboard.area.delete', $area) }}" method="post"
+                                        data-confirm-delete="true">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-icon btn-outline-danger confirm-delete">

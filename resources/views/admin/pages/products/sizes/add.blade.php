@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section('admin-title', 'Add Size')
 @section('admin-content')
 
@@ -11,7 +11,7 @@
 
         <div class="mb-3">
             <label for="type_size">Type Size:</label>
-            <select name="type_size" id="type_size" class="form-control" >
+            <select name="type_size" id="type_size" class="form-control">
                 <option value="" class="text-center">Selet A Type Size</option>
                 <option value="letter">Alphabetic</option>
                 <option value="number">Numeric</option>

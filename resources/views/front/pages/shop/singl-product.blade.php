@@ -87,7 +87,7 @@
                                 <p>{{str($product->description)->limit(100)}}</p>
                             </div><!-- End .product-content -->
 
-                            <livewire:front.shop.single-product :details="$details" :productSlug="$product->slug"/>
+                            <livewire:front.shop.single-product :details="$details" :product="$product"/>
 
                         </div><!-- End .product-details -->
                     </div><!-- End .col-md-6 -->

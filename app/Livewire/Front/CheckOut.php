@@ -48,7 +48,7 @@ class CheckOut extends Component
             alert()->error("Error", "Please login to checkout");
             return to_route('login.index');
         }
-        $this->user = User::findOrFail(auth()->user()->id);
+        $this->user = User::find(auth()->user()->id);
         $this->cart = $cart;
         $this->first_name = $this->user->first_name;
         $this->last_name = $this->user->last_name;
@@ -166,7 +166,6 @@ class CheckOut extends Component
     public function submit()
     {
         $this->validate();
-
         if ($this->deliveryMethod === 'delivery') {
             $this->validate([
                 'selectedCity' => 'required|exists:cities,id',
@@ -175,19 +174,20 @@ class CheckOut extends Component
                 'address' => 'required|string|max:255',
             ]);
         }
-
+        
         if ($this->deliveryMethod === 'pickup') {
             $this->validate([
                 'pickupLocation' => 'required|exists:pickup_points,id',
             ]);
         }
-
+        
         try {
             DB::transaction(function () {
                 if ($this->deliveryMethod === 'pickup') {
                     $pickupPoint = PickupPoint::find($this->pickupLocation);
                     $pickupCode = $this->generatePickupCode();
                     $this->deliveryAddress = $pickupPoint->name;
+                    $this->resetDeliveryDetails();
                 } else {
                     $this->deliveryAddress = $this->address . ', [' . $this->area->name . '], [' . $this->area->city->name . ']';
                 }
@@ -215,9 +215,10 @@ class CheckOut extends Component
                     "notes" => $this->notes,
                 ]);
 
+                $arr = []; 
                 foreach ($this->cart as $item) {
 
-                    $product = Product::findBySlug($item['slug']);
+                    // $product = Product::findBySlug($item['slug']);
 
                     OrderDetails::create([
                         'order_id' => $order->id,
@@ -232,20 +233,24 @@ class CheckOut extends Component
                         'slug' => $item['slug'],
                     ]);
 
-                    $product->decrement('QTY', $item['quantity']);
-                    $product->increment('sold', $item['quantity']);
+                    $arr[$item['slug']] = ($arr[$item['slug']] ?? 0) + $item['quantity'];
 
-                    $productDetails = ProductColorSize::where("product_id", $product->id)
+                    ProductColorSize::whereHas("product", function ($q) use ($item) {
+                            $q->where("slug" , $item['slug']);
+                        })
                         ->whereHas("color", function ($q) use ($item) {
                             $q->where("name", $item['color']);
                         })
                         ->whereHas("size", function ($q) use ($item) {
                             $q->where("name", $item['size']);
                         })
-                        ->first();
-
-                        $productDetails->decrement('QTY', $item['quantity']);
-
+                        ->decrement('QTY', $item['quantity']);
+                }
+                foreach ($arr as $slug => $qty) {
+                    Product::where('slug', $slug)->update([
+                        'QTY' => DB::raw("QTY - $qty") ,
+                        'sold' => DB::raw("sold + $qty") ,
+                    ]);
                 }
             });
 
@@ -253,7 +258,12 @@ class CheckOut extends Component
             alert()->success('Success', 'Order has been placed successfully!');
             return redirect()->route('home');
         } catch (\Exception $e) {
-            report($e);
+            Log::error('Order Submit Error', [
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+
             alert()->error('Error', 'Something went wrong. Please try again.');
             return back();
         }
@@ -268,6 +278,12 @@ class CheckOut extends Component
 
     private function resetDeliveryDetails()
     {
+        if(isset($this->city->name)){
+            $this->city->name = null;
+        }
+        if(isset($this->area->name)){
+            $this->area->name = null;
+        }
         $this->priceDeliveryServiceRegular = null;
         $this->priceDeliveryServiceSuper = null;
         $this->priceDelivery = null;

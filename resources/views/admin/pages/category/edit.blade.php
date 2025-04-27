@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section("admin-title" , "Edit Category")
 @push("admin-cdn")
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
@@ -6,7 +6,8 @@
 @endpush
 @section('admin-content')
 <x-form.edit title="Edit category" :name="$category->name">
-    <form method="post" action="{{route("admin-dashboard.category.update" , $category)}}" class="" enctype="multipart/form-data">
+    <form method="post" action="{{route(" admin-dashboard.category.update" , $category)}}" class=""
+        enctype="multipart/form-data">
         <x-error></x-error>
         @csrf
         @method('PUT')

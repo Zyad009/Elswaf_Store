@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class SaleOfficer extends Model
+class SaleOfficer extends Authenticatable
 {
     use HasFactory, HasSlug, Notifiable , SoftDeletes;
 
@@ -45,6 +46,11 @@ class SaleOfficer extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+
+    protected $casts = [
+        'password' => 'hashed',
+    ];
 }
 
 

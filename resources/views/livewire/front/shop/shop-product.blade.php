@@ -28,22 +28,22 @@
                             <div class="col-6 col-md-4 col-lg-5">
                                 <div class="product product-7 text-center">
                                     <figure class="product-media">
+                                            @php
+                                            // if($product->offer?->discount_type == "percentage"){
+                                            // $price = $product->price;
+                                            // $discount = $product->offer?->discount;
+                                            // $mark = "%";
+                                            // $finalPrice = $price - (($price*$discount)/100);
+                                            // }else{
+                                            // $price = $product->price;
+                                            // $discount = $product->offer?->discount;
+                                            // $mark = "EGP";
+                                            // $finalPrice = $price-$discount;
+                                            // }
+                                            $detailsPrice = $product->getFinalPriceDetails();
+                                            @endphp
                                         @if (isset($product->offer))
-                                        @php
-                                        // if($product->offer?->discount_type == "percentage"){
-                                        // $price = $product->price;
-                                        // $discount = $product->offer?->discount;
-                                        // $mark = "%";
-                                        // $finalPrice = $price - (($price*$discount)/100);
-                                        // }else{
-                                        // $price = $product->price;
-                                        // $discount = $product->offer?->discount;
-                                        // $mark = "EGP";
-                                        // $finalPrice = $price-$discount;
-                                        // }
-                                        $details = $item->getFinalPriceDetails();
-                                        @endphp
-                                        <span class="product-label label-sale">-{{$details['discount'] . $details['mark']}}</span>
+                                        <span class="product-label label-sale">-{{$detailsPrice['discount'] . $detailsPrice['mark']}}</span>
                                         @endif
 
                                         <a href="{{ route('singel.product', $product) }}">
@@ -75,11 +75,11 @@
                                         <div class="product-price">
                                             @if (isset($product->offer))
                                             <span class="new-price">
-                                                Now {{$$details['final']}} EGP;
+                                                Now {{$detailsPrice['final']}} EGP
                                             </span>
-                                            <span class="old-price"><s>{{$details['original']}} EGP </s></span>
+                                            <span class="old-price"><s>{{$detailsPrice['original']}} EGP </s></span>
                                             @else
-                                            <div class="product-price">{{$details['final']}} EGP</div>
+                                            <div class="product-price">{{$detailsPrice['final']}} EGP</div>
                                             @endif
                                         </div>
 

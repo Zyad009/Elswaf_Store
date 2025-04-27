@@ -26,12 +26,12 @@ class AdminSheppingAreaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(City $city)
     {
-        $cities = City::with("areas")
-        ->select("id", "name")
-        ->get();
-        return view(SELF::DIR_VIEW . ".add" , compact("cities")); 
+        // $cities = City::with("areas")
+        // ->select("id", "name")
+        // ->get();
+        return view(SELF::DIR_VIEW . ".add" , compact("city")); 
     }
 
     /**
@@ -42,8 +42,6 @@ class AdminSheppingAreaController extends Controller
         $data = $request->validated();
         Area::create($data);
         alert()->success("Success!", "Created has been successfully");
-
-
         return back();
     }
 

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section("admin-title" , "All Main Offers")
 @section('admin-content')
 <div class="card-body">
@@ -7,15 +7,15 @@
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="fw-bold mb-0">All Main Offers</h2>
         <div class="d-flex gap-2 mb-3">
-          
+
           <a href="{{ route('admin-dashboard.offer.category.all') }}" class="btn btn-warning">
             Set Discount (Categories)
           </a>
-          
+
           <a href="{{ route('admin-dashboard.offer.product.all') }}" class="btn btn-warning">
             Set Discount (Products)
           </a>
-          
+
           <a href="{{ route('admin-dashboard.offer.new') }}" class="btn btn-primary">
             <i class='bx bx-plus bx-tada'></i> Create Main Offer
           </a>
@@ -61,8 +61,7 @@
 
               <td class="text-center">
                 <div class="d-flex flex-row gap-2 align-items-center">
-                  <a href="{{ route('admin-dashboard.offer.edit', $offer) }}"
-                    class="btn btn-icon btn-outline-warning">
+                  <a href="{{ route('admin-dashboard.offer.edit', $offer) }}" class="btn btn-icon btn-outline-warning">
                     <i class="bx bx-pencil"></i>
                   </a>
                   <form action="{{ route('admin-dashboard.offer.delete', $offer) }}" method="post"

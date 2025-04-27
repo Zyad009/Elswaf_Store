@@ -20,11 +20,16 @@ class Nav extends Component
             $this->image = $user->images->first()?->main_image;
             $this->name = $user->name;
             $this->position = $user->role = "editor_admin" ? "Manager Branch" : "Owner";
-        }else{
+        }elseif(auth()->guard('customerService')->check()){
             $user = Auth::guard("customerService")->user();
             $this->image = $user->images->first()?->main_image;
             $this->name = $user->name;
             $this->position = "Customer Service";
+        }else{
+            $user = Auth::guard("saleOfficer")->user();
+            $this->image = $user->images->first()?->main_image;
+            $this->name = $user->name;
+            $this->position = "Sale Officer";
         }
         
         if(!$this->image && $user->gender == "male"){

@@ -32,6 +32,7 @@ class Admin extends Authenticatable
         'address',
         'phone',
         'whatsapp',
+        'role',
         'email',
         'password',
         'branch_id',

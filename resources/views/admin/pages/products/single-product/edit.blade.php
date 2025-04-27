@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section('admin-title', 'Edit Details')
 @section('admin-content')
 
@@ -28,7 +28,7 @@
             </div>
         </div>
         {{-- end select colors --}}
-    
+
         {{-- for select sizes --}}
         <div class="mb-4">
             <label class="form-label fw-bold">Select Sizes</label>
@@ -48,21 +48,21 @@
             </div>
         </div>
         {{-- end select sizes --}}
-    
-    
+
+
         {{-- set QTY --}}
         <div class="mb-4">
             <div class="col-md-4">
                 <label class="form-label fw-bold">Quantity</label>
-                <input type="number" name="QTY" class="form-control"
-                    placeholder="Enter quantity" value="{{$singleProduct->QTY}}" min="1">
+                <input type="number" name="QTY" class="form-control" placeholder="Enter quantity"
+                    value="{{$singleProduct->QTY}}" min="1">
                 <x-message.error name="quantity" />
             </div>
         </div>
-    <x-button.submit.edit></x-button.submit.edit>
+        <x-button.submit.edit></x-button.submit.edit>
     </form>
 </x-form.edit>
 
-                
+
 
 @endsection

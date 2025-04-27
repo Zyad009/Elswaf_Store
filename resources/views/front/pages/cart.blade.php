@@ -187,9 +187,6 @@
                         key: key,
                         quantity: quantity
                     },
-                    success: function (res) {
-                        console.log(res.message);
-                    }
                 });
             });
         });
@@ -208,7 +205,7 @@
                         key: key
                     },
                     success: function (res) {
-                        row.remove();
+                        row.remove();	
                         updateCartTotal();
 
                         if (document.querySelectorAll('.table-cart tbody tr').length === 0) {

@@ -22,13 +22,14 @@ use App\Http\Controllers\Admin\SaleOfficer\AdminSaleOfficerController;
 use App\Http\Controllers\Admin\Shepping\Area\AdminSheppingAreaController;
 use App\Http\Controllers\Admin\Shepping\City\AdminSheppingCityController;
 use App\Http\Controllers\Admin\CustomerService\AdminCustomerServiceController;
+use App\Http\Controllers\Admin\OrderManagement\PickupOrderController;
 
 // Route::get("/admin-home",[AdminHomeController::class,"index"])->name('admin-home');
 
 
-Route::get("/admin-home", [AdminHomeController::class, "index"])->name('admin-home')->middleware('auth');
+Route::get("/admin-home", [AdminHomeController::class, "index"])->name('admin-home');
 
-Route::name("admin-dashboard.")->middleware('auth')->prefix("admin-dashboard")->group(function () {
+Route::name("admin-dashboard.")->prefix("admin-dashboard")->group(function () {
   Route::get("/account/{account?}", [AdminAccountController::class, "index"])->name("account");
   Route::name("category.")->prefix("category")->group(function () {
     Route::controller(AdminCategoryController::class)->group(function () {
@@ -236,7 +237,7 @@ Route::name("admin-dashboard.")->middleware('auth')->prefix("admin-dashboard")->
     Route::name("area.")->prefix("area")->group(function () {
       Route::controller(AdminSheppingAreaController::class)->group(function () {
         Route::get("/for-city", "index")->name("admin");
-        Route::get("/create", "create")->name("new");
+        Route::get("/create/{city}", "create")->name("new");
         Route::post("/", "store")->name("store");
         Route::get("/all/{city}", "show")->name("all");
         Route::get("/edit/{area}", "edit")->name("edit");

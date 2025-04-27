@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section("admin-title" , "Edit Sub-Category")
 @push("admin-cdn")
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
@@ -52,8 +52,8 @@
         </div>
 
         @if(!$status == 1)
-        <a class="btn btn-link" href="{{route("admin-dashboard.subcategory.edit.2" , $editCategory)}}">Do You Want
-        Change To Selected "Sub Category" </a>
+        <a class="btn btn-link" href="{{route(" admin-dashboard.subcategory.edit.2" , $editCategory)}}">Do You Want
+            Change To Selected "Sub Category" </a>
         @endif
 
         @elseif($status == 2 || isset($subId))
@@ -70,7 +70,7 @@
         </div>
 
         @if(!$status == 2)
-        <a class="btn btn-link" href="{{route("admin-dashboard.subcategory.edit.2" , $editCategory)}}">Do You Want
+        <a class="btn btn-link" href="{{route(" admin-dashboard.subcategory.edit.2" , $editCategory)}}">Do You Want
             Change To Selected "Main Category" </a>
         @endif
 
@@ -78,29 +78,28 @@
 
         <div class="col-md-12">
             <label class="form-label">Main Image</label>
-        
+
             <input type="file" name="main_image" id="main_image" class="form-control">
-        
-                {{-- @if(isset($editCategory) && $editCategory->images->first()?->main_image)
-                <input style="display: none" type="image"
-                src="{{ asset($editCategory->images->first()?->main_image) }}"
+
+            {{-- @if(isset($editCategory) && $editCategory->images->first()?->main_image)
+            <input style="display: none" type="image" src="{{ asset($editCategory->images->first()?->main_image) }}"
                 name="imagePreviewMainImage" id="imagePreviewMainImage" class="form-control">
 
-                @elseif(isset($subCategory) && $subCategory->images->first()?->main_image)
-                <input style="display: none" type="image"
-                src="{{ asset($subCategory->images->first()?->main_image) }}"
+            @elseif(isset($subCategory) && $subCategory->images->first()?->main_image)
+            <input style="display: none" type="image" src="{{ asset($subCategory->images->first()?->main_image) }}"
                 name="imagePreviewMainImage" id="imagePreviewMainImage" class="form-control">
-                @endif --}}
-        
-                @if(isset($editCategory) && $editCategory->images->first()?->main_image || isset($subCategory) && $subCategory->images->first()?->main_image)
-                <input style="display: none" type="image"
+            @endif --}}
+
+            @if(isset($editCategory) && $editCategory->images->first()?->main_image || isset($subCategory) &&
+            $subCategory->images->first()?->main_image)
+            <input style="display: none" type="image"
                 src="{{ asset($editCategory->images->first()?->main_image ?? $subCategory->images->first()?->main_image) }}"
                 name="imagePreviewMainImage" id="imagePreviewMainImage" class="form-control">
-                @endif
-                
+            @endif
+
         </div>
 
-<x-button.submit.edit></x-button.submit.edit>
+        <x-button.submit.edit></x-button.submit.edit>
     </form>
 </x-form.edit>
 

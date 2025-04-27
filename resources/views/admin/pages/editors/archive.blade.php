@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section("admin-title", "Archive Editors")
 @section('admin-content')
 

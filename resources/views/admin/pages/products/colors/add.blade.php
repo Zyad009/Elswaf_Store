@@ -1,9 +1,9 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section("admin-title" , "Create Color")
 @section('admin-content')
 
 <x-form.create title="Add New Color">
-    <form method="post" action="{{route("admin-dashboard.color.store")}}" class="">
+    <form method="post" action="{{route(" admin-dashboard.color.store")}}" class="">
         <x-error></x-error>
         <x-success></x-success>
         @csrf

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section('admin-title', 'All Editors')
 @section('admin-content')
 
@@ -58,7 +58,7 @@
                             {{-- <td class="text-center">
                                 @if ($editor->branch)
                                 <b class="badge bg-label-primary me-1 fw-bold">
-                                {{ $editor->branch->name }}
+                                    {{ $editor->branch->name }}
                                 </b>
                                 @else
                                 <b class="badge bg-label-danger me-1">No Branch</b>

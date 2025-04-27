@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section("admin-title" , "Edit Product")
 @push("admin-cdn")
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
@@ -8,8 +8,7 @@
 
 <x-form.edit title="Edit Product" :name="$product->name">
 
-    <form method="post" action="{{ route('admin-dashboard.product.update', $product) }}"
-        enctype="multipart/form-data">
+    <form method="post" action="{{ route('admin-dashboard.product.update', $product) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <x-error></x-error>
@@ -71,7 +70,7 @@
                     name="imagePreviewHoverImage" id="imagePreviewHoverImage" class="form-control">
             </div>
 
-            
+
             <div class="col-12">
                 <label class="form-label">Additional Images</label>
                 <input type="file" name="images[]" id="images" class="form-control" multiple>
@@ -98,8 +97,6 @@
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 <script>
-
-
     document.addEventListener('DOMContentLoaded', function() {
     // Register FilePond plugins
     FilePond.registerPlugin(FilePondPluginImagePreview);

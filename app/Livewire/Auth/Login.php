@@ -34,20 +34,25 @@ class Login extends Component
 
             $user = Auth::guard('admin')->user();
             Auth::login($user);
-
-            return to_route('admin-home');
+            return to_route('admin-home');  
             
         } elseif (Auth::guard('customerService')->attempt($data)) {
             
             $user = Auth::guard('customerService')->user();
             Auth::login($user);
-
             return to_route('admin-home');
+
         } elseif (Auth::guard('web')->attempt($data)) {
 
             $user = Auth::guard('web')->user();
+            return to_route('home');
 
-            return redirect()->route('home');
+        } elseif (Auth::guard('saleOfficer')->attempt($data)) {
+
+            $user = Auth::guard('saleOfficer')->user();
+            Auth::login($user);
+            return to_route('pickup_orders.index');
+
         } else {
             $this->reset();
             throw ValidationException::withMessages([

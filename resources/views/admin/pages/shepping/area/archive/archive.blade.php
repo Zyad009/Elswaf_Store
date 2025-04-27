@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section('admin-title', 'Archive Areas')
 @section('admin-content')
 <div class="card-body">
@@ -37,7 +37,7 @@
                             <td class="text-center">{{ $area->delivery_price_super }} <span>EGP</span></td>
                             <td class="text-center">
                                 <b class="badge bg-label-danger me-1 fw-bold">
-                                {{ $area->deleted_at }}
+                                    {{ $area->deleted_at }}
                                 </b>
                             </td>
                             <td class="text-center">

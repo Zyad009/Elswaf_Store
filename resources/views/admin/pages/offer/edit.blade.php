@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section("admin-title" , "Edit Main Discount")
 @section('admin-content')
 
@@ -51,6 +51,6 @@
         </div>
         <x-button.submit.edit></x-button.submit.edit>
     </form>
-</x-form.create>
+    </x-form.create>
 
-@endsection
+    @endsection

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section('admin-title', 'Set Offers (Categories)')
 @section('admin-content')
 @push("admin-cdn")
@@ -12,10 +12,10 @@
 
 <livewire:admin.offer.category.all-categories>
 
-@push("admin-js")
+    @push("admin-js")
 
-<script>
-window.addEventListener("errorOffer", () => {
+    <script>
+        window.addEventListener("errorOffer", () => {
     Swal.fire({
     icon: "error",
     title: "Error!",
@@ -57,8 +57,8 @@ window.addEventListener("deletedOffer", () => {
     });
     });
 
-</script>
+    </script>
 
-@endpush
+    @endpush
 
-@endsection
+    @endsection

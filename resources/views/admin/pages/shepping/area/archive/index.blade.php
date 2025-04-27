@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section('admin-title', 'Archive Areas For City')
 @section('admin-content')
 <h2 class="mb-4 text-center">Archive Areas For City</h2>

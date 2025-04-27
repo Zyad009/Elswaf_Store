@@ -1,10 +1,10 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section("admin-title" , "Edit City")
 @section('admin-content')
 
 <x-form.edit title="Edit City" :name="$city->name">
 
-    <form method="post" action="{{route("admin-dashboard.city.update" , $city)}}" novalidate class="">
+    <form method="post" action="{{route(" admin-dashboard.city.update" , $city)}}" novalidate class="">
         <x-error></x-error>
         <x-success></x-success>
         @csrf

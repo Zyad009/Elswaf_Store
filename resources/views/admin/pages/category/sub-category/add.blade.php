@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section("admin-title" , "Create Sub-Category")
 @push("admin-cdn")
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
@@ -57,7 +57,7 @@
             <label class="form-label">Main Image</label>
             <input type="image" name="main_image" id="main_image" class="form-control">
         </div>
-    
+
         <x-button.submit.create></x-button.submit.create>
 
     </form>

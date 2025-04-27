@@ -1,16 +1,15 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section("admin-title" , "Add Details For Product")
 @section("admin-title" , "Create Product")
 @push("admin-cdn")
-    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
-    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 @endpush
 @section('admin-content')
 
 <x-form.create title="Add New Product">
-    <form method="post" action="{{ route('admin-dashboard.product.store') }}"
-        enctype="multipart/form-data">
-        @csrf   
+    <form method="post" action="{{ route('admin-dashboard.product.store') }}" enctype="multipart/form-data">
+        @csrf
         <x-error></x-error>
 
         <div class="row g-3">
@@ -40,7 +39,8 @@
 
             <div class="col-md-6">
                 <label class="form-label">Price <span class="text-danger">*</span></label>
-                <input type="number" step="0.01" min="0" name="price" value="{{old('price')}}" class="form-control" required>
+                <input type="number" step="0.01" min="0" name="price" value="{{old('price')}}" class="form-control"
+                    required>
             </div>
 
             <div class="col-12">
@@ -73,8 +73,8 @@
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
-    <script>
-        // Get a reference to the file input element
+<script>
+    // Get a reference to the file input element
         const inputElement = document.querySelectorAll('input[type=file]');
 
         // console.log(inputElement)
@@ -114,5 +114,5 @@
         //         }
         //     },
         // });
-    </script>
+</script>
 @endpush

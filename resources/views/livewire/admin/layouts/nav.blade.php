@@ -17,11 +17,13 @@
         <!-- /Search -->
 
         <ul class="navbar-nav flex-row align-items-center mr-auto">
+            @if (auth()->guard('admin')->check())
             <li class="nav-item ms-3">
                 <a href="{{ route('admin-dashboard.archives') }}" class="btn btn-dark d-flex align-items-center">
                     <i class="bx bx-archive fs-4 me-2"></i> Archives
                 </a>
             </li>
+            @endif
 
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">

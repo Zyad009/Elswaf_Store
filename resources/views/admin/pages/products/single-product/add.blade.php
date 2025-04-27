@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section("admin-title" , "Add Details For Product")
 @section('admin-content')
 
@@ -7,12 +7,11 @@
 @endpush
 
 <x-form.create title="Rest Of The Details">
-    <livewire:admin.product.create-single-product :singleProduct="$singleProduct" :colors="$colors"
-        :sizes="$sizes" />
+    <livewire:admin.product.create-single-product :singleProduct="$singleProduct" :colors="$colors" :sizes="$sizes" />
 </x-form.create>
 
 @push("admin-js")
-    
+
 <script>
     window.addEventListener("success", () => {
                             Swal.fire({

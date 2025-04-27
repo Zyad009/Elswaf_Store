@@ -1,9 +1,6 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section('admin-title', 'All Messages')
 @section('admin-content')
-
-
-
 
 <div class="card-body">
   <div class="row">
@@ -45,7 +42,7 @@
                   readonly>{{$message->message}}</textarea>
               </td>
               <td class="text-center">
-                <form action="{{route("admin-dashboard.message.delete", $message)}}" method="post"
+                <form action="{{route(" admin-dashboard.message.delete", $message)}}" method="post"
                   data-confirm-delete="true">
                   @csrf
                   @method('DELETE')
@@ -73,4 +70,4 @@
 
 
 
-    @endsection
+@endsection

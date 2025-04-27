@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section('admin-title', 'All Products')
 @section('admin-content')
 
@@ -12,16 +12,16 @@
 
 <x-error></x-error>
 
-    <livewire:admin.product.table-product />
-    <livewire:admin.product.show-product />
-    <livewire:admin.product.show-description  />
+<livewire:admin.product.table-product />
+<livewire:admin.product.show-product />
+<livewire:admin.product.show-description />
 
 
 @endsection
 
 @push("admin-js")
 <script>
-window.addEventListener("showDescriptionModal", () => {
+    window.addEventListener("showDescriptionModal", () => {
     $("#descriptionModal").modal("toggle");
     });
 

@@ -11,7 +11,7 @@ use App\Http\Controllers\CustomAuth\ResetPasswordController;
 use App\Http\Controllers\CustomAuth\SocialiteAuthController;
 use App\Http\Controllers\CustomAuth\VerfiyAccountController;
 
-Route::name("login.")->prefix("login")->group(function(){
+Route::name("login.")->prefix("login")->middleware('guest:web')->group(function(){
   Route::controller(LoginController::class)->group(function(){
     Route::get('/',"index")->name("index");
     Route::post('/',"store")->name("store");
