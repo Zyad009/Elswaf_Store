@@ -62,13 +62,7 @@
                                     <label class="form-label">Your Position</label>
                                     <div>
                                         <b class="badge bg-label-primary me-1">
-                                            @if ($data->role == "editor_admin")
-                                            {{ "Manager Branch" }}
-                                            @elseif ($data->role == "super_admin")
-                                            {{ "Owner" }}
-                                            @elseif (!isset($data->role))
-                                            {{ "Customer Service" }}
-                                            @endif
+                                            {{$position}}
                                         </b>
                                     </div>
                                 </div>

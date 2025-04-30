@@ -3,7 +3,7 @@
 @section('admin-content')
 
 
-<livewire:admin.account.data>
+<livewire:account.data>
 
 
   @endsection

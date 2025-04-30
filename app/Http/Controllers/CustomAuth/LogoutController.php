@@ -12,6 +12,10 @@ class LogoutController extends Controller
     {
         auth()->guard("admin")->logout();
         auth()->guard("web")->logout();
+        if(auth()->guard('saleOfficer')->check()){
+            auth()->guard('saleOfficer')->logout();
+            return to_route('sale-officer.login');
+        }
         return redirect()->route('home');
     }
 }

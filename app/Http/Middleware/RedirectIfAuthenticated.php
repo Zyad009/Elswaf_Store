@@ -25,6 +25,18 @@ class RedirectIfAuthenticated
                 if($guard === 'web'){
                     alert()->error('Error!', 'You are authenticated');
                 }
+                if($guard === 'admin'){
+                    alert()->error('Error!', 'You are authenticated');
+                    return back();
+                }
+                if($guard === 'saleOfficer'){
+                    alert()->error('Error!', 'You are authenticated');
+                    return back();
+                }
+                if($guard === 'customerService'){
+                    alert()->error('Error!', 'You are authenticated');
+                    return back();
+                }
                 return redirect(RouteServiceProvider::HOME);
             }
         }

@@ -9,8 +9,16 @@ class AdminMiddleware
 {
     public function handle($request, Closure $next)
     {
-        if (!Auth::guard('admin')->check()) {
-            return redirect()->route('admin.login'); 
+        $forbiddenGuards = ['saleOfficer', 'customerService'];
+
+        foreach ($forbiddenGuards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                abort(403);
+            }
+        }
+
+        if(Auth::guard('web')->check()){
+            abort(401); 
         }
 
         return $next($request);

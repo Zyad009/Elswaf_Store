@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Livewire\Admin\Account;
+namespace App\Livewire\Account;
 
 use App\Http\Controllers\Admin\Traits\UploadImage;
 use App\Models\Admin;
 use Livewire\Component;
 use App\Models\CustomerService;
+use App\Models\SaleOfficer;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -17,10 +18,10 @@ class Data extends Component
     use UploadImage;
 
     public $data;
-    public $id, $table, $entityName;
+    public $id, $table, $entityName , $guard;
 
     public $newImage, $image, $defaultImage;
-    public $name, $email, $gender, $phone, $whatsapp, $address;
+    public $name, $email, $gender, $phone, $whatsapp, $address , $position;
     public $oldPassword, $password, $password_confirmation;
 
 
@@ -28,15 +29,28 @@ class Data extends Component
     public function mount()
     {
         if (auth()->guard("admin")->check()) {
-            $this->id = auth()->id();
+            $this->id = auth()->guard("admin")->id();
             $this->table = "admins";
+            $this->guard = "admin";
             $this->entityName = "Admin";
+            $this->position = "Ownar";
             $this->data = Admin::with('images')->find($this->id);
         } elseif (auth()->guard("customerService")->check()) {
-            $this->id = auth()->id();
+            $this->id = auth()->guard("customerService")->id();
             $this->table = "customer_services";
+            $this->guard = "customerService";
             $this->entityName = "CustomerService";
-            $this->data = CustomerService::with('images')->find($this->id);
+            $this->position = "Customer Service";
+            // $this->data = CustomerService::with('images')->find($this->id);
+            $this->data = auth()->guard("customerService")->user();
+        }
+        elseif (auth()->guard("saleOfficer")->check()) {
+            $this->id = auth()->guard("saleOfficer")->id();
+            $this->table = "sale_officers";
+            $this->guard = "saleOfficer";
+            $this->entityName = "SaleOfficer";
+            $this->position = "Sale Officer";
+            $this->data = auth()->guard("saleOfficer")->user();
         }
         $this->fill($this->data->only(['name', 'email', 'gender', 'phone', 'whatsapp', 'address']));
         $this->image = $this->data->images->first()?->main_image;
@@ -177,16 +191,23 @@ class Data extends Component
         $newPassword = Hash::make($newDataPassword["password"]);
         $this->data->update(["password" => $newPassword]);
 
-        auth()->guard("admin")->logout();
-        session()->flush();
-        session()->regenerateToken();
+        $redirectRoute = match ($this->guard) {
+            'admin' => route('login.index'),
+            'saleOfficer' => route('sale-officer.login'),
+            default => route('login.index'),
+        };
+        
+        auth()->guard($this->guard)->logout();
 
-        return to_route("login.index");
+        session()->invalidate();
+        session()->regenerateToken();
+        
+            return redirect($redirectRoute);
     }
 
 
     public function render()
     {
-        return view('livewire.admin.account.data');
+        return view('livewire.account.data');
     }
 }

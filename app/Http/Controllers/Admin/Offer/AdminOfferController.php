@@ -69,6 +69,7 @@ class AdminOfferController extends Controller
      */
     public function destroy(Offer $offer)
     {
+
         $offer->delete();
         alert()->success("Success!", "deleted has been successfully");
         return back();

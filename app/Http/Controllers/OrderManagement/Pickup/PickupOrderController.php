@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\OrderManagement;
+namespace App\Http\Controllers\OrderManagement\Pickup;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

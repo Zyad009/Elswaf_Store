@@ -27,22 +27,31 @@ class CheckOut extends Component
         $cart = session()->get("cart", []);
         $this->cart = $cart;
 
+        
         if (count($cart) == 0) {
             alert()->error("Error", "Your cart is empty");
             return back();
         }
 
-        $status = [];
         foreach ($cart as $key => $item) {
             if ($item["color"] == null || $item["size"] == null) {
-                $status[] = false;
+                alert()->error("Error", "Please select color and size for all items in your cart");
+                return to_route("cart.view");
+            }
+
+            if ($item['max_quantity'] < $item['quantity']) {
+                $cart[$key]['quantity'] = 1;
+                session()->put('cart', $cart);
+
+                alert()->error("Error", "Please Do Not Play ,The specified quantity is not available.");
+                return to_route("cart.view");
             }
         }
 
-        if (in_array(false, $status)) {
-            alert()->error("Error", "Please select color and size for all items in your cart");
-            return to_route("cart.view");
-        }
+        // if (in_array(false, $status)) {
+        //     alert()->error("Error", "Please select color and size for all items in your cart");
+        //     return to_route("cart.view");
+        // }
 
         if (!auth()->check()) {
             alert()->error("Error", "Please login to checkout");

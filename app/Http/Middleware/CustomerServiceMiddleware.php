@@ -10,7 +10,9 @@ class CustomerServiceMiddleware
     public function handle($request, Closure $next)
     {
         if (!Auth::guard('customerService')->check()) {
-            abort('401');
+            alert()->error("Error!", 'You are not authorized');
+            return back();
+            // abort('401');
         }
 
         return $next($request);

@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'admin.auth' => \App\Http\Middleware\AdminMiddleware::class,
         'customerService.auth' => \App\Http\Middleware\CustomerServiceMiddleware::class,
         'saleOfficer.auth' => \App\Http\Middleware\SaleOfficerMiddleware::class,
+        'prevent-back' => \App\Http\Middleware\PreventBackHistory::class,
     ];
 }

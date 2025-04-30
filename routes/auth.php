@@ -5,11 +5,10 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\CustomAuth\LoginController;
 use App\Http\Controllers\CustomAuth\LogoutController;
 use App\Http\Controllers\CustomAuth\RegisterController;
-use App\Http\Controllers\CustomAuth\GoogleAuthController;
-use App\Http\Controllers\CustomAuth\FacebookAuthController;
 use App\Http\Controllers\CustomAuth\ResetPasswordController;
 use App\Http\Controllers\CustomAuth\SocialiteAuthController;
 use App\Http\Controllers\CustomAuth\VerfiyAccountController;
+use App\Http\Controllers\OrderManagement\Pickup\LoginController as PickupLoginController;
 
 Route::name("login.")->prefix("login")->middleware('guest:web')->group(function(){
   Route::controller(LoginController::class)->group(function(){
@@ -17,22 +16,6 @@ Route::name("login.")->prefix("login")->middleware('guest:web')->group(function(
     Route::post('/',"store")->name("store");
   });
 });
-
-// Route::name("auth.google.")->prefix("auth/google")->group(function(){
-//   Route::controller(GoogleAuthController::class)->group(function(){
-//     Route::get('/redirect',"redirect")->name("redirect");
-//     Route::get('/callback',"callback")->name("callback");
-//     // Route::post('/',"store")->name("store");
-//   });
-// });
-
-// Route::name("auth.facebook.")->prefix("auth/facebook")->group(function(){
-//   Route::controller(FacebookAuthController::class)->group(function(){
-//     Route::get('/redirect',"redirect")->name("redirect");
-//     Route::get('/callback',"callback")->name("callback");
-//     // Route::post('/',"store")->name("store");
-//   });
-// });
 
 Route::name("auth.social.")->prefix("auth")->group(function(){
   Route::controller(SocialiteAuthController::class)->group(function(){
@@ -59,6 +42,12 @@ Route::name("forgot.password.")->prefix("forgot-password")->group(function(){
   });
 });
 
+Route::name('sale-officer.')->prefix('sale-officer')->group(function () {
+  Route::controller(PickupLoginController::class)->group(function () {
+    Route::get("/login", "login")->middleware(['guest:saleOfficer' , 'prevent-back'])->name("login");
+    Route::post("/", "store")->name("store");
+  });
+});
 
 Route::post('/register',[RegisterController::class ,"store"])->name("store");
 Route::post('/logout',[LogoutController::class ,"out"])->name("logout");
