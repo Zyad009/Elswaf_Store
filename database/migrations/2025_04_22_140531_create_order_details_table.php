@@ -21,10 +21,13 @@ return new class extends Migration
             $table->unsignedInteger('QTY')->default(0);
             $table->string('color');
             $table->string('size');
-            
+
+            $table->text('cancel_reason')->nullable();
+            $table->text('modification_reason')->nullable();
             $table->unsignedDecimal('discount', 8, 2)->nullable();
             $table->enum('discount_type', ['percentage', 'value'])->nullable();
             $table->unsignedDecimal('final_price', 8, 2);
+            $table->enum('status', ['success', 'Cancelled'])->nullable();
             $table->timestamps();
         });
     }

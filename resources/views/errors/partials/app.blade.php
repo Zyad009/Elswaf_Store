@@ -8,6 +8,7 @@
   <!-- Content -->
 
   <!-- Error -->
+@include('sweetalert::alert')
 @yield('error-content')
   <!-- /Error -->
 

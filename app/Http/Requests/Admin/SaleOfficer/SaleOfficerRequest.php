@@ -22,6 +22,7 @@ class SaleOfficerRequest extends FormRequest
      */
     public function rules(): array
     {
+        $rule = $this->isMethod('POST') ? "required" : "nullable";
         return [
             "name" => "required|string|min:3|max:50",
             "email" => ["required","string","email",
@@ -37,7 +38,7 @@ class SaleOfficerRequest extends FormRequest
             "main_image" => "nullable|image|mimes:png,jpg,jpeg,gif|max:2048",
 
             "pickup_point_id" => "required|exists:pickup_points,id",
-            "password" => "required|string|confirmed|min:6|max:50",
+            "password" => "$rule|string|confirmed|min:6|max:50",
         ];
     }
 }

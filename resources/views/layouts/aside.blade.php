@@ -63,8 +63,8 @@
       @if (auth()->guard('admin')->check())
 
       <!-- Dashboard -->
-      <li class="menu-item {{request()->routeIs('admin-home') ? " active" : "" }}">
-        <a href="{{ route('admin-home') }}" class="menu-link">
+      <li class="menu-item {{request()->routeIs('admin-dashboard.home') ? 'active' : "" }}">
+        <a href="{{ route('admin-dashboard.home') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-home"></i>
           <div data-i18n="Analytics">Dashboard</div>
         </a>
@@ -79,7 +79,7 @@
       </li>
 
       <!-- Account -->
-      <li class="menu-item {{request()->routeIs('admin-dashboard.account') ? " active" : "" }}">
+      <li class="menu-item {{request()->routeIs('admin-dashboard.account') ? 'active' : "" }}">
         <a href="{{ route('admin-dashboard.account') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-user"></i>
           <div data-i18n="Analytics">Account</div>
@@ -87,8 +87,8 @@
       </li>
 
       <!-- Settings -->
-      <li class="menu-item {{request()->routeIs('admin-home') ? " active" : "" }}">
-        <a href="{{ route('admin-home') }}" class="menu-link">
+      <li class="menu-item {{request()->routeIs('admin-dashboard.home') ? 'active' : "" }}">
+        <a href="{{ route('admin-dashboard.home') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-cog"></i>
           <div data-i18n="Analytics">Settings</div>
         </a>
@@ -98,14 +98,14 @@
         <span class="menu-header-text">Sales & Order Management</span>
       </li>
 
-      <li class="menu-item {{request()->routeIs('pickup_orders.index') ? " active" : "" }}">
+      <li class="menu-item {{request()->routeIs('pickup_orders.index') ? 'active' : "" }}">
         <a href="{{ route('pickup_orders.index') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-package"></i>
           <div>Pick-up Orders</div>
         </a>
       </li>
 
-      <li class="menu-item {{request()->is('admin-dashboard/category/*') ? " active" : "" }}">
+      <li class="menu-item {{request()->is('admin-dashboard/category/*') ? 'active' : "" }}">
         <a href="{{ route('admin-dashboard.category.all') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-send"></i>
           <div>Delivery Orders</div>
@@ -117,7 +117,7 @@
       </li>
 
       <!-- Main Categories -->
-      <li class="menu-item {{request()->is('admin-dashboard/category/*') ? " active" : "" }}">
+      <li class="menu-item {{request()->is('admin-dashboard/category/*') ? 'active' : "" }}">
         <a href="{{ route('admin-dashboard.category.all') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-category"></i>
           <div>Main Categories</div>
@@ -125,7 +125,7 @@
       </li>
 
       <!-- Subcategories -->
-      <li class="menu-item {{request()->is('admin-dashboard/sub-category/*') ? " active" : "" }}">
+      <li class="menu-item {{request()->is('admin-dashboard/sub-category/*') ? 'active' : "" }}">
         <a href="{{ route('admin-dashboard.subcategory.all') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-list-ul"></i>
           <div>Sub-Categories</div>
@@ -134,7 +134,7 @@
 
       <!-- Products -->
       <li class="menu-item 
-      {{request()->is('admin-dashboard/product/*') ? " active" : "" }} {{request()->
+      {{request()->is('admin-dashboard/product/*') ? 'active' : "" }} {{request()->
         is('admin-dashboard/single-product/*') ? "active" : ""}}
         ">
         <a href="{{ route('admin-dashboard.product.all') }}" class="menu-link">
@@ -179,7 +179,7 @@
       </li>
 
       <!-- Branches -->
-      <li class="menu-item {{request()->is('admin-dashboard/pickup_point/*') ? " active" : "" }}">
+      <li class="menu-item {{request()->is('admin-dashboard/pickup_point/*') ? 'active' : "" }}">
         <a href="{{ route('admin-dashboard.pickup_point.all') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-building"></i>
           <div>Pickup Points</div>
@@ -187,7 +187,7 @@
       </li>
 
       <!-- Customer Services -->
-      <li class="menu-item {{request()->is('admin-dashboard/customer-service/*') ? " active" : "" }}">
+      <li class="menu-item {{request()->is('admin-dashboard/customer-service/*') ? 'active' : "" }}">
         <a href="{{ route('admin-dashboard.customer_s.all') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-support"></i>
           <div>Customer Services</div>
@@ -205,7 +205,7 @@
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Users & Messages</span></li>
 
       <!-- Users -->
-      <li class="menu-item {{request()->routeIs('admin-dashboard.user.admin') ? " active" : "" }}">
+      <li class="menu-item {{request()->routeIs('admin-dashboard.user.admin') ? 'active' : "" }}">
         <a href="{{ route('admin-dashboard.user.admin') }}" class="menu-link">
           <i class='menu-icon tf-icons bx bx-group'></i>
           <div>Users</div>
@@ -213,7 +213,7 @@
       </li>
 
       <!-- Messages -->
-      <li class="menu-item {{request()->routeIs('admin-dashboard.message.admin') ? " active" : "" }}">
+      <li class="menu-item {{request()->routeIs('admin-dashboard.message.admin') ? 'active' : "" }}">
         <a href="{{ route('admin-dashboard.message.admin') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-envelope"></i>
           <div>Messages</div>
@@ -223,7 +223,7 @@
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Shipping</span></li>
 
       <!-- Cities -->
-      <li class="menu-item {{request()->is('admin-dashboard/shepping/city/*') ? " active" : "" }}">
+      <li class="menu-item {{request()->is('admin-dashboard/shepping/city/*') ? 'active' : "" }}">
         <a href="{{ route('admin-dashboard.city.all') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-map"></i>
           <div>Cities</div>
@@ -231,7 +231,7 @@
       </li>
 
       <!-- Areas -->
-      <li class="menu-item {{request()->is('admin-dashboard/shepping/area/*') ? " active" : "" }}">
+      <li class="menu-item {{request()->is('admin-dashboard/shepping/area/*') ? 'active' : "" }}">
         <a href="{{ route('admin-dashboard.area.admin') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-map-pin"></i>
           <div>Areas</div>
@@ -239,12 +239,12 @@
       </li>
       @elseif (auth()->guard('saleOfficer')->check())
 
-        @include('layouts.saleofficer.aside-saleofficer')
+      @include('layouts.saleofficer.aside-saleofficer')
 
       @elseif (auth()->guard('customerService')->check())
 
-          @include('layouts.customerservice.aside-customerservice')
-          
+      @include('layouts.customerservice.aside-customerservice')
+
       @endif
     </ul>
 

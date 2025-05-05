@@ -7,13 +7,6 @@
 
               <!-- /Logo -->
               <h4 class="mb-2">Welcome to Pick-up Manegemant Orders! 👋</h4>
-              <x-error/>
-              @if($errors->any())
-              @dd($error)
-                <div class="alert alert-danger p-1 text-center">
-                  {{$error}}
-                </div> 
-              @enderror
               <form class="mb-3" action="{{route('sale-officer.store')}}" method="POST">
                 @csrf
                 <div class="mb-3">

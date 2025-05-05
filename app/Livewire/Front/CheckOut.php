@@ -5,14 +5,18 @@ namespace App\Livewire\Front;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\User;
+use App\Models\Admin;
 use App\Models\Order;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\PickupPoint;
 use App\Models\OrderDetails;
+use App\Mail\Order\PendingMail;
 use App\Models\ProductColorSize;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Order\AcceptedPickupMail;
 
 class CheckOut extends Component
 {
@@ -48,16 +52,22 @@ class CheckOut extends Component
             }
         }
 
-        // if (in_array(false, $status)) {
-        //     alert()->error("Error", "Please select color and size for all items in your cart");
-        //     return to_route("cart.view");
-        // }
-
         if (!auth()->check()) {
             alert()->error("Error", "Please login to checkout");
             return to_route('login.index');
         }
-        $this->user = User::find(auth()->user()->id);
+
+        $guards = ['admin', 'customerService', 'saleOfficer'];
+        foreach ($guards as $guard) {
+            if (auth()->guard($guard)->check()) {
+                alert()->error("Error", "You cannot transact with this account.");
+                return to_route('login.index');
+            }
+        }
+
+        // $this->user = User::find(auth()->guard('web')->user()->id)->first();
+        $this->user = auth()->guard('web')->user();
+
         $this->cart = $cart;
         $this->first_name = $this->user->first_name;
         $this->last_name = $this->user->last_name;
@@ -201,6 +211,8 @@ class CheckOut extends Component
                     $this->deliveryAddress = $this->address . ', [' . $this->area->name . '], [' . $this->area->city->name . ']';
                 }
 
+                $statusOrder = $this->deliveryMethod === 'delivery' ? 'pending' : 'accepted';
+                
                 $order = Order::create([
                     "user_id" => $this->user->id,
                     "pickup_points_id" => $this->pickupLocation,
@@ -218,7 +230,7 @@ class CheckOut extends Component
                     "phone" => $this->phone,
                     "email" => $this->email,
                     "delivery_address" => $this->deliveryAddress,
-                    "status_order" => "pending",
+                    "status_order" => $statusOrder,
                     "status" => false,
                     "order_date" => now(),
                     "notes" => $this->notes,
@@ -228,7 +240,7 @@ class CheckOut extends Component
                 foreach ($this->cart as $item) {
 
                     // $product = Product::findBySlug($item['slug']);
-
+                    $finalPrice = $item['final_price'] * $item['quantity'];
                     OrderDetails::create([
                         'order_id' => $order->id,
                         'product_name' => $item['name'],
@@ -238,7 +250,7 @@ class CheckOut extends Component
                         'price' => $item['price'],
                         'discount' => $item['discount'],
                         'discount_type' => $item['discount_type'],
-                        'final_price' => $item['final_price'],
+                        'final_price' => $finalPrice,
                         'slug' => $item['slug'],
                     ]);
 
@@ -261,6 +273,13 @@ class CheckOut extends Component
                         'sold' => DB::raw("sold + $qty") ,
                     ]);
                 }
+
+                $order->load('orderDetails');
+                if ($this->deliveryMethod === 'delivery') {
+                    Mail::to($this->email)->send(new PendingMail($order));
+                }elseif($this->deliveryMethod === 'pickup'){
+                    Mail::to($this->email)->send(new AcceptedPickupMail($order));
+                }
             });
 
             session()->forget('cart');
@@ -273,6 +292,7 @@ class CheckOut extends Component
                 'line' => $e->getLine(),
             ]);
 
+            dd($e->getMessage());
             alert()->error('Error', 'Something went wrong. Please try again.');
             return back();
         }

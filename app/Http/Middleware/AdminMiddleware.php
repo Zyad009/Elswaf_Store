@@ -9,6 +9,11 @@ class AdminMiddleware
 {
     public function handle($request, Closure $next)
     {
+
+        if (Auth::guard('admin')->check()) {
+            return $next($request);
+        }
+        
         $forbiddenGuards = ['saleOfficer', 'customerService'];
 
         foreach ($forbiddenGuards as $guard) {
@@ -17,10 +22,9 @@ class AdminMiddleware
             }
         }
 
-        if(Auth::guard('web')->check()){
-            abort(401); 
+        if (Auth::guard('web')->check()) {
+            abort(401);
         }
-
-        return $next($request);
+        abort(404);
     }
 }

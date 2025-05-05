@@ -42,7 +42,9 @@ return new class extends Migration
 
             //Order status
             $table->text("notes")->nullable();
-            $table->enum("status_order",["pending" , "processing" , "completed" , "canceled"])->default("pending");
+            $table->enum("status_order",["pending" , "accepted" , "completed" , "cancelled"]);
+            $table->text('modification_reason')->nullable();
+            $table->text('cancel_reason')->nullable();
             $table->boolean("status")->default(false);
             $table->dateTime("order_date");
             $table->timestamps();

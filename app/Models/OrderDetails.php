@@ -21,6 +21,9 @@ class OrderDetails extends Model
         'final_price',
         'slug',
         'price',
+        'modification_reason',
+        'cancel_reason',
+        'status'
     ];
 
     public function order()

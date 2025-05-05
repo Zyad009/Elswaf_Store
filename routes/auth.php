@@ -44,7 +44,7 @@ Route::name("forgot.password.")->prefix("forgot-password")->group(function(){
 
 Route::name('sale-officer.')->prefix('sale-officer')->group(function () {
   Route::controller(PickupLoginController::class)->group(function () {
-    Route::get("/login", "login")->middleware(['guest:saleOfficer' , 'prevent-back'])->name("login");
+    Route::get("/login", "login")->middleware(['guest:saleOfficer' , 'prevent-back' ])->name("login");
     Route::post("/", "store")->name("store");
   });
 });

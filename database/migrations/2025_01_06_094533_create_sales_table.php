@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id(); 
-            $table->decimal('amount', 15, 2);
+            $table->unsignedDecimal('amount', 15, 2);
             $table->date('sale_date');
             $table->timestamps();
         });

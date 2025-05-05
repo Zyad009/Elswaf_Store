@@ -9,8 +9,7 @@ use Livewire\Attributes\On;
 class ShowProduct extends Component
 {
 
-    public $title;
-    public $data ;
+    public $title, $data ;
     protected $listeners = ['showProductEvent'];
 
     public function showProductEvent($id)

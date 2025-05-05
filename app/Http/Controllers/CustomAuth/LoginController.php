@@ -20,11 +20,11 @@ class LoginController extends Controller
 
     //     $data = $request->validated();
     //     if (Auth::guard('admin')->attempt($data)) {
-            
+
     //         $user = Auth::guard('admin')->user();
     //         Auth::login($user);
-            
-    //         return to_route('admin-home');
+
+    //         return to_route('admin-dashboard.home');
     //     }
     //     elseif (Auth::guard('web')->attempt($data)) {
 

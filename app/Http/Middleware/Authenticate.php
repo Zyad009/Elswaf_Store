@@ -28,6 +28,7 @@ class Authenticate extends Middleware
         if(isset($abort)){
             return $request->expectsJson() ? null : $abort;
         }
-        return $request->expectsJson() ? null : route('login.index');
+        // return $request->expectsJson() ? null : route('login.index');
+        return $request->expectsJson() ? null : abort(404);
     }
 }

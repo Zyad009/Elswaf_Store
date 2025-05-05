@@ -75,6 +75,12 @@ class User extends Authenticatable
         'phone',
     ];
 
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
+    }
+
+
     /**
      * The attributes that should be hidden for serialization.
      *

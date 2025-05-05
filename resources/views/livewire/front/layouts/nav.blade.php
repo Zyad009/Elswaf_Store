@@ -30,7 +30,7 @@
 
                     @auth("admin")
                     <li>
-                        <a href="{{ route('admin-home') }}">
+                        <a href="{{ route('admin-dashboard.home') }}">
                             <i class="fas fa-cog"></i> Dashboard
                         </a>
                     </li>
@@ -56,7 +56,7 @@
 
 
         @auth
-        <form class="header-right" action="{{route("logout")}}" method="post">
+        <form class="header-right" action="{{route('logout')}}" method="post">
             @csrf
             <button type="submit" class="btn btn-outline-light navigation--button" href="">Logout</button>
         </form>

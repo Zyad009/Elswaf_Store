@@ -9,6 +9,18 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($order) {
+            if ($order->delivery_method === 'delivery') {
+                $order->status_order = 'pending';
+            } elseif ($order->delivery_method === 'pickup') {
+                $order->status_order = 'accepted';
+            }
+        });
+    }
     protected $fillable = [
         'user_id',
         'pickup_points_id',
@@ -29,6 +41,8 @@ class Order extends Model
         'delivery_address',
         'status_order',
         'status',
+        'modification_reason',
+        'cancel_reason',
         'order_date',
         'notes',
     ];
@@ -38,10 +52,10 @@ class Order extends Model
     }
 
     public function pickupPoint(){
-        return $this->belongsTo(PickupPoint::class);
+        return $this->belongsTo(PickupPoint::class , 'pickup_points_id');
     }
 
-    public function orderDeltails()
+    public function orderDetails()
     {
         return $this->hasMany(OrderDetails::class);
     }

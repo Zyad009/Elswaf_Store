@@ -27,10 +27,11 @@ use App\Http\Controllers\Admin\OrderManagement\PickupOrderController;
 // Route::get("/admin-home",[AdminHomeController::class,"index"])->name('admin-home');
 
 
-Route::get("/admin-home", [AdminHomeController::class, "index"])->name('admin-home');
 
-Route::name("admin-dashboard.")->prefix("admin-dashboard")->group(function () {
+Route::name("admin-dashboard.")->prefix("admin-dashboard")->middleware('admin.auth')->group(function () {
+  Route::get("/home", [AdminHomeController::class, "index"])->name('home');
   Route::get("/account", [AdminAccountController::class, "index"])->name("account");
+  
   Route::name("category.")->prefix("category")->group(function () {
     Route::controller(AdminCategoryController::class)->group(function () {
       Route::get("/", "index")->name("admin");

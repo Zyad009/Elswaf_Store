@@ -41,6 +41,8 @@ class Handler extends ExceptionHandler
     /**
      * Register the exception handling callbacks for the application.
      */
+
+
     public function register(): void
     {
         $this->renderable(function (Throwable $exception, $request) {
@@ -52,12 +54,21 @@ class Handler extends ExceptionHandler
                     return response()->view('errors.web-404', [], 404);
                 } elseif (auth()->guard('web')->check()) {
                     return response()->view('errors.web-404', [], 404);
-                } else {
+                } elseif (auth()->guard('saleOfficer')->check()) {
                     return response()->view('errors.dash-404', [], 404);
+                } elseif (auth()->guard('customerService')->check()) {
+                    return response()->view('errors.dash-404', [], 404);
+                } else {
+                    return response()->view('errors.web-404', [], 404);
                 }
             }
         });
-        
+        // $this->renderable(function (Throwable $exception, $request) {
+        //     if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
+        //         return abortCustom404();
+        //     }
+        // });
+
         $this->reportable(function (Throwable $e) {
             //
         });

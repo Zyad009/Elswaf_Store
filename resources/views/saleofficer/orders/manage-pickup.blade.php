@@ -10,10 +10,9 @@
 </div>
 <x-error></x-error>
 
-{{-- <livewire:admin.offer.product.all-product> --}}
-  <livewire:admin.order-management.pickup-order-component />
+  <livewire:order-management.pickup-order.pickup-order-component />
+  <livewire:order-management.pickup-order.show-order-details>
 
-  {{-- <livewire:admin.offer.product.add-special-offer> --}}
 
     @push("admin-js")
     <script>
@@ -27,41 +26,40 @@
 //     });
 //     });
 
-// window.addEventListener("errorOfferPrice", () => {
-//     Swal.fire({
-//     icon: "error",
-//     title: "Error!",
-//     text: "The offer price must be less than the product price",
-//     showConfirmButton: false,
-//     timer: 5000
-//     });
-//     });
+window.addEventListener("cancelleSuccess", () => {
+    Swal.fire({
+    icon: "success",
+    title: "Success!",
+    text: "Cancelled Has Been Successfully",
+    showConfirmButton: false,
+    timer: 1500
+    });
+    });
 
-// window.addEventListener("successOffer", () => {
-//     Swal.fire({
-//     icon: "success",
-//     title: "Success!",
-//     text: "offer add successfully",
-//     showConfirmButton: false,
-//     timer: 1500
-//     });
-//     });
+window.addEventListener("paymentSuccess", () => {
+    Swal.fire({
+    icon: "success",
+    title: "Success!",
+    text: "Payment Has Been Successfully",
+    showConfirmButton: false,
+    timer: 1500
+    });
+    });
 
-// window.addEventListener("deletedOffer", () => {
-//     Swal.fire({
-//     icon: "success",
-//     title: "Success!",
-//     text: "deleted successfully",
-//     showConfirmButton: false,
-//     timer: 1500
-//     });
-//     });
+window.addEventListener("deletedItem", () => {
+    Swal.fire({
+    icon: "success",
+    title: "Success!",
+    text: "deleted successfully",
+    showConfirmButton: false,
+    timer: 1500
+    });
+    });
 
 
-    window.addEventListener("showModelToggle" , event =>{
-                $("#showModel").modal("toggle");
+    window.addEventListener("showModelToggleXl" , event =>{
+                $("#showModelXl").modal("toggle");
                 })
-
 
 
     </script>

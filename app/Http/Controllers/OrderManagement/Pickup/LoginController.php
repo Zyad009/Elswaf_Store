@@ -18,8 +18,19 @@ class LoginController extends Controller
 
     public function store(LoginRequest $request)
     {
+        $guards = ['admin', 'customerService', 'web' , 'saleOfficer'];
+
+        foreach ($guards as $guard) {
+            if (auth()->guard($guard)->check()) {
+                alert('Error', 'You are already logged in with another account.', 'error');
+                abort(403 );
+            }
+        }
+
         $data = $request->validated();
         if (Auth::guard('saleOfficer')->attempt($data)) {
+            request()->session()->put('current_guard', 'saleOfficer');
+            // dd(session('current_guard')); // لازم تطلع "saleOfficer"
             return to_route('pickup_orders.home');
         }
 

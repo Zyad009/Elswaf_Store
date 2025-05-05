@@ -15,6 +15,7 @@ use App\Models\Product;
 use App\Models\PickupPoint;
 use App\Models\SaleOfficer;
 use App\Models\CustomerService;
+use App\Models\Order;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -39,5 +40,6 @@ class DatabaseSeeder extends Seeder
         Color::factory(5)->create();
         CustomerService::factory(6)->create();
         Product::factory(50)->create();
+        Order::factory(20)->create();
     }
 }

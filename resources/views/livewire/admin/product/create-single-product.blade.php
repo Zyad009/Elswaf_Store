@@ -43,7 +43,7 @@
         <div class="col-md-3">
             <label class="form-label fw-bold">Quantity</label>
             <input type="number" wire:model="QTY" class="form-control" placeholder="Enter quantity" min="1">
-            <x-message.error name="quantity" />
+            <x-message.error name="QTY" />
         </div>
     </div>
 <x-button.submit.create></x-button.submit.create>
