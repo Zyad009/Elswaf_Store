@@ -16,12 +16,27 @@
 
         <tbody>
             @foreach ($data as $singleProduct)
-            <tr>
+            @php
+            if( $highlightDelete == $loop->index){
+            $color = 'danger';
+            }elseif($highlightEdit == $loop->index){
+            $color = 'primary';
+            }else{
+            $color = 'default';
+            }
+            @endphp
+            <tr class="table-{{$color}}">
                 <td class="text-center">{{ $singleProduct->product_name }}</td>
 
                 <td class="text-center">
                     @if( $key == $singleProduct->id.'&'.$singleProduct->order_id)
-                    <input type="text" wire:model.blur="selectedSize" class="form-control form-control-sm">
+                    <select wire:model.live="selectedSize" class="form-control">
+                        <option value="">Size</option>
+                        @foreach ($productDetails as $index => $size)
+                        <option value="{{ $index }}" wire:key="size-{{ $index }}">{{ $size['name'] }}</option>
+                        @endforeach
+                    </select>
+                    <x-message.error name="selectedSize" />
                     @else
                     {{ $singleProduct->size }}
                     @endif
@@ -29,7 +44,14 @@
 
                 <td class="text-center">
                     @if( $key == $singleProduct->id.'&'.$singleProduct->order_id)
-                    <input type="text" wire:model.blur="selectedColor" class="form-control form-control-sm">
+                    <select wire:model.live='selectedColor' class="form-control">
+                        <option value="">Color</option>
+                        @foreach ($productDetails[$selectedSize]['colors'] ?? [] as $color )
+                        <option value="{{ $color['id'] }}" wire:key="color-{{ $color['id'] }}">{{ $color['name'] }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <x-message.error name="selectedColor" />
                     @else
                     {{ $singleProduct->color }}
                     @endif
@@ -37,7 +59,9 @@
 
                 <td class="text-center">
                     @if( $key == $singleProduct->id.'&'.$singleProduct->order_id )
-                    <input type="number" wire:model.blur="QTY" class="form-control form-control-sm">
+                    <input type="number" wire:model='Qty' class="form-control" min="1" step="1" data-decimals="0"
+                        required max="{{ $productDetails[$selectedSize]['colors'][$selectedColor]['QTY'] ?? 0 }}">
+                    <x-message.error name="Qty" />
                     @else
                     {{ $singleProduct->QTY }}
                     @endif
@@ -47,29 +71,61 @@
                 <td class="text-center">{{ $singleProduct->final_price }}</td>
 
                 <td class="text-center">
-                @if ($deleteKey != $secritKey)
-                    <button wire:click="toggleEditMode({{ $singleProduct->id}} , {{$singleProduct->order_id}})"
-                        class="btn btn-outline-primary">
-                        @if( $key == $singleProduct->id.'&'.$singleProduct->order_id)
-                        <i class="bx bx-x"></i>
-                        @else
-                        <i class="bx bx-edit"></i>
-                        @endif
+                    @if ($singleProduct->QTY != 0)
+                    @if ( $close != true )
+                    <button
+                        wire:click='editItem({{ $singleProduct->id}} , {{$singleProduct->order_id}} , "{{$singleProduct->slug}}",{{$loop->index}})'
+                        class="btn btn-outline-primary" wire:key="edit-button-{{ $loop->index }}">
+                        <i class="bx bx-edit" wire:loading.remove
+                            wire:target='editItem({{ $singleProduct->id }}, {{ $singleProduct->order_id }}, "{{ $singleProduct->slug }}", {{ $loop->index }})'></i>
+                        <x-spinner.spinner
+                            title='editItem({{ $singleProduct->id }}, {{ $singleProduct->order_id }}, "{{ $singleProduct->slug }}", {{ $loop->index }})' />
                     </button>
                     @else
                     <button class="btn btn-secondary " disabled>
                         <i class="bx bx-edit"></i>
                     </button>
                     @endif
+                    @else
+                    <button class="btn btn-secondary " disabled>
+                        <i class="bx bx-edit"></i>
+                    </button>
+                    @endif
                 </td>
-
                 <td class="text-center">
-
-                    @if ($deleteKey != $secritKey)
-                    <button class="btn btn-danger confirm-delete"
-                        wire:click='deleteItem("{{$singleProduct->slug}}" , "{{$singleProduct->order_id}}" , {{$singleProduct->QTY}} , "{{$singleProduct->product_name}}")'>
+                    @if ($singleProduct->QTY != 0)
+                    @if ($close != true)
+                    {{-- $deleteKey != $secritKey --}}
+                    <button class="btn btn-danger confirm-delete" wire:click='deleteItem(
+                        "{{$singleProduct->slug}}" ,
+                        "{{$singleProduct->order_id}}" , 
+                        {{$singleProduct->QTY}} , 
+                        "{{$singleProduct->color}}",
+                        "{{$singleProduct->size}}",
+                        "{{$loop->index}}"
+                        )'>
+                        <i class="bx bx-trash" wire:loading.remove wire:target='deleteItem(
+                        "{{$singleProduct->slug}}" ,
+                        "{{$singleProduct->order_id}}" , 
+                        {{$singleProduct->QTY}} , 
+                        "{{$singleProduct->color}}",
+                        "{{$singleProduct->size}}",
+                        "{{$loop->index}}"
+                        )'></i>
+                        <x-spinner.spinner title='deleteItem(
+                        "{{$singleProduct->slug}}" ,
+                        "{{$singleProduct->order_id}}" , 
+                        {{$singleProduct->QTY}} ,
+                        "{{$singleProduct->color}}",
+                        "{{$singleProduct->size}}", 
+                        "{{$loop->index}}"
+                        )' />
+                    </button>
+                    @else
+                    <button class="btn btn-secondary " disabled>
                         <i class="bx bx-trash"></i>
                     </button>
+                    @endif
                     @else
                     <button class="btn btn-secondary " disabled>
                         <i class="bx bx-trash"></i>
@@ -84,33 +140,33 @@
     @if ($deleteKey == $secritKey)
     <div class="border rounded p-3 my-3 bg-light">
         <div class="row g-2 align-items-stretch">
-            <label class="form-label fw-bold">Remove: {{$productName}}</label>
             <div class="col-md-5 d-flex flex-column">
                 <label class="form-label fw-bold">Reason Delete</label>
-                <textarea wire:model='reasonDelete' class="form-control form-control-sm flex-grow-1" placeholder="reason delete"></textarea>
-                <x-message.error name="reasonDelete"/>
+                <textarea wire:model='reasonDelete' class="form-control form-control-sm flex-grow-1"
+                    placeholder="reason delete"></textarea>
+                <x-message.error name="reasonDelete" />
             </div>
 
             <div class="col-md-3 d-flex flex-column">
                 <label class="form-label fw-bold">QTY</label>
-                <input type="number"
-                    wire:model="QTYDelete" min="0" max="{{$maxDeletedQTY}}"
+                <input type="number" wire:model="QTYDelete" min="0" max="{{$maxDeletedQTY}}"
                     class="form-control form-control-sm w-100 h-100" placeholder="QTY">
-                    <x-message.error name="QTYDelete"/>
-                </div>
-                
-                <div class="col-md-2 d-flex flex-column justify-content-end">
-                    <label class="form-label fw-bold invisible">Cancel</label>
-                    <button class="btn btn-danger btn-sm w-100 h-100" wire:click='canceleDelete'>
-                        <i class="bx bx-x"></i>
-                    </button>
+                <x-message.error name="QTYDelete" />
+            </div>
+
+            <div class="col-md-2 d-flex flex-column justify-content-end">
+                <label class="form-label fw-bold invisible">Cancel</label>
+                <button class="btn btn-danger btn-sm w-100 h-100" wire:click='canceleDelete'>
+                    <i class="bx bx-x" wire:loading.remove wire:target='canceleDelete'></i>
+                    <x-spinner.spinner title="canceleDelete" />
+                </button>
             </div>
 
             <div class="col-md-2 d-flex flex-column justify-content-end">
                 <label class="form-label fw-bold invisible">Delete</label>
-                <button class="btn btn-danger btn-sm w-100 h-100"
-                    wire:click='removeItem("{{$singleProduct->slug}}" , "{{$singleProduct->color}}" , "{{$singleProduct->size}}" , "{{$singleProduct->order_id}}" )'>
-                    <i class="bx bx-trash"></i>
+                <button class="btn btn-danger btn-sm w-100 h-100" wire:click='removeItem'>
+                    <i class="bx bx-trash" wire:loading.remove wire:target='removeItem'></i>
+                    <x-spinner.spinner title="removeItem" />
                 </button>
             </div>
         </div>
@@ -118,10 +174,34 @@
     @endif
 
     @if($key)
+    <div class="border rounded p-3 my-3 bg-light">
+        <div class="row g-2 align-items-stretch">
+            <div class="col-md-8 d-flex flex-column">
+                <label class="form-label fw-bold">Reason Edit</label>
+                <textarea wire:model='reasonEdit' class="form-control form-control-sm flex-grow-1"
+                    placeholder="reason edit"></textarea>
+                <x-message.error name="reasonEdit" />
+            </div>
+
+            <div class="col-md-2 d-flex flex-column justify-content-end">
+                <label class="form-label fw-bold invisible">Cancel</label>
+                <button class="btn btn-primary btn-sm w-100 h-100" wire:click='canceleEdit'>
+                    <i class="bx bx-x" wire:loading.remove wire:target='canceleEdit'></i>
+                    <x-spinner.spinner title="canceleEdit" />
+                </button>
+            </div>
+
+            <div class="col-md-2 d-flex flex-column justify-content-end">
+                <label class="form-label fw-bold invisible">Save Changes</label>
+                <button wire:click="saveChanges" class="btn btn-success btn-sm w-100 h-100">
+                    <i class="bx bx-save" wire:loading.remove wire:target='saveChanges'></i>
+                    <x-spinner.spinner title="saveChanges" />
+                </button>
+            </div>
+        </div>
+    </div>
     <div class="text-end mt-3">
-        <button wire:click="saveChanges" class="btn btn-success">
-            <i class="bx bx-save"></i> Save Changes
-        </button>
+
     </div>
     @endif
 

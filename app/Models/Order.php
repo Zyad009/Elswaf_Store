@@ -45,6 +45,8 @@ class Order extends Model
         'cancel_reason',
         'order_date',
         'notes',
+        'status_details',
+        'status',
     ];
     public function user()
     {

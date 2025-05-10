@@ -16,15 +16,15 @@
 
     @push("admin-js")
     <script>
-      //             window.addEventListener("errorOffer", () => {
-//     Swal.fire({
-//     icon: "error",
-//     title: "Error!",
-//     text: "you must be selected offer",
-//     showConfirmButton: false,
-//     timer: 2000
-//     });
-//     });
+window.addEventListener("errorFound", () => {
+    Swal.fire({
+    icon: "error",
+    title: "Error!",
+    text: "this details already found",
+    showConfirmButton: false,
+    timer: 2500
+    });
+    });
 
 window.addEventListener("cancelleSuccess", () => {
     Swal.fire({
@@ -51,6 +51,16 @@ window.addEventListener("deletedItem", () => {
     icon: "success",
     title: "Success!",
     text: "deleted successfully",
+    showConfirmButton: false,
+    timer: 1500
+    });
+    });
+
+window.addEventListener("editItem", () => {
+    Swal.fire({
+    icon: "success",
+    title: "Success!",
+    text: "updated successfully",
     showConfirmButton: false,
     timer: 1500
     });

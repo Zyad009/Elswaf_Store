@@ -15,7 +15,7 @@
         <div class="table-responsive text-nowrap mt-2">
 
 <div class="mb-3 text-center">
-    @foreach(['accepted', 'completed', 'canceled'] as $status)
+    @foreach(['accepted', 'completed', 'cancelled'] as $status)
     <label style="margin-right: 20px; transform: scale(1.2); display: inline-flex; align-items: center;">
         <input type="checkbox" class="status-filter" wire:model.live="statusFilters" value="{{ $status }}"
             style="margin-right: 5px;">
@@ -39,12 +39,14 @@
                         <th class="text-center">Discount</th>
                         <th class="text-center">Fanil Price</th>
                         <th class="text-center">Details</th>
+                        <th class="text-center">Date Time</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                     @forelse ($orders as $order)
+
                     <tr>
                         <td><i class="fab fa-angular fa-lg text-danger me-3 text-center"></i>
                             <strong>{{ $order->pickup_code}}</strong>
@@ -61,7 +63,7 @@
                         <td class="text-center">{{ $order->total }} <span>EGP</span></td>
                         <td class="text-center">{{ $order->total - $order->finally_total }} <span>EGP</span></td>
                         <td class="text-center">{{ $order->finally_total }} <span>EGP</span></td>
-
+                        
                         <td class="text-center">
                             @if($order->status_order == "accepted")
                             <a class="btn btn-sm "
@@ -69,9 +71,12 @@
                                 <i class='bx bx-info-circle'></i> View
                             </a>
                             @else
-                                _____
+                            _____
                             @endif
                         </td>
+
+                        <td class="text-center"> <x-special-text.dark-text title="{{ $order->order_date }}" /> </td>
+
                         <td class="text-center">
                             @switch($order->status_order)
                             @case("Accepted")
@@ -80,8 +85,8 @@
                             @case("completed")
                             <x-special-text.success-text title="Completed" />
                             @break
-                            @case("canceled")
-                            <x-special-text.danger-text title="Canceled" />
+                            @case("cancelled")
+                            <x-special-text.danger-text title="Cancelled" />
                             @break
                             @default
                             <x-special-text.warning-text title="Accepted"/>

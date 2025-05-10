@@ -33,6 +33,7 @@ class Product extends Model
         'offer_id',
         'description',
         'QTY',
+        'sold',
         'image',
         'category_id',
         'type_size',

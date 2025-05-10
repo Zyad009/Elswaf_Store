@@ -20,11 +20,15 @@ class OrderDetails extends Model
         'discount_type',
         'final_price',
         'slug',
-        'price',
         'modification_reason',
         'cancel_reason',
-        'status'
+        'QTY_delete',
+        'QTY_edit',
+        'status_modification',
+        'status_cancelled',
+        'status',
     ];
+
 
     public function order()
     {

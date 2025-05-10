@@ -13,7 +13,6 @@ class SingleProductController extends Controller
     {
         $details = $product->getDetails();
         
-        
         $productsBest = Product::with("category" , "offer" , "images" , "reviews")
             ->where("id" , "!=" , $product->id)
             // ->whereNull("deleted_at")

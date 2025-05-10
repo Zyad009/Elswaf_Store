@@ -203,7 +203,7 @@ class CheckOut extends Component
         try {
             DB::transaction(function () {
                 if ($this->deliveryMethod === 'pickup') {
-                    $pickupPoint = PickupPoint::find($this->pickupLocation);
+                    $pickupPoint = $this->pickupPoints->find($this->pickupLocation);
                     $pickupCode = $this->generatePickupCode();
                     $this->deliveryAddress = $pickupPoint->name;
                     $this->resetDeliveryDetails();
@@ -292,7 +292,7 @@ class CheckOut extends Component
                 'line' => $e->getLine(),
             ]);
 
-            dd($e->getMessage());
+            // dd($e->getMessage());
             alert()->error('Error', 'Something went wrong. Please try again.');
             return back();
         }
