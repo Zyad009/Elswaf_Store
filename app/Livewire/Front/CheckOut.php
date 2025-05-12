@@ -208,6 +208,7 @@ class CheckOut extends Component
                     $this->deliveryAddress = $pickupPoint->name;
                     $this->resetDeliveryDetails();
                 } else {
+                    $followUpCode = time();
                     $this->deliveryAddress = $this->address . ', [' . $this->area->name . '], [' . $this->area->city->name . ']';
                 }
 
@@ -223,6 +224,7 @@ class CheckOut extends Component
                     "city" => $this->city->name ?? null,
                     "area" => $this->area->name ?? null,
                     "pickup_code" => $pickupCode ?? null,
+                    // "follow_up_code" =   > $followUpCode ?? null,
                     "total" => $this->subTotal,
                     "delivery_price" => $this->priceDelivery,
                     "finally_total" => $this->total,
@@ -292,7 +294,7 @@ class CheckOut extends Component
                 'line' => $e->getLine(),
             ]);
 
-            // dd($e->getMessage());
+            dd($e->getMessage());
             alert()->error('Error', 'Something went wrong. Please try again.');
             return back();
         }

@@ -5,7 +5,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\OrderDetails;
-use Illuminate\Support\Facades\DB;
+
 
 class ShowOrderDetails extends Component
 {
@@ -25,14 +25,6 @@ class ShowOrderDetails extends Component
     {
         $this->data = OrderDetails::where("order_id", $id)
             ->get();
-        // $this->highlightDelete = -1;
-        // $this->highlightEdit = -1;
-        // $this->secritKey = null;
-        // $this->deleteKey = '1';
-        // $this->maxDeletedQTY = 1;
-        // $this->reasonDelete = null;
-        // $this->QTYDelete = null;
-        // $this->productDetails = null;
         $this->resetProperties();
 
         $this->dispatch("showModelToggleXl");
@@ -49,7 +41,6 @@ class ShowOrderDetails extends Component
         $Key = $slug . '&' . $orderId;
         $this->highlightDelete = $numIndex;
         $this->close = true;
-        // $this->highlightEdit = -1;
 
         if ($this->deleteKey === $Key) {
             $this->deleteKey = null;
@@ -68,11 +59,6 @@ class ShowOrderDetails extends Component
     }
 
     public function canceleDelete(){
-        // $this->resetPropertiesDelete();
-        // $this->highlightDelete = -1;
-        // $this->highlightEdit = -1;
-        // $this->deleteKey = '1';
-        // $this->secritKey = null;
         $this->resetProperties();
     }
 
@@ -145,6 +131,7 @@ class ShowOrderDetails extends Component
 
                 $statusOrder = 'cancelled';
                 $statusDetails = 'closed';
+                $orderCanceleReason = 'you must be read more information for this order from details';
                 
             }else{
                 $statusOrder = 'accepted';
@@ -155,15 +142,10 @@ class ShowOrderDetails extends Component
             $statusDetails = 'modified';
         }
 
-        $orderCanceleReason = $order->cancel_reason
-            ? $order->cancel_reason . " // " . $this->reasonDelete
-            : $this->reasonDelete;
-
-
         $order->update([
             'status_details' => $statusDetails,
             'status_order' => $statusOrder,
-            'cancel_reason' => $orderCanceleReason,
+            'cancel_reason' => $orderCanceleReason ?? null,
             'total' => $order->total - $deletedPrice,
             'finally_total' => $order->finally_total - $deletedPrice,
             'QTY' => $order->QTY - $this->QTYDelete,
@@ -201,11 +183,6 @@ class ShowOrderDetails extends Component
             $this->highlightEdit = $numIndex;
             $this->close = true;
             $this->orderId = $orderId;
-
-            // $this->selectedColor = null;
-            // $this->selectedSize = null;
-            // $this->Qty = null;
-            // $this->reasonEdit = null;
 
             $this->product = Product::findBySlug($slug);
             $this->productDetails = $this->product->getDetails();
@@ -275,15 +252,9 @@ class ShowOrderDetails extends Component
 
         $order = Order::where('id', $this->orderId)->first();
 
-        $orderEditReason = $order->modification_reason
-            ? $order->modification_reason . " // " . $this->reasonEdit
-            : $this->reasonEdit;
-
-
         $order->update([
                 'QTY' => $order->QTY - $oldQty + $this->Qty,
                 'status_details' => 'modified',
-                'modification_reason' => $orderEditReason,
                 'total' => $order->total + $newTotalPrice - $oldTotalPrice,
                 'finally_total' => $order->finally_total + $newTotalPrice - $oldTotalPrice,
             ]);

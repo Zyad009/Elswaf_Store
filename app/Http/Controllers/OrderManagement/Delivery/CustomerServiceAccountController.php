@@ -5,10 +5,10 @@ namespace App\Http\Controllers\OrderManagement\Delivery;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DeliveryOrderController extends Controller
+class CustomerServiceAccountController extends Controller
 {
     public function index()
     {
-        return view('customerservice.orders.manage-delivery');
+        return view('customerservice.account.index');
     }
 }

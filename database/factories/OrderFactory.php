@@ -25,11 +25,12 @@ class OrderFactory extends Factory
             'payment_method' => 'cash',
             'payment_status' => $this->faker->boolean(),
 
-            'delivery_method' => 'pickup',
-            // 'delivery_type' => $this->faker->optional()->randomElement(['regular', 'super']),
-            // 'city' => $this->faker->city,
-            // 'area' => $this->faker->streetName,
-            'pickup_code' => $this->faker->optional()->bothify('PC-###??'),
+            // 'delivery_method' => 'pickup',
+            'delivery_type' => $this->faker->optional()->randomElement(['regular', 'super']),
+            'city' => $this->faker->city,
+            'area' => $this->faker->streetName,
+            // 'pickup_code' => $this->faker->optional()->bothify('PC-###??'),
+            'follow_up_code' => $this->faker->optional()->bothify('PC-###??'),
 
             'total' => $this->faker->randomFloat(2, 100, 1000),
             // 'delivery_price' => $this->faker->optional()->randomFloat(2, 10, 50),

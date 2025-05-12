@@ -32,6 +32,7 @@ class Order extends Model
         'city',
         'area',
         'pickup_code',
+        'follow_up_code',
         'total',
         'delivery_price',
         'finally_total',

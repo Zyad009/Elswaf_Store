@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string("city")->nullable();
             $table->string("area")->nullable();
             $table->string("pickup_code")->nullable();
+            $table->string("follow_up_code")->nullable();
 
 
             $table->unsignedDecimal('total', 10, 2);
@@ -42,7 +43,6 @@ return new class extends Migration
 
             //Order status
             $table->text("notes")->nullable();
-            $table->text('modification_reason')->nullable();
             $table->text('cancel_reason')->nullable();
             $table->enum("status_order",["pending" , "accepted" , "completed" , "cancelled"]);
             $table->enum("status_details", ['success', 'modified' , 'closed'])->default('success');

@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Livewire\OrderManagement\PickupOrder;
+namespace App\Livewire\OrderManagement\DeliveryOrder;
 
 use App\Models\Order;
 use App\Models\Product;
 use Livewire\Component;
-use App\Models\OrderDetails;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use App\Models\ProductColorSize;
 use Illuminate\Support\Facades\DB;
 
-class PickupOrderComponent extends Component
+class DeliveryOrderComponent extends Component
 {
     use WithPagination;
 
@@ -20,14 +19,13 @@ class PickupOrderComponent extends Component
     #[Url(except: '')]
     public $search;
 
-    public $statusFilters =[];
+    public $statusFilters = [];
     public $pickupPointId;
-    public $deleteReason , $indexId , $highlightDelete = -1;
-    
-    public function mount(){
-        $saleOfficer = auth()->guard('saleOfficer')->user();
-        $this->pickupPointId =  $saleOfficer->pickup_point_id;
-        $this->indexId = -1;
+
+    public function mount()
+    {
+        // $saleOfficer = auth()->guard('saleOfficer')->user();
+        // $this->pickupPointId =  $saleOfficer->pickup_point_id;
     }
     protected $listeners = ["dataRefresh" => '$refresh'];
 
@@ -36,9 +34,10 @@ class PickupOrderComponent extends Component
         $this->resetPage();
     }
 
-    public function paymentSuccess($id){
+    public function paymentSuccess($id)
+    {
         Order::where('id', $id)->update([
-            "status" => 1 ,
+            "status" => 1,
             "status_order" => "completed",
         ]);
         $this->dispatch('$refresh');
@@ -46,32 +45,11 @@ class PickupOrderComponent extends Component
         alert()->success('Success', 'Payment Has Been Successfully');
         return;
     }
-    
-    public function cancele($indexId){
 
-        $this->indexId = $indexId;
-        $this->highlightDelete = $indexId;
-    }
-    
-    public function canceleRemove(){
-        $this->indexId = -1;
-        $this->highlightDelete = -1;
-        $this->deleteReason = null;
-        $this->resetValidation();
-    }
-
-    public function removeOrder($id){
-
-        $this->validate([
-            'deleteReason' => 'required|string|max:500|min:3',
-        ]);
-
+    public function cancelle($id)
+    {
         $order = Order::where('id', $id)->with("orderDetails")->first();
-        $order->update([
-            "status_order" => "cancelled",
-            "cancel_reason" => $this->deleteReason,
-            "status" => 0,
-        ]);
+        $order->update(["status_order" => "cancelled",]);
 
         $details = $order->orderDetails;
 
@@ -93,38 +71,35 @@ class PickupOrderComponent extends Component
         }
 
         foreach ($arr as $slug => $qty) {
-            $this->dispatch('reasonCancel');
-
             Product::where('slug', $slug)->update([
                 'QTY' => DB::raw("QTY + $qty"),
                 'sold' => DB::raw("sold - $qty"),
             ]);
         }
 
-        $this->indexId = -1;
-        $this->highlightDelete = -1;
-        $this->deleteReason = null;
-        $this->resetValidation();
         $this->dispatch('$refresh');
         $this->dispatch('cancelleSuccess');
+
+        return;
     }
 
+
+    
     public function render()
     {
-        $orders = Order::where('pickup_points_id', $this->pickupPointId)
+        $orders = Order::where('delivery_method', 'delivery')
             ->when(!empty($this->statusFilters), function ($q) {
                 $q->whereIn('status_order', $this->statusFilters);
             })
             ->when(empty($this->statusFilters), function ($q) {
-                $q->where('status_order', 'accepted');
+                $q->where('status_order', 'pending');
                 $q->orderByDesc('order_date');
             })
-            ->where('pickup_code', 'LIKE', '%' . $this->search . '%')
+            ->where('phone', 'LIKE', '%' . $this->search . '%')
             ->with('user')
-            ->orderByRaw("FIELD(status_order, 'accepted', 'completed', 'cancelled')")
+            ->orderByRaw("FIELD(status_order,'pending' ,'accepted', 'completed', 'cancelled')")
             ->paginate(config('pagination.count'));
 
-
-        return view('livewire.order-management.pickup-order.pickup-order-component' , compact('orders'));
+        return view('livewire.order-management.delivery-order.delivery-order-component' , compact('orders'));
     }
 }
