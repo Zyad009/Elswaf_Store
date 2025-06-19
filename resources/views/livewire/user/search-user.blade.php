@@ -23,7 +23,8 @@
                         <th class="text-center">Phone</th>
                         <th class="text-center">Whatsapp</th>
                         <th class="text-center">Gender</th>
-                        <th class="text-center" style="width: 200px;">Address</th>
+                        <th class="text-center">More Info</th>
+                        {{-- <th class="text-center" style="width: 200px;">Address</th> --}}
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -52,10 +53,10 @@
                         <td class="text-center">{{ $user->whatsapp }}</td>
                         <td class="text-center">{{ $user->gender }}</td>
                         <td class="text-center">
-                            <textarea class="form-control" rows="3" style="width: 100%; min-width: 200px; resize: none;"
-                                readonly>
-                                {{ $user->address }}
-                            </textarea>
+                            <a class="btn btn-sm "
+                                wire:click.prevent="$dispatch('showDetailsUserEnent', {id: '{{ $user->id }}'})">
+                                <i class='bx bx-info-circle text-primary'></i> Info
+                            </a>
                         </td>
                     </tr>
                     @endforeach

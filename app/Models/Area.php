@@ -32,6 +32,11 @@ class Area extends Model
             'delivery_price_super',
     ];
 
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+
     public function city(){
         return $this->belongsTo(City::class);
     }   

@@ -5,12 +5,13 @@ use App\Models\Order;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\OrderDetails;
+use App\Livewire\OrderManagement\DeliveryOrder\DeliveryOrderComponent;
 
 
 class ShowOrderDetails extends Component
 {
 
-    public $title , $data , $productDetails , $product;
+    public $title , $data , $productDetails , $product , $mainStatus;
     public $reasonDelete, $QTYDelete , $maxDeletedQTY;
     public $reasonEdit, $selectedSize, $selectedColor , $Qty , $itemEdited , $close = false;
     public $slug, $color, $size, $orderId;
@@ -18,20 +19,15 @@ class ShowOrderDetails extends Component
     public $highlightDelete = null , $highlightEdit = null;
     protected $listeners = ['showOrderDetailsEvent'];
 
-
-    
-    
-    public function showOrderDetailsEvent($id)
+    public function showOrderDetailsEvent($id , $mainStatus)
     {
+        $this->mainStatus = $mainStatus;
         $this->data = OrderDetails::where("order_id", $id)
             ->get();
         $this->resetProperties();
 
         $this->dispatch("showModelToggleXl");
-        }
-
-
-
+    }
 
 
         //============All Methods For Delete Item From Order
@@ -169,8 +165,11 @@ class ShowOrderDetails extends Component
 
         $this->dispatch('deletedItem');
         $this->dispatch("showModelToggleXl");
-        $this->dispatch('dataRefresh')->to(PickupOrderComponent::class);
-
+        if (auth()->guard('customerService')->check()) {
+            $this->dispatch('dataRefresh')->to(DeliveryOrderComponent::class);
+        } else {
+            $this->dispatch('dataRefresh')->to(PickupOrderComponent::class);
+        }
     }
 
 
@@ -223,7 +222,7 @@ class ShowOrderDetails extends Component
         $name = $this->itemEdited->product_name;
         
         foreach ($this->data as $item) {
-            if ($item->product_name == $name && $selectedNameColor == $item->color && $selectedNameSize == $item->size) {
+            if ($item->product_name == $name && $selectedNameColor == $item->color && $selectedNameSize == $item->size && $item->QTY == $this->Qty) {
                 $this->dispatch("showModelToggleXl");
                 $this->dispatch('errorFound');
                 return;
@@ -273,7 +272,12 @@ class ShowOrderDetails extends Component
             ]);
         $this->dispatch('editItem');
         $this->dispatch("showModelToggleXl");
-        $this->dispatch('dataRefresh')->to(PickupOrderComponent::class);
+        
+        if(auth()->guard('customerService')->check()){
+            $this->dispatch('dataRefresh')->to(DeliveryOrderComponent::class);
+        }else{
+            $this->dispatch('dataRefresh')->to(PickupOrderComponent::class);
+        }
     }
 
 

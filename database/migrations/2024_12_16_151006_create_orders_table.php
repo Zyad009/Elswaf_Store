@@ -33,18 +33,19 @@ return new class extends Migration
 
             $table->unsignedDecimal('total', 10, 2);
             $table->unsignedDecimal('delivery_price', 10, 2)->nullable();
+            $table->unsignedDecimal('total_discount', 10, 2)->nullable();
             $table->unsignedDecimal('finally_total', 10, 2);
 
             //Customer information
             $table->string('name');
             $table->string('phone');
             $table->string('email');
-            $table->text('delivery_address');
+            $table->foreignId('address_id')->nullable()->constrained()->onDelete('cascade');
 
             //Order status
             $table->text("notes")->nullable();
             $table->text('cancel_reason')->nullable();
-            $table->enum("status_order",["pending" , "accepted" , "completed" , "cancelled"]);
+            $table->enum("status_order",["pending" , "accepted" , "out_for_delivery" ,"completed" , "cancelled"]);
             $table->enum("status_details", ['success', 'modified' , 'closed'])->default('success');
             $table->boolean("status")->default(false);
             $table->dateTime("order_date");

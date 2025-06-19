@@ -1,5 +1,8 @@
 <x-models.xlarge title="{{ $title }} :-">
     @if ($data)
+    {{-- @if ()
+        
+    @endif --}}
     <table class="table table-hover">
         <thead>
             <tr>
@@ -71,8 +74,8 @@
                 <td class="text-center">{{ $singleProduct->final_price }}</td>
 
                 <td class="text-center">
-                    @if ($singleProduct->QTY != 0)
-                    @if ( $close != true )
+                    @if ($singleProduct->QTY != 0 && $mainStatus == "accepted")
+                    @if ( $close != true && $mainStatus == "accepted" )
                     <button
                         wire:click='editItem({{ $singleProduct->id}} , {{$singleProduct->order_id}} , "{{$singleProduct->slug}}",{{$loop->index}})'
                         class="btn btn-outline-primary" wire:key="edit-button-{{ $loop->index }}">
@@ -93,9 +96,8 @@
                     @endif
                 </td>
                 <td class="text-center">
-                    @if ($singleProduct->QTY != 0)
-                    @if ($close != true)
-                    {{-- $deleteKey != $secritKey --}}
+                    @if ($singleProduct->QTY != 0 && $mainStatus == "accepted")
+                    @if ($close != true && $mainStatus == "accepted")
                     <button class="btn btn-danger confirm-delete" wire:click='deleteItem(
                         "{{$singleProduct->slug}}" ,
                         "{{$singleProduct->order_id}}" , 
@@ -137,7 +139,7 @@
         </tbody>
     </table>
 
-    @if ($deleteKey == $secritKey)
+    @if ($deleteKey == $secritKey )
     <div class="border rounded p-3 my-3 bg-light">
         <div class="row g-2 align-items-stretch">
             <div class="col-md-5 d-flex flex-column">

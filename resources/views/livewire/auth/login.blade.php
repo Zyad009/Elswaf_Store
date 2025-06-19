@@ -1,4 +1,5 @@
 <form wire:submit.prevent='submit'>
+    @csrf
     <x-error></x-error>
     <div class="form-group">
         <label for="singin-email-2"> Email <span class="text-danger">*</span></label>

@@ -1,23 +1,21 @@
 @extends('layouts.app')
-@section('admin-title', 'Delivery Order Management')
+@section('admin-title', 'All Users')
 @section('customerservice-content')
 @push("admin-cdn")
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 <div class="d-flex justify-content-between align-items-center">
-  <h1 class="fw-bold ">Delivery Orders</h1>
+  <h1 class="fw-bold ">All Users</h1>
 </div>
 <x-error></x-error>
 
-  <livewire:order-management.delivery-order.delivery-order-component />
-  <livewire:order-management.delivery-order.show-details-order />
-  <livewire:order-management.pickup-order.show-order-details>
+<livewire:user.search-user>
+<livewire:user.show-details-user >
 
-
-    @push("admin-js")
-    <script>
-window.addEventListener("errorFound", () => {
+  @push("admin-js")
+  <script>
+    window.addEventListener("errorFound", () => {
     Swal.fire({
     icon: "error",
     title: "Error!",
@@ -32,16 +30,6 @@ window.addEventListener("cancelleSuccess", () => {
     icon: "success",
     title: "Success!",
     text: "Cancelled Has Been Successfully",
-    showConfirmButton: false,
-    timer: 1500
-    });
-    });
-
-window.addEventListener("addressUpdated", () => {
-    Swal.fire({
-    icon: "success",
-    title: "Success!",
-    text: "Address Updated Successfully",
     showConfirmButton: false,
     timer: 1500
     });
@@ -87,8 +75,8 @@ window.addEventListener("editItem", () => {
                 })
 
 
-    </script>
+  </script>
 
-    @endpush
+  @endpush
 
-    @endsection
+  @endsection

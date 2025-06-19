@@ -34,10 +34,10 @@ class User extends Authenticatable
     //     return $this->hasMany(Notification::class);
     // }
 
-    public function payMents()
-    {
-        return $this->hasMany(Payment::class);
-    }
+    // public function payMents()
+    // {
+    //     return $this->hasMany(Payment::class);
+    // }
 
     public function reviews()
     {
@@ -59,6 +59,10 @@ class User extends Authenticatable
         return $this->hasMany(OtpUser::class);
     }
     
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
     /**
      * The attributes that are mass assignable.
      *

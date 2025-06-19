@@ -42,6 +42,21 @@
                 </div><!-- End .col-sm-6 -->
 
                 @if ($deliveryMethod == 'delivery')
+
+
+                <div class="col-sm-12">
+                    <label>Choose Delivery Address <span class="text-danger">*</span></label>
+                    <select wire:model.live="selectedDeliveryAddress" class="form-control">
+                        <option value="">Select Address</option>
+                        <option value='new'>(Add New Address)</option>
+                        @foreach ($addresses as $address)
+                        <option value='{{$address->id}}'> {{ $address->address }} </option>
+                        @endforeach
+                    </select>
+                    <x-message.error name="selectedDeliveryAddress"></x-message.error>
+                </div>
+
+                @if ( $selectedDeliveryAddress == 'new' )
                 <div class="col-sm-6">
                     <label>City <span class="text-danger">*</label>
                     <select wire:model.live="selectedCity" class="form-control">
@@ -64,22 +79,42 @@
                     <x-message.error name="selectedArea"></x-message.error>
                 </div><!-- End .col-sm-6 -->
 
+
                 <div class="col-sm-6">
-                    <label>Choose delivery service <span class="text-danger">*</label>
-                    <select wire:model.live="selectedDeliveryService" class="form-control">
-                        <option value="">Select DeliveryService</option>
-                        @if ($priceDeliveryServiceRegular)
-                        <option value="regular">Normal Price : {{$priceDeliveryServiceRegular}} EGP </option>
-                        <option value="super">Super Price : {{$priceDeliveryServiceSuper}} EGP</option>
-                        @endif
-                    </select>
-                    <x-message.error name="selectedDeliveryService"></x-message.error>
+                    <label>Building <span class="text-danger">*</label>
+                    <input type="number" wire:model='building' min="0" max="9999" class="form-control">
+                    <x-message.error name="building"></x-message.error>
+                </div><!-- End .col-sm-6 -->
+
+                <div class="col-sm-6">
+                    <label>Floor <span class="text-danger">*</label>
+                    <input type="number" wire:model='floor' min="0" max="9999" class="form-control">
+                    <x-message.error name="floor"></x-message.error>
+                </div><!-- End .col-sm-6 -->
+
+                <div class="col-sm-6">
+                    <label>Apartment <span class="text-danger">*</label>
+                    <input type="number" wire:model='apartment' min="0" max="999999" class="form-control">
+                    <x-message.error name="apartment"></x-message.error>
                 </div><!-- End .col-sm-6 -->
 
                 <div class="col-sm-12">
                     <label>Delivery Address <span class="text-danger">*</label>
                     <textarea class="form-control" wire:model.blur='address' cols="30" rows="4"
                         placeholder="House number and Street name"></textarea>
+                </div><!-- End .col-sm-6 -->
+                @endif
+
+                <div class="col-sm-6">
+                    <label>Choose Delivery Service <span class="text-danger">*</label>
+                    <select wire:model.live="selectedDeliveryService" class="form-control">
+                        <option value="">Select Delivery Service</option>
+                        @if ($priceDeliveryServiceRegular)
+                        <option value="regular">Normal Price : {{$priceDeliveryServiceRegular}} EGP </option>
+                        <option value="super">Super Price : {{$priceDeliveryServiceSuper}} EGP</option>
+                        @endif
+                    </select>
+                    <x-message.error name="selectedDeliveryService"></x-message.error>
                 </div><!-- End .col-sm-6 -->
 
                 @elseif($deliveryMethod == 'pickup')

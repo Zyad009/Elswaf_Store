@@ -39,7 +39,7 @@ class OrderFactory extends Factory
             'name' => $this->faker->name,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->unique()->safeEmail,
-            'delivery_address' => $this->faker->address,
+
 
             'notes' => $this->faker->optional()->sentence,
             'status_order' => $this->faker->randomElement(['pending', 'accepted', 'completed', 'cancelled']),

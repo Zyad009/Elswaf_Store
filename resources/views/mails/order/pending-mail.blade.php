@@ -111,7 +111,10 @@
             <h3>Delivery Information</h3>
             <p><strong>City:</strong> {{ $order->city }}</p>
             <p><strong>Area:</strong> {{ $order->area }}</p>
-            <p><strong>Address:</strong> {{ $order->delivery_address }}</p>
+            <p><strong>Building:</strong> {{ $order->address->building }}</p>
+            <p><strong>Floor:</strong> {{ $order->address->floor }}</p>
+            <p><strong>Apartment:</strong> {{ $order->address->apartment }}</p>
+            <p><strong>Address:</strong> {{ $order->address->address }}</p>
             <p><strong>Delivery Method:</strong> {{ $order->delivery_method }} - {{ $order->delivery_type }}</p>
         </div>
 

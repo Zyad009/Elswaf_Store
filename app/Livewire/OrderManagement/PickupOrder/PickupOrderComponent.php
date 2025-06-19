@@ -31,6 +31,12 @@ class PickupOrderComponent extends Component
     }
     protected $listeners = ["dataRefresh" => '$refresh'];
 
+
+    public function updatingStatusFilters()
+    {
+        $this->resetPage();
+    }
+
     public function updatingSearch()
     {
         $this->resetPage();

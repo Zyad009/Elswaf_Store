@@ -31,12 +31,17 @@ class Login extends Component
     {
         $data = $this->validate();
 
+        // $cart = session()->get('cart');
+
+
         Auth::guard('saleOfficer')->logout();
         Auth::guard('customerService')->logout();
         Auth::guard('web')->logout();
-        session()->invalidate();
-        session()->regenerateToken();
 
+        
+        // session()->regenerate(); 
+
+        // session()->put('cart', $cart);
         if (Auth::guard('admin')->attempt($data)) {
             $user = Auth::guard('admin')->user();
             Auth::login($user);
@@ -61,6 +66,9 @@ class Login extends Component
                 'email_not_correct' => trans('auth.failed'),
             ]);
         }
+        // if (!is_null($cart)) {
+        //     session()->put('cart', $cart);
+        // }
     }
 
 

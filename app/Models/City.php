@@ -24,6 +24,11 @@ class City extends Model
         return 'slug';
     }
 
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+
     protected $fillable = ["name"];
 
     public function areas(){

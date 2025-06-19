@@ -42,7 +42,7 @@
 
     <div class="header-right">
       {{-- السله --}}
-      @unless (request()->is('cart'))
+      @unless (request()->is('cart') || request()->is('checkout') )
       <livewire:front.cart.view-cart-component />
       @endunless
       {{-- البحث --}}

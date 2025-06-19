@@ -1,5 +1,8 @@
 @extends("front.layouts.app")
 @section('front-title', 'Checkout')
+@push("front-cdn")
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@endpush
 @section("content.front")
 
         <main class="main">
@@ -11,7 +14,7 @@
 
             <div class="page-content">
             	<div class="checkout">
-	                <div class="container">
+	                <div class="container">	
             			<div class="checkout-discount">
 
             			</div><!-- End .checkout-discount -->
@@ -20,5 +23,19 @@
                 </div><!-- End .checkout -->
             </div><!-- End .page-content -->
         </main><!-- End .main -->
+
+				@push("front-js")
+				<script>
+				        window.addEventListener("errorPlay", () => {
+				            Swal.fire({
+				            icon: "error",
+				            title: "Error!",
+				            text: "please do not play again",
+				            showConfirmButton: false,
+				            timer: 2000
+				            });
+				            });
+				</script>
+				@endpush
 
 @endsection

@@ -7,11 +7,13 @@ use App\Models\City;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Order;
+use App\Models\Address;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\PickupPoint;
 use App\Models\OrderDetails;
 use App\Mail\Order\PendingMail;
+use Illuminate\Validation\Rule;
 use App\Models\ProductColorSize;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -21,11 +23,13 @@ use App\Mail\Order\AcceptedPickupMail;
 class CheckOut extends Component
 {
     public $deliveryMethod, $deliveryType, $deliveryAddress;
-    public $cities = [], $areas = [], $selectedCity, $selectedArea, $area = null, $city = null;
+    public $cities = [], $areas = [], $selectedCity, $selectedArea, $area = null, $city = null , $addresses , $selectedDeliveryAddress , $addressId ;
+    public $apartment , $floor , $building ;
     public $selectedDeliveryService, $priceDeliveryServiceSuper, $priceDeliveryServiceRegular, $priceDelivery;
     public $pickupLocation = null, $pickupPoints;
-    public $cart, $total, $paymentMethod, $subTotal = 0;
-    public $user, $first_name, $last_name, $address, $notes, $phone, $whatsapp, $email;
+    public $order;
+    public $cart, $total, $paymentMethod, $subTotal = 0 , $totalDiscount = 0;
+    public $user, $first_name, $last_name, $address, $notes, $phone, $whatsapp, $email , $finalAddressId;
     public function mount()
     {
         $cart = session()->get("cart", []);
@@ -77,6 +81,7 @@ class CheckOut extends Component
 
         foreach ($cart as $index => $item) {
             $this->subTotal += $item["final_price"] * $item["quantity"];
+            $this->totalDiscount  += $item["discount"] * $item["quantity"];
         }
         $this->total = $this->subTotal;
     }
@@ -93,6 +98,7 @@ class CheckOut extends Component
             $this->resetDeliveryDetails();
         } else {
             $this->cities = City::all();
+            $this->addresses = Address::where('user_id', $this->user->id)->get();
             $this->pickupPoints = [];
         }
     }
@@ -126,9 +132,6 @@ class CheckOut extends Component
             return;
         }
 
-        $this->validate([
-            'selectedCity' => 'required|exists:cities,id',
-        ]);
         $this->city = City::find($cityId);
         $this->areas = Area::where('city_id', $cityId)->get();
     }
@@ -142,13 +145,10 @@ class CheckOut extends Component
 
     public function updatedSelectedArea($areaId)
     {
-        if (!$areaId) {
-            $this->resetDeliveryDetails();
-            return;
-        }
-        $this->validate([
-            'selectedArea' => 'required|exists:areas,id',
-        ]);
+        // if (!$areaId) {
+        //     $this->resetDeliveryDetails();
+        //     return;
+        // }
 
         $this->area = Area::find($areaId);
         $this->priceDeliveryServiceRegular = $this->area->delivery_price_regular;
@@ -182,18 +182,80 @@ class CheckOut extends Component
         }
     }
 
+    public function updatedSelectedDeliveryAddress($addressId)
+    {
+        if (empty($addressId)) {
+            $this->resetDeliveryDetails();
+            $this->selectedDeliveryAddress = null;
+            return;
+        }
+
+        if ($addressId === 'new') {
+            $this->selectedDeliveryAddress = 'new';
+            $this->resetDeliveryDetails();
+            return;
+        }
+
+
+        // $this->addressId = $addressId;
+        // $address = Address::select('area_id')->find($this->selectedDeliveryAddress);
+        $areaId = Address::where('id' , $addressId)->value('area_id');
+       
+        if ($areaId) {
+            $this->area = Area::find($areaId);
+            if (!$this->area) {
+                $this->dispatch('errorPlay');
+                $this->resetDeliveryDetails();
+                $this->selectedDeliveryAddress = null;
+                $this->address = null;
+                return;
+            }
+
+            $this->priceDeliveryServiceRegular = $this->area->delivery_price_regular;
+            $this->priceDeliveryServiceSuper = $this->area->delivery_price_super;
+        } else {
+            $this->resetDeliveryDetails();
+            $this->selectedDeliveryAddress = null;
+            $this->dispatch('errorPlay');
+        }
+    }
+
     public function submit()
     {
+
         $this->validate();
+
         if ($this->deliveryMethod === 'delivery') {
-            $this->validate([
-                'selectedCity' => 'required|exists:cities,id',
-                'selectedArea' => 'required|exists:areas,id',
-                'selectedDeliveryService' => 'required|string|in:regular,super',
-                'address' => 'required|string|max:255',
-            ]);
+
+            if ($this->selectedDeliveryAddress !== 'new') {
+                $this->validate([
+                    'selectedDeliveryAddress' => [
+                        'required',
+                        Rule::exists('addresses', 'id')->where(function ($q) {
+                            $q->where('user_id', $this->user->id);
+                        }),
+                    ],
+                ]);
+                $this->finalAddressId = $this->selectedDeliveryAddress;
+            }else{
+                $this->validate([
+                    'selectedCity' => 'required|exists:cities,id',
+                    'selectedArea' => [
+                        'required',
+                        Rule::exists('areas', 'id')
+                            ->where(function ($q) {
+                                $q->where('city_id', $this->selectedCity);
+                            })
+                    ],
+                    'selectedDeliveryService' => 'required|string|in:regular,super',
+                    'building' => 'required|integer|min:0|max:9999',
+                    'floor' => 'required|integer|min:0|max:999',
+                    'apartment' => 'required|integer|min:0|max:9999',
+                    'address' => 'required|string|max:500',
+                ]);
+            }
         }
-        
+
         if ($this->deliveryMethod === 'pickup') {
             $this->validate([
                 'pickupLocation' => 'required|exists:pickup_points,id',
@@ -203,13 +265,30 @@ class CheckOut extends Component
         try {
             DB::transaction(function () {
                 if ($this->deliveryMethod === 'pickup') {
+                    $followUpCode = null;
                     $pickupPoint = $this->pickupPoints->find($this->pickupLocation);
                     $pickupCode = $this->generatePickupCode();
                     $this->deliveryAddress = $pickupPoint->name;
                     $this->resetDeliveryDetails();
                 } else {
+                    $pickupCode = null;
+                    if($this->selectedDeliveryAddress === 'new'){
+                        $this->deliveryAddress = $this->address . ', [' . $this->area->name . '], [' . $this->area->city->name . ']';
+                        $address = Address::create([
+                            'user_id' => $this->user->id,
+                            'city_id' => $this->selectedCity,
+                            'area_id' => $this->selectedArea,
+                            'building' => $this->building,
+                            'floor' => $this->floor,
+                            'apartment' => $this->apartment,
+                            'address' => $this->deliveryAddress,
+                        ]);
+                        $this->finalAddressId = $address->id;
+                    }else{
+                        $address = Address::find($this->selectedDeliveryAddress);
+                    }
+
                     $followUpCode = time();
-                    $this->deliveryAddress = $this->address . ', [' . $this->area->name . '], [' . $this->area->city->name . ']';
                 }
 
                 $statusOrder = $this->deliveryMethod === 'delivery' ? 'pending' : 'accepted';
@@ -221,22 +300,25 @@ class CheckOut extends Component
                     "payment_status" => $this->paymentMethod == "cash" ? true : false,
                     "delivery_method" => $this->deliveryMethod,
                     "delivery_type" => $this->deliveryType,
-                    "city" => $this->city->name ?? null,
-                    "area" => $this->area->name ?? null,
-                    "pickup_code" => $pickupCode ?? null,
-                    // "follow_up_code" =   > $followUpCode ?? null,
+                    "city" => $address->city->name ?? null,
+                    "area" => $address->area->name ?? null,
+                    "pickup_code" => $pickupCode,
+                    "follow_up_code" => $followUpCode,
                     "total" => $this->subTotal,
+                    "total_discount"=> $this->totalDiscount,
                     "delivery_price" => $this->priceDelivery,
                     "finally_total" => $this->total,
                     "name" => $this->first_name . ' ' . $this->last_name,
                     "phone" => $this->phone,
                     "email" => $this->email,
-                    "delivery_address" => $this->deliveryAddress,
+                    "address_id" => $this->finalAddressId,
                     "status_order" => $statusOrder,
                     "status" => false,
                     "order_date" => now(),
                     "notes" => $this->notes,
                 ]);
+
+                $this->order = $order;
 
                 $arr = []; 
                 foreach ($this->cart as $item) {
@@ -275,14 +357,14 @@ class CheckOut extends Component
                         'sold' => DB::raw("sold + $qty") ,
                     ]);
                 }
-
-                $order->load('orderDetails');
-                if ($this->deliveryMethod === 'delivery') {
-                    Mail::to($this->email)->send(new PendingMail($order));
-                }elseif($this->deliveryMethod === 'pickup'){
-                    Mail::to($this->email)->send(new AcceptedPickupMail($order));
-                }
             });
+
+            $this->order->load('orderDetails');
+                    if ($this->deliveryMethod === 'delivery') {
+                        Mail::to($this->email)->send(new PendingMail($this->order));
+                    }elseif($this->deliveryMethod === 'pickup'){
+                        Mail::to($this->email)->send(new AcceptedPickupMail($this->order));
+                    }
 
             session()->forget('cart');
             alert()->success('Success', 'Order has been placed successfully!');
@@ -321,6 +403,14 @@ class CheckOut extends Component
         $this->selectedDeliveryService = null;
         $this->deliveryType = null;
         $this->total = $this->subTotal;
+        $this->deliveryAddress = null ; 
+        $this->selectedCity = null;
+        $this->selectedArea = null;
+        // $this->selectedDeliveryAddress = null;
+        // $this->addressId = null;
+        $this->apartment = null;
+        $this->floor = null;
+        $this->building = null;
     }
 
 

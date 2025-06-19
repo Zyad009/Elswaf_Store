@@ -35,11 +35,11 @@ class Order extends Model
         'follow_up_code',
         'total',
         'delivery_price',
+        'total_discount',
         'finally_total',
         'name',
         'phone',
         'email',
-        'delivery_address',
         'status_order',
         'status',
         'modification_reason',
@@ -48,6 +48,7 @@ class Order extends Model
         'notes',
         'status_details',
         'status',
+        'address_id'
     ];
     public function user()
     {
@@ -61,6 +62,11 @@ class Order extends Model
     public function orderDetails()
     {
         return $this->hasMany(OrderDetails::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
     }
 }
 

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 @section('admin-content')
 <div class="container">
   <div class="row">
@@ -54,4 +54,4 @@
         {{$users->links()}}
       </div>
     </div>
-    @endsection
+    @endsection --}}
